@@ -1,0 +1,9 @@
+{
+  "models": 32,
+  "configurations": 32,
+  "cs_files": 134,
+  "migration_ids": [
+    "20261028101250_AuthLockoutFields",
+    "20261028101015_InitialSchema"
+  ]
+}

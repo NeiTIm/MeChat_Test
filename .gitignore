@@ -1,0 +1,26 @@
+# .NET
+**/bin/
+**/obj/
+.vs/
+*.user
+
+# Node / React
+**/node_modules/
+**/dist/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/secrets.json
+
+# Local uploads
+**/private-uploads/
+
+# IDE
+.vscode/*.local.json
+
+# Database backups
+*.bak

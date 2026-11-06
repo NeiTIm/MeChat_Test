@@ -1,0 +1,9 @@
+global using MeChat.Api.Features.Users.Models;
+global using MeChat.Api.Features.Auth.Models;
+global using MeChat.Api.Features.Admin.Models;
+global using MeChat.Api.Features.Friends.Models;
+global using MeChat.Api.Features.Conversations.Models;
+global using MeChat.Api.Features.Groups.Models;
+global using MeChat.Api.Features.Messages.Models;
+global using MeChat.Api.Features.Files.Models;
+global using MeChat.Api.Features.Notifications.Models;

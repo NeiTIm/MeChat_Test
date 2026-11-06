@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/MeChat.Api/MeChat.Api.csproj" />
+    <Project Path="backend/MeChat.Tests/MeChat.Tests.csproj" />
+  </Folder>
+</Solution>
