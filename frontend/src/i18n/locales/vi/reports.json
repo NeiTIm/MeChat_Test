@@ -1,0 +1,3 @@
+{
+  "report": "Báo cáo vi phạm", "reportDescription": "Mô tả vấn đề để đội ngũ MeChat xem xét. Bằng chứng được máy chủ lưu theo quyền truy cập.", "reason": "Lý do báo cáo", "reasonLimit": "Lý do không quá 1.000 ký tự.", "submit": "Gửi báo cáo", "submitted": "Đã gửi báo cáo. Bạn có thể theo dõi trong mục Báo cáo của tôi.", "title": "Báo cáo của tôi", "description": "Theo dõi các báo cáo bạn đã gửi tới MeChat.", "empty": "Bạn chưa gửi báo cáo nào", "targets": { "User": "Người dùng", "Group": "Nhóm", "Message": "Tin nhắn" }, "created": "Gửi ngày {{date}}", "reviewed": "Xem xét ngày {{date}}"
+}

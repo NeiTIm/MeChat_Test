@@ -1,0 +1,36 @@
+{
+  "scope": "Chromium frontend/design and explicitly labelled HTTP client simulations; not live authenticated business acceptance.",
+  "capturedAt": "2026-11-06T15:53:15.183Z",
+  "stats": {
+    "startTime": "2026-11-06T15:51:38.003Z",
+    "duration": 6909.9619999999995,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "final partial text preview is labelled and untrusted text remains escaped (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1651,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "final audit metadata is displayed in Vietnamese (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1252,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

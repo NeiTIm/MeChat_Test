@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-06",
+  "capturedAt": "2026-11-06T16:03:32.402Z",
+  "backend": "http://localhost:5080",
+  "scope": "Actual anonymous HTTP/hub boundaries only. No successful authenticated/SQL business acceptance.",
+  "tests": [
+    {
+      "title": "health through same-origin frontend proxy",
+      "status": "PASS"
+    },
+    {
+      "title": "protected users/conversations/groups/admin + hub negotiate reject anonymous",
+      "status": "PASS"
+    },
+    {
+      "title": "missing refresh CSRF and invalid login DTO rejected before account attempt",
+      "status": "PASS"
+    },
+    {
+      "title": "public auth DTO validation",
+      "status": "PASS"
+    },
+    {
+      "title": "successful account login/reload/logout",
+      "status": "SKIPPED",
+      "reason": "Credentials absent; user chose NEEDS_VERIFICATION and continued implementation."
+    }
+  ]
+}

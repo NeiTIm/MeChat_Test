@@ -1,0 +1,1422 @@
+{
+  "scope": "Chromium frontend/design and explicitly labelled HTTP client simulations; not live authenticated business acceptance.",
+  "capturedAt": "2026-11-06T15:50:33.721Z",
+  "stats": {
+    "startTime": "2026-11-06T15:42:29.309Z",
+    "duration": 368496.03,
+    "expected": 128,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "public auth forms validate in Vietnamese and preserve request contracts (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4517,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 320px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3469,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 390px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3140,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 768px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3300,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1366px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3228,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1440px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3486,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 320px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3141,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 390px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3072,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 768px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3222,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1366px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3385,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1440px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4567,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "profile/privacy/session actions use DTOs, confirmation and safe errors (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4277,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 320px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3141,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 320px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3455,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 320px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3439,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 320px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2746,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 320px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3520,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 320px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3571,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 390px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2453,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 390px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2808,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 390px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3118,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 390px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2346,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 390px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2966,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 390px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2826,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 768px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2353,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 768px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3030,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 768px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3086,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 768px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2285,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 768px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2998,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 768px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3171,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1366px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2452,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1366px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3558,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1366px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3378,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1366px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2563,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1366px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3504,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1366px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3368,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1440px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2603,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1440px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3415,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1440px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3397,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1440px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2858,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1440px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3321,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1440px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3490,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private sample interactions, keyboard dialog, search and mobile list",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1486,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "design loading, empty, permission and error retry states",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 993,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "320px boundary, reduced motion and theme persistence",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1046,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group details dialog, focus state and mobile list screenshots",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2504,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "offline feedback and 200% root font scaling retain navigation and composer",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 806,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "anonymous protected route returns live login",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 751,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friend requests, cursor search, profile and block confirmations (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6489,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 320px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1797,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 390px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1861,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 768px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1862,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1366px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1859,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1440px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1837,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 320px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1789,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 390px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1804,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 768px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1913,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1366px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1851,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1440px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1922,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "create, invite, group profile and role DTOs (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2904,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "invite links resolve before explicit join and tokens stay out of storage (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2246,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "member role hides privileged actions while profile and pins remain available (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1275,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 320px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2045,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 390px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2023,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 768px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2105,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1366px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2091,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1440px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2376,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 320px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2192,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 390px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2172,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 768px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2275,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1366px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2487,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1440px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2183,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 390 light: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3734,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 390 light: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2840,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 390 dark: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3675,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 390 dark: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2883,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 1440 light: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3880,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 1440 light: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3522,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 1440 dark: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3605,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 1440 dark: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3501,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "scroll anchoring, incoming messages and history prepend preserve reading position",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1649,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "composer multiline, IME protection and shrunken mobile viewport remain usable",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1156,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login keyboard sequence, autofill attributes and explicit preview recovery/register",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1682,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "320px long unbroken message wraps and growing composer never covers jump control",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1736,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "purposeful panel motion is bounded and reduced-motion removes movement",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1376,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "attachment upload/send/authorized preview/download uses actual consumers (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2176,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "avatar upload uses Avatar purpose before binding and retains no local credentials (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1366,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications mark-read and conversation mute preserve backend contracts (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2799,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 320px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1822,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 390px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1861,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 768px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1813,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1366px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1862,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1440px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1863,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 320px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1799,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 390px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1901,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 768px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1874,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1366px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1847,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1440px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2187,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "real message consumers preserve content and wire reply/edit/reaction/recall/delete (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5685,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "server search, message detail, forwarding and history consumers (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4027,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "message requests stay read-only and use separate request read cursors (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1738,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "message report preserves target identifiers and foreground-only read cursors (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1928,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 320px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1842,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 390px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2042,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 768px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2149,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1366px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2124,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1440px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2141,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 320px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1881,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 390px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1960,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 768px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1955,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1366px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2022,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1440px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2119,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "320px account navigation keeps Vietnamese labels on one line and supports logout (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1324,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "320px real chat list exposes session exit outside the bottom navigation (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 762,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "DB-role route guard prevents a User from loading admin APIs (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1203,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin reason confirmation, report claim/evidence/resolve and hold are wired (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4029,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "retention is explicit dry-run and appeal acceptance stays a separate decision (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2791,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "appeal token is isolated from normal auth and cleared on ending appeal session (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2016,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 320px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5408,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 390px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5840,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 768px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6062,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1366px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6233,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1440px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6742,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 320px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6106,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 390px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5937,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 768px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6043,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1366px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6002,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1440px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6050,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

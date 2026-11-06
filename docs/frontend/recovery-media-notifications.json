@@ -1,0 +1,157 @@
+{
+  "scope": "Chromium frontend/design and explicitly labelled HTTP client simulations; not live authenticated business acceptance.",
+  "capturedAt": "2026-11-06T15:23:12.454Z",
+  "stats": {
+    "startTime": "2026-11-06T15:18:43.884Z",
+    "duration": 33410.158,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "attachment upload/send/authorized preview/download uses actual consumers (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4382,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "avatar upload uses Avatar purpose before binding and retains no local credentials (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1370,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications mark-read and conversation mute preserve backend contracts (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2791,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 320px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1802,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 390px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1878,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 768px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1652,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1366px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1889,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1440px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1994,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 320px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1927,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 390px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1844,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 768px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1978,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1366px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1913,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1440px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2264,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

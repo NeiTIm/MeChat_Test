@@ -1,0 +1,157 @@
+{
+  "scope": "Chromium frontend/design and explicitly labelled HTTP client simulations; not live authenticated business acceptance.",
+  "capturedAt": "2026-11-06T15:16:08.431Z",
+  "stats": {
+    "startTime": "2026-11-06T15:13:29.753Z",
+    "duration": 42458.474,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "real message consumers preserve content and wire reply/edit/reaction/recall/delete (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5468,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "server search, message detail, forwarding and history consumers (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4326,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "message requests stay read-only and use separate request read cursors (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2680,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 320px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2755,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 390px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2708,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 768px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2408,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1366px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2646,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1440px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2360,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 320px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2310,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 390px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2331,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 768px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1937,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1366px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2772,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1440px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2034,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

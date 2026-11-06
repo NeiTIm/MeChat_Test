@@ -1,0 +1,1502 @@
+[
+  {
+    "screen": "login",
+    "width": 320,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "document": {
+        "width": 320,
+        "height": 926
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 88,
+          "bottom": 140
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 320,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "document": {
+        "width": 320,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 216,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 320,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "document": {
+        "width": 320,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 279,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 320,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "document": {
+        "width": 320,
+        "height": 926
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 88,
+          "bottom": 140
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 320,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "document": {
+        "width": 320,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 216,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 320,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "document": {
+        "width": 320,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 279,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 320,
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 390,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 928
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 88,
+          "bottom": 140
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 390,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 216,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 390,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 279,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 390,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 928
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 88,
+          "bottom": 140
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 390,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 216,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 390,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 0,
+          "bottom": 88
+        },
+        {
+          "selector": "review-state-control",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 88,
+          "bottom": 140
+        },
+        {
+          "selector": "thread-header",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 140,
+          "bottom": 216
+        },
+        {
+          "selector": "message-scroll",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 279,
+          "bottom": 740
+        },
+        {
+          "selector": "composer",
+          "width": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "top": 740,
+          "bottom": 844
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 768,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 1024
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 50,
+          "bottom": 102
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 768,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 1024
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 189,
+          "bottom": 900.40625
+        },
+        {
+          "selector": "composer",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 900.40625,
+          "bottom": 1024
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 768,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 1024
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 253,
+          "bottom": 900.40625
+        },
+        {
+          "selector": "composer",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 900.40625,
+          "bottom": 1024
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 768,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 1024
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 50,
+          "bottom": 102
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 768,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 1024
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 189,
+          "bottom": 900.40625
+        },
+        {
+          "selector": "composer",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 900.40625,
+          "bottom": 1024
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 768,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 1024
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 768,
+          "scrollWidth": 768,
+          "clientWidth": 768,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 253,
+          "bottom": 900.40625
+        },
+        {
+          "selector": "composer",
+          "width": 692,
+          "scrollWidth": 692,
+          "clientWidth": 692,
+          "top": 900.40625,
+          "bottom": 1024
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 1366,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 1366,
+        "height": 1000
+      },
+      "document": {
+        "width": 1366,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 50,
+          "bottom": 102
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 1366,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 1366,
+        "height": 1000
+      },
+      "document": {
+        "width": 1366,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 189,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 1366,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 1366,
+        "height": 1000
+      },
+      "document": {
+        "width": 1366,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 253,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 1366,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 1366,
+        "height": 1000
+      },
+      "document": {
+        "width": 1366,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 50,
+          "bottom": 102
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 1366,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 1366,
+        "height": 1000
+      },
+      "document": {
+        "width": 1366,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 189,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 1366,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 1366,
+        "height": 1000
+      },
+      "document": {
+        "width": 1366,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1366,
+          "scrollWidth": 1366,
+          "clientWidth": 1366,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 253,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 962,
+          "scrollWidth": 962,
+          "clientWidth": 962,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 1440,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 50,
+          "bottom": 102
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 1440,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 189,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 1440,
+    "theme": "light",
+    "geometry": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 253,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "login",
+    "width": 1440,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 50,
+          "bottom": 102
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "private",
+    "width": 1440,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 189,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "screen": "group",
+    "width": 1440,
+    "theme": "dark",
+    "geometry": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 1000
+      },
+      "panes": [
+        {
+          "selector": "review-toolbar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 0,
+          "bottom": 50
+        },
+        {
+          "selector": "review-state-control",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "top": 50,
+          "bottom": 102
+        },
+        {
+          "selector": "thread-header",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 102,
+          "bottom": 189
+        },
+        {
+          "selector": "message-scroll",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 253,
+          "bottom": 876.40625
+        },
+        {
+          "selector": "composer",
+          "width": 1036,
+          "scrollWidth": 1036,
+          "clientWidth": 1036,
+          "top": 876.40625,
+          "bottom": 1000
+        }
+      ]
+    },
+    "errors": []
+  }
+]

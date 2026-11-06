@@ -1,0 +1,125 @@
+# MeChat frontend roadmap
+
+Last updated: 2026-11-06 (Asia/Bangkok).
+
+## 1. Project summary
+Build the JavaScript/JSX React frontend against the existing ASP.NET Core backend. Backend source, schema, secrets and existing data must remain unchanged. Work proceeds through the mandatory design approval gate before expanding features.
+
+## 2. Approved baseline
+React + Vite, JavaScript only, Tailwind v4, shadcn/ui + custom components, Inter, indigo identity, light default/dark theme, React Router, Axios, TanStack Query, Zustand, RHF/Zod, SignalR, Vitest/RTL/Playwright. User features precede Admin. No production mock data.
+
+2026-11-06 Product Owner approval: **APPROVED: DESIGN_APPROVAL_GRANTED_BY_PRODUCT_OWNER**. Option C — MeChat Hybrid and Login/Private Chat/Group Chat are approved as the Visual Baseline. Do not request approval again for this direction. Later screens must use the same design system; significant direction changes require approval. UI approval does not accept unverified functionality. **Vietnamese-first (vi-VN, fallback vi) is mandatory for all User/Admin UI and every new task.** See docs/frontend/implementation-contract.md.
+
+### Active design review revision
+| ID | Task | Dependencies | Status | Files / APIs | Acceptance / evidence |
+| --- | --- | --- | --- | --- | --- |
+| FE-015 | Audit and improve Login/private/group samples | FE-004, official Hybrid direction | DONE | three screens, shared CSS/components, DEV fixtures; no new live APIs | Self-assessment Login 91 / Private 89 / Group 88; 5 viewports × light/dark; 49 browser cases + 19 unit/component tests PASS; build/lint/production scan PASS |
+| FE-016 | Submit revised samples for owner review | FE-015 | DONE | design-review.md, ui-ux-spec.md, ui-ux-acceptance.md, screenshot-index.md, roadmapFE.md | Concrete revised submission with 30 Before + 30 After + 159 state screenshots; all limits disclosed; approval remains FE-006 BLOCKED |
+
+Review evidence: 30 Before + 30 final After + 159 state/interaction screenshots, real Chromium. Both geometry captures: 0 document overflow / 0 page errors. Explicit dark avatar pairs replace brightness filtering; axe waits for finite entry motion. Fixed genuine Escape propagation bug in nested group invitation dialog; scroll test now measures bubble rather than wrapper/date divider. Initial expanded suite 25 PASS / 22 FAIL, targeted correction 6 PASS, final expanded suite 49/49 PASS. New pending-focus unit test had an incorrect matcher, fixed; final 19/19 unit/component PASS. No unresolved failing review check. Owner subsequently approved the screens on 2026-11-06.
+
+## 3–5. Current phase, stage, task
+Phase 06 — Stage 07 Final QA (client source Phase 05 now spans all six implementation stages). FE-017 localization and FE-007–010 clients exist; real business verification remains pending. Current task: client implementation/audit checkpoint complete; authenticated business and device verification pending. Do not mark business features DONE. Design gate **APPROVED: DESIGN_APPROVAL_GRANTED_BY_PRODUCT_OWNER**, 2026-11-06. Seven execution stages remain work batches inside the original six phases. Full runtime acceptance is incomplete.
+
+## 6–7. Tasks and dependencies
+| ID | Description | Dependencies | Status | Files / APIs | Acceptance / evidence |
+| --- | --- | --- | --- | --- | --- |
+| FE-001 | Source API and SignalR audit | none | NEEDS_VERIFICATION | docs/frontend/api-*.md, authorization-matrix.md, signalr-contract.md, backend-gaps.md | Static census: 19 controllers, 123 HTTP endpoints, 18 events. Runtime API audit remains pending |
+| FE-002 | Sitemap, flows, wireframes, screen states, responsive spec | FE-001 static audit | NEEDS_VERIFICATION | docs/frontend design documents | Written before JSX; Product Owner review pending |
+| FE-003 | Frontend architecture and secure clients | FE-001, FE-002 static baseline | NEEDS_VERIFICATION | frontend/src/app, lib, stores | Build + session unit tests pass; live authenticated recovery/revocation pending |
+| FE-004 | Design system + three representative samples | FE-002, FE-003 | NEEDS_VERIFICATION | frontend/src/components, styles, design; API-007–009, 015, 017, 019–020, 058, 060–061, 067–068, 114, 122 | Sample UI browser checks PASS; Product Owner approval and live feature verification pending |
+| FE-005 | Verify and present design gate | FE-004 implementation | DONE | docs/frontend/ui-ux-acceptance.md, verification-report.md, screenshots; anonymous API boundaries | Build, 17 unit/component tests, 18 design E2E cases, 3 live boundary tests PASS; concrete review submission prepared |
+| FE-006 | Product Owner approval | FE-005 | DONE | this file; no APIs | Explicit approval 2026-11-06: APPROVED: DESIGN_APPROVAL_GRANTED_BY_PRODUCT_OWNER; three samples are the Visual Baseline |
+| FE-007 | Full Auth slice | FE-006, FE-017 | NEEDS_VERIFICATION | features/auth; API-001–014 | Auth lifecycle/account/sessions; Vietnamese UI + actual integration evidence required |
+| FE-017 | Vietnamese localization foundation + existing UI | FE-006 | NEEDS_VERIFICATION | src/i18n, shared/design/screens, tests | i18next vi-VN/fallback vi, HTML vi, Intl Asia/Ho_Chi_Minh, safe errors; contracts/user messages unchanged |
+| FE-008 | Users, friends, privacy, presence | FE-007 | NEEDS_VERIFICATION | features/users,friends,presence; API-033–042, 113–122 | Search/profile/avatar dependencies, requests/blocks/privacy/cooldowns; real API + permissions + tests |
+| FE-009 | Private messaging, actions, requests, receipts | FE-008 | NEEDS_VERIFICATION | features/conversations,messages,message-requests; API-015–028, 069–082 | Two-user realtime, cursor visibility, all message actions, requests/delivery/seen and recovery verified |
+| FE-010 | Groups, roles, invitations, links, pins | FE-009 | NEEDS_VERIFICATION | features/groups; API-043–068 | Create/invite/join/manage/transfer/leave/hide/dissolve/pins; role + visibility tests required |
+| FE-011 | Files, notifications, settings | FE-010 | NEEDS_VERIFICATION | features/files,notifications,settings; API-029–032, 107–112 (+ account endpoints FE-007–008) | Authorized blobs/progress/validation/cleanup, notifications/mute/settings verified |
+| FE-012 | Reports and appeals | FE-011 | NEEDS_VERIFICATION | features/reports,appeals; API-102–106 | Reports + suspended identity isolation and appeal review journeys tested |
+| FE-013 | Admin features | FE-007–012 | NEEDS_VERIFICATION | features/admin; API-083–101 | DB role + report claim/evidence/moderation/appeals/audit/retention previews/hold; confirmations and tests |
+| FE-014 | Final regression / portfolio acceptance | FE-013 | TODO | acceptance/coverage/demo reports; all 123 endpoints + 18 events | All critical journeys, native browsers/mobile/accessibility/performance and regression evidence; no PORTFOLIO_READY before full DoD |
+
+## 8. Completed work
+Repository inspection found no AGENTS.md in repository or E:/Learn and E:/ ancestors. Created the frontend, source inventory/DTO catalogue, feature/authorization/event mapping, sitemap/flows/screens/wireframes/spec, architecture, shared tokens/components, Login/private/group samples and minimal real API adapters. Added memory-only auth, CSRF refresh, protected/role guards, SignalR lifecycle/invalidation foundation, theme persistence and tests. Visually inspected the 12 theme/viewport combinations plus list/dialog/focus/validation screenshots. This is completed checkpoint work, not accepted full features.
+
+## 9–10. In progress / remaining
+Design gate unlocked. Implement localization and Auth → users/friends → private messaging/requests/receipts → groups → files/notifications/settings → reports/appeals → Admin with continuous QA and Vietnamese UI checks. Routine files/features within scope need no repeated approval. Successful authenticated SQL and two-user realtime journeys remain unverified until evidence exists.
+
+## 11. API integration matrix
+[Complete matrix](docs/frontend/api-to-feature-map.md), [source inventory](docs/frontend/api-inventory.md), [machine-readable inventory](docs/frontend/api-inventory.json), [contracts](docs/frontend/api-contracts.md), [coverage](docs/frontend/api-coverage-report.md). 123/123 source endpoints mapped. 122/122 controller actions now map to implemented client consumers; 1 health diagnostic completes the 123-route source census. api-inventory.json/api-to-feature-map.md link functions/modules/consumers. This is source coverage, not live business PASS. All authenticated business verification remains NEEDS_VERIFICATION. Real boundary suite rerun: 4 PASS, successful account journey 1 SKIPPED by user choice. Negative boundary checks do not count as successful business integration.
+
+## 12. SignalR coverage matrix
+[Full event matrix](docs/frontend/signalr-contract.md). 18 names registered in one provider. Message/group/permission events currently invalidate/reset workspace caches; SessionRevoked clears identity. Reconnect/focus/online and periodic foreground HTTP recovery implemented, unverified with real users. Join/leave/typing invocations, typing expiry, privacy-aware presence, friendship/request/notification consumers and server receipts now have source. Actual authenticated transport and two-user acceptance remain NEEDS_VERIFICATION. No delivered/seen values fabricated. Authenticated join/leave/typing methods and actual WebSocket/two-user recovery remain NEEDS_VERIFICATION. Anonymous hub negotiation correctly returns 401 through proxy.
+
+## 13. UI/UX approval status
+**APPROVED: DESIGN_APPROVAL_GRANTED_BY_PRODUCT_OWNER**, 2026-11-06. Option C and all three samples approved as Visual Baseline. Preserve identity/tokens/layout and translate visible content to Vietnamese. Do not ask again for the same direction. Only major direction changes require approval. UI approval does not change API/runtime verification statuses. Historical English screenshots remain evidence of the approved design; a Vietnamese regression set follows localization.
+
+## 14. Test results
+Current Hybrid review: production build PASS; ESLint zero warnings PASS; **19 Vitest/RTL tests** in 3 files PASS; **49 design/browser tests PASS**, including all 30 screen/width/theme combinations and state checks. Production marker scan PASS; npm audit 0 vulnerabilities. Axe detected no violations across populated/details matrix and tested role dialogs. Geometry, long URL, header/composer bounds, incoming/prepend anchor, pending focus, reply/edit/react/recall preview, group pins/invites/roles, reduced motion and 390×480 viewport checks pass. [Per-case evidence](docs/frontend/hybrid-test-summary.json). Physical mobile keyboard/IME, real password-manager autofill, native Chrome/Edge/screen reader/zoom and real two-user auth/realtime remain NEEDS_VERIFICATION.
+
+Earlier checkpoint evidence (not rerun in this review): anonymous live suite 3 PASS / successful account journey 1 SKIPPED without environment credentials. These do not establish successful real integration. See docs/frontend/verification-report.md and the current design-review.md.
+
+Failure history preserved: initial browser tests started before Chromium install finished; later checks found insufficient contrast in selected-row metadata, avatar initials and decorative caption, all corrected. A new offline test initially toggled offline before the lazy page loaded; corrected to await the composer, focused rerun passed, final suite rerun passed. One build command initially ran at repository root without a package.json; rerun in frontend succeeded. Third-party PURE-comment build warnings remain informational. Recovery build succeeds but currently warns about a 546.46 kB entry chunk; performance optimization/verification remains pending.
+
+Backend launched unchanged using `dotnet run --project backend/MeChat.Api --no-build -- --FileRetention:RunScheduled=false --FileRetention:EnableDeletion=false --RetentionMaintenance:RunScheduled=false --RetentionMaintenance:EnablePurge=false`. GET /api/health through Vite returned 200 with exact health response. No SQL business journey claimed from this. Node 22.14.0, npm 10.9.2; use npm.cmd because npm.ps1 is execution-policy blocked.
+
+## 15–17. Bugs, blockers, backend change requests
+Design gate is unlocked; Vietnamese-first is mandatory. Successful authenticated integration also needs secure process-environment test input; do not read private uploads/dev-mail for credentials. [Backend constraints](docs/frontend/backend-gaps.md): same-origin cookies/CORS, extra profile queries, revocation disconnect semantics, single-instance registry. Backend initially offline, now listening on 5080. No backend change requests submitted or approved. Interrupted message client suite had a nested-dialog timing failure; the saved correction is awaiting rerun. Files/notifications/moderation regression is incomplete; full feature acceptance remains incomplete. Real mobile keyboard, native browser compatibility, full accessibility/performance, all pending feature slices are not accepted.
+
+## 18. Architecture decisions
+Same-origin /api and /hubs proxies (ws:true) for Strict refresh cookies and existing CORS. One Axios client; tokens in memory; CSRF read at each request; single-flight refresh and Web Locks across tabs; logout broadcast contains no credentials. Separate public, protected and role guards. Role comes from real /users/me, never group role or AccessResponse. Query cache cleared on identity changes. shadcn JavaScript Button/Input/Dialog, local Inter, DEV-only isolated fixtures. Login/workspace/realtime lazily loaded; initial entry remains 447.46kB (146.02kB gzip); no runtime performance acceptance claimed. Hybrid uses Indigo #4F46E5 / Violet #7C3AED, explicit dark avatar pairs, tablet list OR thread at 768–1023px and inline details at ≥1280px. Shared Composer and useThreadScroll extracted; preview interactions injected only by DEV design module. No new live API adapters. See docs/frontend/architecture.md and ui-ux-spec.md.
+
+## 19. Files created / modified
+Original checkpoint files remain. Hybrid review modified LoginPage, ChatWorkspace, DesignReview, styles, viewport meta, package/lockfile and tests; added shared Composer/useThreadScroll/useWideLayout, DEV PreviewDialog/LoginPreviewTools/MessagePreviewActions/GroupPreviewTools, ESLint config, capture-review/write-review-summary scripts, expanded browser interaction suite/helpers. Updated ui-ux-spec/responsive-rules/ui-ux-acceptance; created design-review.md, screenshot-index.md, before/after metrics, condensed test summary and review screenshots. Inspection contact sheets are ignored test artifacts; original screenshot PNGs remain intact. No backend source/settings/database or live API contract changed.
+
+## 20. Git checkpoints
+No commit created. Pre-existing user deletions preserved: REFACTOR_STATUS.md, STATIC_AUDIT.json. Do not restore/reset them.
+
+## 21. Last verified state
+Revised Hybrid samples: build/lint/19 unit/component/49 browser checks pass. Source inventory unchanged: 19 controllers / 123 endpoints / 18 events. No new authenticated business-flow claim. Frontend server on 127.0.0.1:5173 was confirmed running and left available for review. Backend was not modified or restarted for this design review; prior launch instructions keep retention/deletion/purge disabled. Reports state NOT PORTFOLIO_READY. Direction and screen baselines APPROVED on 2026-11-06; localization and full feature acceptance in progress.
+
+## 22. Next exact action
+Finish interrupted Files/Attachments/Avatar/Notifications and Reports/Appeals wiring/tests, fix message regression, update exact API census, then implement Admin and final audits. Approval is granted; do not restore the old design block or request repeated approval. Configure live credentials securely when available; independent work continues.
+
+## 23. Recovery instructions
+Read AGENTS.md if added, this roadmap, related docs/frontend and `git status --short`. Compare actual source with statuses. Preserve all user changes/deletions. Use `npm.cmd --prefix frontend run dev` if server stopped; use the backend command above if needed (no migrations). For checks: `npm.cmd --prefix frontend test`, `npm.cmd --prefix frontend run test:e2e`, `npm.cmd --prefix frontend run test:e2e:live`, `npm.cmd --prefix frontend run build`, then `npm.cmd --prefix frontend run verify:production`. Recount contracts with `python scripts/frontend-inventory.py` and inspect generated diffs. That script encodes this checkpoint's adapter mappings/evidence: update its CURRENT/verification mapping as future APIs are implemented, do not overwrite newer statuses blindly. Do not read/commit secrets/private uploads/dev-mail. No backend/database change without explicit approval. Design gate is APPROVED; preserve NEEDS_VERIFICATION until actual evidence exists. Every new task requires Vietnamese localization checks.
+
+## Checkpoint triển khai tiếng Việt — 06/11/2026
+
+- Product Owner đã duyệt phương án C và ba mẫu; gate giữ APPROVED: DESIGN_APPROVAL_GRANTED_BY_PRODUCT_OWNER. Không yêu cầu duyệt lại cùng hướng.
+- Người dùng chọn tiếp tục và để đăng nhập thật ở NEEDS_VERIFICATION khi chưa có credentials trong môi trường. Không lấy mật khẩu/token từ chat hoặc private uploads/dev-mail. Tiếp tục các công việc độc lập.
+- FE-017: đã cài i18next/react-i18next, vi-VN fallback vi, HTML vi, namespaces common/auth/users/friends/chat/groups/design/errors, Intl Asia/Ho_Chi_Minh. Đã chuyển bản mẫu và UI thật sang tiếng Việt; chưa thay đổi contracts hoặc nội dung tin nhắn thật.
+- FE-007: đã thêm đăng ký/xác minh/gửi lại/quên/đặt lại/kích hoạt lại, đổi mật khẩu/vô hiệu hóa, profile/username/email/privacy/sessions. Tất cả consumer gọi API thật. CSRF đọc lại sau refresh; chặn phát lại mutation khi identity đổi. Chưa nghiệm thu Auth thành công bằng SQL/cookie thật.
+- FE-008: đã thêm Friends list/search cursor/requests accept-reject-cancel/unfriend/block-unblock/profile/open chat. Đang QA client, toàn bộ luồng thật NEEDS_VERIFICATION. SignalR FriendshipChanged và PermissionsChanged đã làm mới cache chung; hai người dùng thật chưa kiểm thử.
+- Bằng chứng hiện tại: 25 unit/component PASS; 4 browser mẫu tiếng Việt PASS; 6 browser Auth client simulation PASS (DTO/password whitespace, profile/privacy/revoke confirmation, 320/1440 light/dark + axe gồm contrast). Audit 365 static translation calls PASS; lint PASS. Đây là kiểm thử frontend qua HTTP simulation có nhãn, không phải PASS backend. Bộ Friends lần đầu phát hiện aria-label thiếu username, đang sửa và chạy lại. Chưa chạy full regression sau mọi thay đổi.
+- Files: frontend/src/i18n/**, features/auth/**, features/users/**, features/friends/**, components/forms/layout/ConfirmAction, app/router/providers, lib/http/errors; resources/tests/scripts/package+lock; docs implementation contract/spec/acceptance/review. Backend/DB không sửa; user deletions giữ nguyên.
+- Next Exact Action: hoàn tất Friends + toàn bộ regression tiếng Việt, cập nhật coverage adapter; triển khai message actions/context/receipts/requests + realtime typing/presence theo source contracts, rồi Groups/Media/Notifications/Reports/Admin và QA cuối. Chưa PORTFOLIO_READY.
+
+## Recovery audit sau usage limit — 06/11/2026
+
+- Đã đọc roadmap, implementation-contract, spec/acceptance/architecture/backend-gaps; kiểm tra git và source. Không có AGENTS.md áp dụng trong repo/ancestors. Không khôi phục REFACTOR_STATUS.md hoặc STATIC_AUDIT.json; không sửa Backend/DB.
+- Xác minh lại độc lập: lint PASS; localization static audit 574 calls PASS; production build PASS (546.46 kB entry warning + third-party PURE comments); 26 unit/component tests PASS. Groups **13/13 Chromium client checks PASS** lần phục hồi, không phải Backend nghiệm thu. Báo cáo: docs/frontend/recovery-groups-client.json.
+- Bằng chứng lịch sử có file: vi-foundation-regression.json 72 PASS; vi-groups-client.json 13 PASS. Không coi đây là kết quả chạy lại toàn bộ source mới nhất.
+- Auth/account/Friends/private actions/requests/receipts/realtime/presence/Groups có source và client tests. Files/Avatar có consumer đã nối; Notifications có route và consumer nhưng chưa đủ CSS/tests. Reports/Appeals đã có source nhưng chưa nối route/namespace ở điểm ngắt; đang hoàn tất. Admin chưa có source.
+- Lỗi dang dở: suite messages-client trước ngắt có 12 PASS/1 FAIL ở Escape của hai dialog liên tiếp; fix chờ exit motion đã lưu, đang chạy lại. Source không bị ghi đè bằng bản cũ.
+- Backend 5080 không phản hồi khi recovery probe; đang khởi động bản build hiện có với cả scheduled retention/deletion/purge tắt, không migrate/seed. Chỉ chạy boundary checks an toàn. Người dùng đã chọn hoãn successful login: giữ NEEDS_VERIFICATION, không hỏi credentials lại.
+- Next Exact Action: hoàn tất wiring moderation; regression message + files/avatar/notifications; cập nhật API matrix và tài liệu hiện hành, triển khai Admin theo contracts; Final Audit. Tất cả authenticated business flows vẫn NEEDS_VERIFICATION, chưa PORTFOLIO_READY.
+
+## Latest implementation checkpoint — 06/11/2026, Stage 07
+
+- Frontend source now includes all stage clients: Auth/account/privacy/sessions; Friends; Private/Group messaging/actions/context/reactions/search/receipts/requests/presence/typing; Group management/invitations/links/pins; Files/Avatar; Notifications/mute; Reports; isolated Appeals; Admin dashboard/users/groups/claim/evidence/resolve/appeals/audit/retention preview/plan/hold. No channels or purge execution UI.
+- Source census regenerated: **122 implemented controller consumers + 1 health = 123 mapped HTTP endpoints**. API-specific successful runtime verification is still NEEDS_VERIFICATION. SignalR 18 handlers + join/leave/start/stop typing exist; actual two-user transport not verified.
+- Checks at this checkpoint: **31 unit/component tests PASS**, lint PASS, localization 643 static calls PASS, production dependency audit 0 vulnerabilities. Groups 13/13, messages 13/13, media/avatar/notifications 13/13 recovery client suites PASS; Admin matrix 13 PASS + one timing failure then corrected focused claim/evidence/hold/resolve case PASS. Final full suite ongoing.
+- Real backend unchanged restarted on 5080 with scheduled retention/deletion/purge disabled; no migrate/seed/DB business mutations. Boundary suite **4 PASS / successful auth 1 SKIPPED**. User explicitly deferred credentials; do not ask again or read private uploads/dev-mail.
+- Build PASS after vendor split (entry 158.30 kB gzip55.50; largest vendor337.65 kB). Production scan initially caught DEV navigation strings, fixed with compile-time DEV condition; scan PASS and production browser smoke1 PASS. Third-party PURE warnings informational.
+- Full regression exposed 320px Notifications header overflow after mobile logout tools; fixed dedicated header tools grid. Message regression fixture incorrectly matched /api/unread with per-thread unread shape; fixed exact path. These failures remain in history; final source rerun required. Mobile logout stays actionable in header; bottom navigation keeps five readable Vietnamese labels.
+- New/changed files: features/files/notifications/moderation/admin, shared Avatar/Composer/ChatWorkspace/forms/layout, app routes/guards/realtime, i18n/resources, API census generators, vendor build split, production/client/live test configs, unit and browser suites. Updated current spec/acceptance/design-review and retained historical docs in docs/frontend/history. Backend source unchanged; user deletions preserved; no commit created.
+- Next Exact Action: finish full regression and new mobile session cases; verify final build/production smoke/localization/API+SignalR audit; update all reports/screenshots/index and portfolio readiness. Remaining authenticated/two-user/native-device/performance checks NEEDS_VERIFICATION, not frontend 100% acceptance.
+
+## Final recovery checkpoint — 06/11/2026
+
+- Full browser regression **128 PASS / 0 FAIL / 0 flaky**; final localization/partial-preview focused **2 PASS**. Unit/component **32 PASS**; lint/localization646/API122 audit PASS; build/production isolation/smoke1 PASS; npm audit0. Real backend boundary4 PASS, successful auth1 SKIPPED. Full suite and focused changes are distinguished in verification-report.md.
+- Screenshots and current spec/acceptance/design-review/coverage/final-acceptance updated; history preserved. All six implementation stage clients exist; no authenticated business feature is DONE or PORTFOLIO_READY. Gate stays APPROVED.
+- API census122 controller consumers +health123; all business verification NEEDS_VERIFICATION. SignalR18 handlers/invocations source+unit checked, real transport pending. No Backend/DB/migrations/seed change; no commit; user deletions preserved.
+- Next Exact Action: configure safe test inputs only when user makes them available; successful Auth and session lifecycle first, then two-user business/realtime/media/group and Admin/appeal/retention authorization, native mobile/assistive tech/performance/demo. User already deferred credentials; do not ask again or use private mail/uploads.

@@ -1,0 +1,1433 @@
+{
+  "scope": "Chromium frontend/design and explicitly labelled HTTP client simulations; not live authenticated business acceptance.",
+  "capturedAt": "2026-11-06T15:42:27.932Z",
+  "stats": {
+    "startTime": "2026-11-06T15:32:35.263Z",
+    "duration": 455332.557,
+    "expected": 110,
+    "skipped": 0,
+    "unexpected": 16,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "public auth forms validate in Vietnamese and preserve request contracts (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4582,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 320px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3333,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 390px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3120,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 768px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3159,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1366px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3193,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1440px light: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3270,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 320px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3046,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 390px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3019,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 768px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3240,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1366px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3177,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Vietnamese register/account 1440px dark: geometry and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3186,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "profile/privacy/session actions use DTOs, confirmation and safe errors (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3989,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 320px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2239,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 320px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2902,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 320px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2752,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 320px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2502,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 320px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2738,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 320px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2890,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 390px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2333,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 390px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2975,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 390px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2989,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 390px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2378,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 390px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2890,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 390px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2913,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 768px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2353,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 768px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2957,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 768px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3367,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 768px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2281,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 768px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3131,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 768px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3001,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1366px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2602,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1366px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3460,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1366px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3267,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1366px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2732,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1366px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3304,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1366px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3425,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1440px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2518,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1440px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3439,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1440px light: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3606,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login 1440px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2705,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private 1440px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3842,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group 1440px dark: layout, accessibility and screenshot",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4753,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "private sample interactions, keyboard dialog, search and mobile list",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1733,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "design loading, empty, permission and error retry states",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1241,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "320px boundary, reduced motion and theme persistence",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1080,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group details dialog, focus state and mobile list screenshots",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2450,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "offline feedback and 200% root font scaling retain navigation and composer",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 779,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "anonymous protected route returns live login",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 741,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friend requests, cursor search, profile and block confirmations (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6587,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 320px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1860,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 390px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1842,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 768px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1867,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1366px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1867,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1440px light: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1917,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 320px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1853,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 390px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1822,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 768px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1914,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1366px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1916,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "friends 1440px dark: Vietnamese layout, focus and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1926,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "create, invite, group profile and role DTOs (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3340,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "invite links resolve before explicit join and tokens stay out of storage (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2313,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "member role hides privileged actions while profile and pins remain available (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1273,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 320px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2064,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 390px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2293,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 768px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2384,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1366px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2500,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1440px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2239,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 320px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2315,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 390px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2132,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 768px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2050,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1366px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2079,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1440px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2199,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 390 light: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3902,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 390 light: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2969,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 390 dark: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3870,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 390 dark: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3119,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 1440 light: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3909,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 1440 light: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3721,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid message actions 1440 dark: reply/edit/react/recall, keyboard and focus",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3852,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid group 1440 dark: pins, invitation, roles and dialog accessibility",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3481,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "scroll anchoring, incoming messages and history prepend preserve reading position",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1283,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "composer multiline, IME protection and shrunken mobile viewport remain usable",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 875,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "login keyboard sequence, autofill attributes and explicit preview recovery/register",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1497,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "320px long unbroken message wraps and growing composer never covers jump control",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1226,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "purposeful panel motion is bounded and reduced-motion removes movement",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1463,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "attachment upload/send/authorized preview/download uses actual consumers (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2049,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "avatar upload uses Avatar purpose before binding and retains no local credentials (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1368,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications mark-read and conversation mute preserve backend contracts (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3253,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 320px light: layout and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 1519,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  88 |   await expect(page.getByText('Vui lòng tuân thủ quy tắc cộng đồng.')).toBeVisible()\n  89 |   await settleMotion(page)\n> 90 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n     |                                                                                         ^\n  91 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n  92 |   await mkdir('../docs/frontend/screenshots/vi/notifications', { recursive: true })\n  93 |   await page.screenshot({ path: `../docs/frontend/screenshots/vi/notifications/list-${width}-${theme}.png`, fullPage: true })\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\media-notifications-client.spec.js:90:89"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "notifications 390px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2390,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 768px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2159,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1366px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1983,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1440px light: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1888,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 320px dark: layout and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 1271,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  88 |   await expect(page.getByText('Vui lòng tuân thủ quy tắc cộng đồng.')).toBeVisible()\n  89 |   await settleMotion(page)\n> 90 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n     |                                                                                         ^\n  91 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n  92 |   await mkdir('../docs/frontend/screenshots/vi/notifications', { recursive: true })\n  93 |   await page.screenshot({ path: `../docs/frontend/screenshots/vi/notifications/list-${width}-${theme}.png`, fullPage: true })\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\media-notifications-client.spec.js:90:89"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "notifications 390px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1939,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 768px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1870,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1366px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1889,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "notifications 1440px dark: layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1985,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "real message consumers preserve content and wire reply/edit/reaction/recall/delete (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5467,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  59 |   const calls = await fixture(context, page)\n  60 |   await page.goto('/chat/conversation')\n> 61 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n     |                                                                                    ^\n  62 |   await options(page, 1).click()\n  63 |   await page.getByRole('menuitem', { name: 'Trả lời', exact: true }).click()\n  64 |   await expect(page.locator('.compose-context')).toContainText('Đang trả lời')\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:61:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "server search, message detail, forwarding and history consumers (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "timedOut",
+          "duration": 30061,
+          "errors": [
+            "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+            "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Thông tin cuộc trò chuyện', exact: true })\u001b[22m\n\n\n  94 |   await page.setViewportSize({ width: 1440, height: 900 })\n  95 |   await page.goto('/chat/conversation')\n> 96 |   await page.getByRole('button', { name: 'Thông tin cuộc trò chuyện', exact: true }).click()\n     |                                                                                      ^\n  97 |   await page.getByRole('button', { name: 'Tìm tin nhắn', exact: true }).click()\n  98 |   await page.getByLabel('Nội dung cần tìm').fill('English')\n  99 |   await page.getByRole('dialog').getByRole('button', { name: 'Tìm kiếm', exact: true }).click()\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:96:86"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "message requests stay read-only and use separate request read cursors (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5414,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('textbox', { name: 'Tin nhắn', exact: true })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" getByRole('textbox', { name: 'Tin nhắn', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('textbox', { name: 'Tin nhắn', exact: true })\u001b[22m\n\n\n  120 |   const calls = await fixture(context, page, { requestMode: true })\n  121 |   await page.goto('/message-requests/conversation')\n> 122 |   await expect(page.getByRole('textbox', { name: 'Tin nhắn', exact: true })).toBeDisabled()\n      |                                                                              ^\n  123 |   await expect(page.locator('.request-notice')).toContainText('Chấp nhận lời nhắn trước khi trả lời')\n  124 |   await expect.poll(() => calls.some((call) => call.path === '/api/message-requests/request/read-cursor')).toBe(true)\n  125 |   expect(calls.some((call) => call.path === '/api/conversations/conversation/read-cursor')).toBe(false)\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:122:78"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "message report preserves target identifiers and foreground-only read cursors (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5392,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  133 |   const calls = await fixture(context, page)\n  134 |   await page.goto('/chat/conversation')\n> 135 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  136 |   await options(page, 1).click()\n  137 |   await page.getByRole('menuitem', { name: 'Báo cáo vi phạm', exact: true }).click()\n  138 |   await page.getByLabel('Lý do báo cáo', { exact: true }).fill('Nội dung có dấu hiệu vi phạm.')\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:135:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 320px light: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5396,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 390px light: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5460,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 768px light: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5473,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1366px light: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5432,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1440px light: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5426,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 320px dark: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5443,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 390px dark: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5442,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 768px dark: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5446,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1366px dark: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5400,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "integrated private chat 1440px dark: geometry and accessibility (client simulation)",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5471,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Keep this English user message.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Keep this English user message.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Keep this English user message.', { exact: true })\u001b[22m\n\n\n  148 |   await fixture(context, page)\n  149 |   await page.goto('/chat/conversation')\n> 150 |   await expect(page.getByText('Keep this English user message.', { exact: true })).toBeVisible()\n      |                                                                                    ^\n  151 |   await settleMotion(page)\n  152 |   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)\n  153 |   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])\n    at E:\\Learn\\MeChat\\frontend\\tests\\e2e\\messages-client.spec.js:150:84"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "DB-role route guard prevents a User from loading admin APIs (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1410,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin reason confirmation, report claim/evidence/resolve and hold are wired (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4111,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "retention is explicit dry-run and appeal acceptance stays a separate decision (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2899,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "appeal token is isolated from normal auth and cleared on ending appeal session (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2040,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 320px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6041,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 390px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5971,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 768px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6177,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1366px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6096,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1440px light: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6104,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 320px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5555,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 390px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6068,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 768px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6413,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1366px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6334,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "admin/moderation 1440px dark: Vietnamese layout and accessibility (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6789,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

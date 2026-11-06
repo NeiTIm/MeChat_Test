@@ -1,0 +1,53 @@
+{
+  "accountTitle": "Tài khoản của bạn",
+  "accountDescription": "Quản lý hồ sơ, quyền riêng tư và bảo mật.",
+  "settingsNavigation": "Cài đặt tài khoản",
+  "tabs": {
+    "profile": "Hồ sơ",
+    "privacy": "Quyền riêng tư",
+    "security": "Bảo mật",
+    "sessions": "Phiên đăng nhập"
+  },
+  "invalidSection": "Hãy chọn một mục cài đặt tài khoản.",
+  "profileTitle": "Thông tin cá nhân",
+  "profileDescription": "Chọn cách bạn xuất hiện trong các cuộc trò chuyện.",
+  "displayName": "Tên hiển thị",
+  "bio": "Giới thiệu",
+  "displayNameLimit": "Tên hiển thị không quá 100 ký tự.",
+  "bioLimit": "Giới thiệu không quá 500 ký tự.",
+  "profileSaved": "Đã lưu hồ sơ.",
+  "usernameTitle": "Tên đăng nhập",
+  "usernameDescription": "Tên đăng nhập là duy nhất. Sau khi đổi, bạn cần chờ 30 ngày để đổi tiếp.",
+  "newUsername": "Tên đăng nhập mới",
+  "lastUsernameChange": "Lần đổi gần nhất: {{date}}",
+  "usernameSaved": "Đã đổi tên đăng nhập.",
+  "emailTitle": "Đổi email",
+  "emailDescription": "Bạn cần xác nhận email mới bằng mã được gửi trong hộp thư.",
+  "newEmail": "Email mới",
+  "requestEmailChange": "Gửi yêu cầu đổi email",
+  "emailRequested": "Đã gửi yêu cầu. Vui lòng kiểm tra hộp thư của email mới.",
+  "emailChangeToken": "Mã xác nhận đổi email",
+  "confirmEmail": "Xác nhận email mới",
+  "emailConfirmed": "Đã xác nhận email mới.",
+  "privacyTitle": "Quyền riêng tư",
+  "privacyDescription": "Chọn cách mọi người có thể tìm thấy và liên hệ với bạn.",
+  "privacySaved": "Đã lưu quyền riêng tư.",
+  "privacy": {
+    "showOnline": {
+      "title": "Hiển thị trạng thái trực tuyến",
+      "description": "Cho người khác biết khi bạn đang trực tuyến."
+    },
+    "showLastSeen": {
+      "title": "Hiển thị lần hoạt động gần nhất",
+      "description": "Cho phép xem thời gian bạn hoạt động gần nhất."
+    },
+    "allowStrangerMessages": {
+      "title": "Nhận tin nhắn từ người lạ",
+      "description": "Cho phép người chưa kết bạn gửi lời nhắn theo quy định của MeChat."
+    },
+    "allowGroupInvites": {
+      "title": "Nhận lời mời vào nhóm",
+      "description": "Cho phép người phù hợp mời bạn tham gia nhóm."
+    }
+  }
+}

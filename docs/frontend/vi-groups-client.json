@@ -1,0 +1,157 @@
+{
+  "scope": "Chromium frontend/design and explicitly labelled HTTP client simulations; not live authenticated business acceptance.",
+  "capturedAt": "2026-11-06T12:23:22.810Z",
+  "stats": {
+    "startTime": "2026-11-06T12:22:01.398Z",
+    "duration": 38816.394,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "create, invite, group profile and role DTOs (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3538,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "invite links resolve before explicit join and tokens stay out of storage (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2521,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "member role hides privileged actions while profile and pins remain available (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1523,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 320px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2321,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 390px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2457,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 768px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2466,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1366px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2936,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1440px light: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3241,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 320px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3474,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 390px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2959,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 768px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2830,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1366px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2860,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "group management 1440px dark: Vietnamese layout and contrast (client simulation)",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2735,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

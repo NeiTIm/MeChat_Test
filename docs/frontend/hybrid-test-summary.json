@@ -1,0 +1,360 @@
+{
+  "checkpoint": "MeChat Hybrid screen review; owner approval still required",
+  "browser": "Playwright bundled Chromium",
+  "counts": {
+    "tests": 49,
+    "passed": 49,
+    "failed": 0,
+    "skipped": 0
+  },
+  "screenshotCounts": {
+    "hybrid-before": 30,
+    "hybrid-after": 30,
+    "hybrid-states": 159
+  },
+  "cases": [
+    {
+      "name": "login 320px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4260,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 320px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3936,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 320px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3364,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 320px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2589,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 320px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3660,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 320px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3592,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 390px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2603,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 390px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3244,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 390px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3120,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 390px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2615,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 390px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3083,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 390px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3290,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 768px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3220,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 768px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 5010,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 768px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4020,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 768px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3011,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 768px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4050,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 768px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3608,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 1366px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2814,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 1366px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4000,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 1366px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4150,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 1366px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2794,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 1366px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3817,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 1366px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4146,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 1440px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2938,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 1440px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3806,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 1440px light: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3941,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login 1440px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2902,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private 1440px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 3818,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group 1440px dark: layout, accessibility and screenshot",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 4055,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "private sample interactions, keyboard dialog, search and mobile list",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 1519,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "design loading, empty, permission and error retry states",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 1014,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "320px boundary, reduced motion and theme persistence",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 1502,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "group details dialog, focus state and mobile list screenshots",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 2977,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "offline feedback and 200% root font scaling retain navigation and composer",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 789,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "anonymous protected route returns live login",
+      "file": "design.spec.js",
+      "status": "passed",
+      "durationMs": 801,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid message actions 390 light: reply/edit/react/recall, keyboard and focus",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3585,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid group 390 light: pins, invitation, roles and dialog accessibility",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 2831,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid message actions 390 dark: reply/edit/react/recall, keyboard and focus",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3694,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid group 390 dark: pins, invitation, roles and dialog accessibility",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3039,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid message actions 1440 light: reply/edit/react/recall, keyboard and focus",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3697,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid group 1440 light: pins, invitation, roles and dialog accessibility",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3408,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid message actions 1440 dark: reply/edit/react/recall, keyboard and focus",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3762,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "Hybrid group 1440 dark: pins, invitation, roles and dialog accessibility",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 3226,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "scroll anchoring, incoming messages and history prepend preserve reading position",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 1237,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "composer multiline, IME protection and shrunken mobile viewport remain usable",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 850,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "login keyboard sequence, autofill attributes and explicit preview recovery/register",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 1355,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "320px long unbroken message wraps and growing composer never covers jump control",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 1048,
+      "expectedStatus": "passed"
+    },
+    {
+      "name": "purposeful panel motion is bounded and reduced-motion removes movement",
+      "file": "hybrid-interactions.spec.js",
+      "status": "passed",
+      "durationMs": 1160,
+      "expectedStatus": "passed"
+    }
+  ]
+}

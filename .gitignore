@@ -1,26 +1,141 @@
-# .NET
+
+# ==========================================================
+# MeChat — .gitignore
+# ASP.NET Core Web API (.NET 10) + React/Vite + SQL Server
+# ==========================================================
+
+# ----------------------------------------------------------
+# .NET / Visual Studio / Rider
+# ----------------------------------------------------------
 **/bin/
 **/obj/
 .vs/
+.idea/
+_ReSharper*/
+*.suo
 *.user
+*.userosscache
+*.sln.docstates
 
-# Node / React
+# ----------------------------------------------------------
+# Node.js / React / Vite
+# ----------------------------------------------------------
 **/node_modules/
 **/dist/
+**/.vite/
+**/.cache/
+**/.turbo/
+**/.parcel-cache/
+*.tsbuildinfo
 
-# Environment / Secrets
+# ----------------------------------------------------------
+# Environment variables / Secrets
+# ----------------------------------------------------------
 .env
 .env.*
 !.env.example
+!.env.*.example
+
 **/appsettings.Development.json
 **/appsettings.Production.json
+**/appsettings.Local.json
 **/secrets.json
+**/*secrets*.local.json
 
-# Local uploads
+# Certificates and sensitive keys
+*.pfx
+*.p12
+*.pem
+*.key
+*.snk
+
+# ----------------------------------------------------------
+# Local uploads / Development Mail
+# ----------------------------------------------------------
 **/private-uploads/
+**/dev-mail/
+**/uploads/
+**/temp-uploads/
 
-# IDE
-.vscode/*.local.json
-
-# Database backups
+# ----------------------------------------------------------
+# Database
+# ----------------------------------------------------------
 *.bak
+*.bacpac
+*.mdf
+*.ndf
+*.ldf
+*.sqlite
+*.sqlite3
+*.db
+
+# ----------------------------------------------------------
+# Tests / Playwright / Coverage
+# ----------------------------------------------------------
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/coverage/
+**/.nyc_output/
+**/.auth/
+**/playwright/.auth/
+
+# Automatically generated screenshot artifacts
+**/screenshots/vi/
+**/screenshots/hybrid-before/
+**/screenshots/hybrid-after/
+**/screenshots/hybrid-states/
+
+# Keep manually selected documentation images
+!docs/frontend/assets/
+
+# ----------------------------------------------------------
+# Logs / Temporary Files
+# ----------------------------------------------------------
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak.tmp
+
+# ----------------------------------------------------------
+# OS
+# ----------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ----------------------------------------------------------
+# IDE / Local configuration
+# ----------------------------------------------------------
+.vscode/*.local.json
+.vscode/settings.local.json
+
+# ----------------------------------------------------------
+# Local test credentials / Sessions
+# ----------------------------------------------------------
+**/storageState.json
+**/storage-state.json
+**/auth-state.json
+**/cookies.json
+
+# ----------------------------------------------------------
+# IMPORTANT — Do NOT ignore these:
+# ----------------------------------------------------------
+# backend/
+# frontend/src/
+# MeChat.Tests/
+# scripts/
+# tools/
+# docs/
+# roadmapFE.md
+# AGENTS.md
+# README.md
+# frontend/package-lock.json

@@ -1,0 +1,31 @@
+# Phê duyệt Visual Baseline và Vietnamese-first — 06/11/2026
+
+**APPROVED: DESIGN_APPROVAL_GRANTED_BY_PRODUCT_OWNER**. Product Owner đã duyệt phương án C — MeChat Hybrid và cả ba mẫu Login, Private Chat, Group Chat. Các màn hình tiếp theo dùng cùng design system; không hỏi duyệt lại cùng hướng thiết kế. Thay đổi đáng kể Visual Direction cần phê duyệt mới. Phê duyệt UI không phải nghiệm thu chức năng/API.
+
+Ngôn ngữ bắt buộc: toàn bộ User/Admin UI dùng tiếng Việt, i18next vi-VN/fallback vi, HTML lang=vi, Intl Asia/Ho_Chi_Minh. Không dịch contracts hoặc nội dung người dùng. Xem [implementation-contract.md](implementation-contract.md). Các trạng thái chờ duyệt/ảnh tiếng Anh bên dưới là **lịch sử trước quyết định này**; gate hiện đã được mở. Việt hóa không mở lại Design Gate.
+
+---
+
+# MeChat UI/UX specification
+
+Product Owner decision on 2026-11-06: **Option C — MeChat Hybrid (Modern Messenger + Minimalist SaaS) is the official visual direction.** The three screen implementations remain **BLOCKED: DESIGN_APPROVAL_REQUIRED**. Direction confirmation is not screen approval. Original conversation-mark logo, quiet neutral surfaces, ink text and restrained indigo/violet identity combine Messenger reading comfort with SaaS navigation. Inter variable is served locally. Light is the default; theme preference is the only persisted UI setting. Interface copy remains English for portfolio presentation.
+
+Tokens are defined in `frontend/src/styles/index.css`. Primary Indigo **#4F46E5**, identity accent Violet **#7C3AED**; outgoing bubbles use #4F46E5 in light and #5145CD in dark with white text. Dark interactive primary uses #A297FF with dark text. Light surfaces #FFFFFF/#F6F5FA; dark surfaces #1C1A27/#191722; foreground #292637/#EFEDF6; muted foreground #696576/#ABA6BB. Explicit dark avatar foreground/background pairs replace the brightness filter. Violet appears in the identity mark, not every message or surface.
+
+Typography: message text 15px desktop / 14px mobile; form labels 13px, input text 14px desktop / 16px mobile composer; secondary metadata 10–12px, primary names 14–16px, headings 28–36px (story headline larger). Letterspaced uppercase is limited to small section labels. Spacing follows a 4px base with optical adjustments. Radius 10/16/24px; one-pixel borders and restrained elevation. Main actions and message tools have 44px hit targets. Desktop rail 84px, list 320px (300px with details open), optional details 280px; thread stays fluid. The login form grows to max-width 396px.
+
+shadcn/ui supports JavaScript through `tsx:false`; generated Button/Input/Dialog are shared with custom chat components. Source: https://ui.shadcn.com/docs/javascript. Tailwind v4 uses official Vite plugin: https://tailwindcss.com/docs/installation/using-vite. No TypeScript migration.
+
+Interactions: hover/active/focus-visible, disabled and pending feedback; error panels contain real retry actions. Composer grows to 144px, then scrolls internally; Enter sends, Shift+Enter inserts a newline, IME composition is respected. During send it becomes readOnly to preserve keyboard/focus. Failed sends retain draft and clientMessageId. Focus returns to the composer after a successful send/edit. Message content renders plain text only. HTTP history sorts ascending and dedupes IDs. Incoming sample content follows the bottom only if the reader was near the bottom; otherwise a jump-to-latest control appears. Prepending older sample history preserves the reading anchor. Real delivery/seen values must come from backend receipts; the preview shows **Sample · Seen/Delivered** explicitly.
+
+The development-only message menu demonstrates reply, one heart reaction, edit of an explicitly edit-eligible sample, and recall confirmation. Those handlers modify isolated fixtures; none calls an API. Group samples demonstrate a real-layout pinned-message entry, member roles, invitation confirmation and a role-preview dialog. No channels or channel navigation exist. The role fixture preserves one Owner. Production group permissions remain unchanged.
+
+Login recovery and registration entry points open explicitly labeled preview dialogs. Reset demonstrates email validation and a neutral confirmation stating that no email was sent; Register describes the existing contract and does not implement an unapproved registration module. Loading disables the fieldset and submit; errors are announced. Username/password autofill attributes and case/spellcheck settings are present; real password-manager autofill still requires verification. Production Auth expansion waits for screen approval.
+
+Search filters the local conversation list and loaded messages only; server message search remains a later slice. Reconnecting and offline states use visible text, not color alone. No call/video controls or unsupported backend capabilities are introduced.
+
+Accessibility: semantic landmarks, skip link, programmatic form labels/described errors, alert regions, keyboard navigation, 44px main hit targets and visible focus. At ≥1280px Details opens inline with focus on its heading and Escape/Close returning focus to its trigger. Below 1280px Radix Dialog traps focus and handles Escape. Message menus use Radix keyboard behavior. Announcements describe local sample actions and do not re-announce all history. Opacity/transform motion is 160–220ms for surfaces and the latest message; buttons have subtle active feedback. No continuous decorative animation. `prefers-reduced-motion` removes movement. Automated contrast checks wait for finite entry animations to finish; animated intermediate opacity is not used as the stable contrast result.
+
+Responsive behavior and evidence are defined in responsive-rules.md and design-review.md. The full 5-viewport × 2-theme matrix is required for this review. The viewport meta requests resizes-content on supporting mobile browsers; shrinking a browser viewport is not proof of real iOS/Android keyboard behavior. Real device IME/keyboard, native password managers, screen readers and full WCAG conformance remain NEEDS_VERIFICATION unless specifically evidenced.
+
+Design samples are not feature acceptance. Three samples must be reviewed in both themes and at desktop/mobile widths before approval is requested. Later screens remain blocked until approval is explicitly recorded in roadmapFE.md.

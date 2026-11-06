@@ -1,0 +1,20 @@
+{
+  "invalidCredentials": "Không thể đăng nhập. Vui lòng kiểm tra thông tin đăng nhập và trạng thái tài khoản.",
+  "sessionEnded": "Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại.",
+  "invalidToken": "Mã xác nhận không hợp lệ hoặc đã hết hạn.",
+  "usernameUnavailable": "Tên đăng nhập đã được sử dụng hoặc chưa hết thời gian chờ đổi tên.",
+  "registrationUnavailable": "Không thể đăng ký với thông tin này. Vui lòng kiểm tra lại.",
+  "emailUnavailable": "Không thể sử dụng địa chỉ email này.",
+  "currentPassword": "Mật khẩu hiện tại không đúng.",
+  "friendConflict": "Lời mời hoặc quan hệ bạn bè này đã tồn tại.",
+  "offline": "Bạn đang ngoại tuyến. Vui lòng kiểm tra kết nối rồi thử lại.",
+  "timeout": "Yêu cầu quá thời gian chờ. Vui lòng thử lại.",
+  "network": "Không thể kết nối đến MeChat. Vui lòng kiểm tra kết nối rồi thử lại.",
+  "400": "Vui lòng kiểm tra thông tin. Không thể thực hiện thao tác này.",
+  "401": "Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại.",
+  "403": "Bạn không có quyền thực hiện thao tác này.",
+  "404": "Nội dung không khả dụng hoặc quyền truy cập của bạn đã thay đổi.",
+  "409": "Dữ liệu đã thay đổi. Vui lòng làm mới rồi thử lại.",
+  "429": "Bạn thao tác quá nhanh. Vui lòng chờ một lát rồi thử lại.",
+  "server": "Hệ thống gặp sự cố. Vui lòng thử lại sau."
+}
