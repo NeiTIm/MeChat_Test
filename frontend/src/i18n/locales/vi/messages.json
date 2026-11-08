@@ -62,6 +62,8 @@
   "offline": "Đang ngoại tuyến",
   "lastSeen": "Hoạt động {{time}}",
   "typing": "Có người đang nhập…",
+  "typingNamed": "{{names}} đang nhập",
+  "typingOthers": "{{names}} và {{count}} người khác đang nhập",
   "receiptError": "Chưa đồng bộ được trạng thái đọc. Bạn có thể thử lại.",
   "retryReceipts": "Đồng bộ lại trạng thái đọc",
   "unreadDetail": "{{count}} tin nhắn chưa đọc trong cuộc trò chuyện.",

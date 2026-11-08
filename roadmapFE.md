@@ -2,6 +2,16 @@
 
 Cập nhật: **2026-11-09**, Asia/Bangkok. Đây là trạng thái đã đối chiếu source và bằng chứng; [roadmap/checkpoints trước đó](docs/frontend/history/roadmapFE-before-final-recovery.md) được giữ lại.
 
+## Typing Indicator trên Composer — 09/11/2026
+
+Đã chuyển trạng thái đang nhập khỏi Header xuống hàng cố định28px giữa Message Panel và Composer, dùng chung Private/Group. Header giữ presence/last seen/privacy và thông tin nhóm hiện có. Hiển thị tên từ profile/member cache; nhóm tối đa hai tên + số người khác, fallback “Thành viên” khi chưa có tên; không thêm API/subscription. Giữ nguyên SignalR events, TTL và Start/StopTyping. Có polite live region, ba chấm animation nhẹ, reduced-motion và ellipsis chống overflow. Không sửa scroll hooks, Backend/Database hoặc commit/push.
+
+Files: `frontend/src/components/chat/{ChatWorkspace,TypingIndicator}.jsx`, `frontend/src/features/conversations/WorkspacePage.jsx`, `frontend/src/styles/index.css`, `frontend/src/i18n/locales/vi/messages.json`; tests `frontend/tests/typing-indicator.test.jsx`, `frontend/tests/e2e/typing-indicator.spec.js`.
+
+Checks: build/ESLint PASS; Vitest typing/realtime **9 PASS**; browser cô lập HTTP/WebSocket mô phỏng **4 PASS** (private320/light,1366/dark; group390/dark,1440/light). Kiểm tên/nhiều người/self+other-room filtering, header không đổi khi typing, StopTyping/TTL, một connection, vị trí slot/composer, scroll lịch sử không đổi, overflow và reduced-motion. Hai lượt browser đầu lỗi fixture thiếu username rồi assertion chụp header trước profile load/so sánh innerText với textContent; đã sửa fixture/synchronization, không nới tiêu chí UI. Không chạy full regression hoặc live mutation. Native screen reader/hai tài khoản thật vẫn NEEDS_VERIFICATION.
+
+**Next Exact Action:** PO tải lại giao diện và kiểm typing hai tài khoản Development thủ công; phần BCR vẫn tạm dừng theo yêu cầu trước. Request-storm evidence bên dưới được giữ nguyên.
+
 ## Ưu tiên hiện hành — Chat request storm / HTTP 429, 09/11/2026
 
 **SOURCE_FIXED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION. Tạm dừng công việc BCR.** Đã xác nhận global workspace invalidation trên từng Delivered/Seen/Reaction làm tải lại lịch sử/context/receipts hàng loạt, kể cả ACK/read hints của chính actor. Sửa Frontend tối thiểu: metadata cache account/conversation/message, viewport-lazy, reply đúng điều kiện, invalidation theo mục tiêu, gom event bursts80ms, giữ in-flight request và cooldown429. HTTP reconciliation focus/online/reconnect/60s, permission reset, Delivered/Seen/Edit/Recall/Reply được giữ; không sửa limiter/JWT/Backend/DB.

@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { errorMessage } from '@/lib/errors';
 import { Composer } from './Composer';
+import { TypingIndicator } from './TypingIndicator';
 import { MessageEntry } from './MessageEntry';
 import { useThreadScroll } from './use-thread-scroll';
 import { useWideLayout } from '@/hooks/use-wide-layout';
@@ -69,6 +70,7 @@ export function ChatWorkspace({
   focusMessageId,
   onRead,
   onTyping,
+  typingActorIds = [],
   composerDisabled,
   membersLoading,
   titleOverride,
@@ -222,6 +224,7 @@ export function ChatWorkspace({
           })}
         </div>
         {newMessages && <Button className="jump-latest" variant="secondary" onClick={jumpToLatest}><ArrowDown size={16} />{t("chat:new-messages-jump-to-latest")}</Button>}
+        <TypingIndicator names={[...new Set(typingActorIds)].filter(actorId => actorId !== user?.id).map(actorId => people.get(actorId) || t('groups:member'))} />
         <Composer key={`${selectedId}-${composerContext?.mode === 'edit' ? `edit-${composerContext.id}` : 'draft'}`} inputRef={composerField} onSend={sendMessage} disabled={composerDisabled || selected.status !== 'Active'} preview={preview} context={composerContext} onCancelContext={onCancelCompose} onTyping={onTyping} />
       </>}
     </main>
