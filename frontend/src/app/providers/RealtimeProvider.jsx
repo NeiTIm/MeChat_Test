@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { useAuthStore } from '@/stores/auth-store'
 import { accessToken, clearSession } from '@/lib/http'
@@ -76,7 +76,10 @@ export function RealtimeProvider({ children }) {
     })
     const foregroundSync = () => { if (document.visibilityState === 'visible' && navigator.onLine) sync() }
     const interval = setInterval(foregroundSync, 60000)
-    const typingInterval = setInterval(() => setTyping((items) => items.filter((item) => item.expires > Date.now())), 1000)
+    const typingInterval = setInterval(() => setTyping((items) => {
+      const remaining = items.filter((item) => item.expires > Date.now())
+      return remaining.length === items.length ? items : remaining
+    }), 1000)
     window.addEventListener('online', foregroundSync)
     document.addEventListener('visibilitychange', foregroundSync)
     start()
@@ -91,5 +94,6 @@ export function RealtimeProvider({ children }) {
       if (connectionRef.current === connection) connectionRef.current = null
     }
   }, [userId])
-  return <RealtimeContext.Provider value={{ status: userId ? status : 'disconnected', typing: typing.filter((item) => item.recipientUserId === userId), invoke }}>{children}</RealtimeContext.Provider>
+  const value = useMemo(() => ({ status: userId ? status : 'disconnected', typing: typing.filter((item) => item.recipientUserId === userId), invoke }), [status, userId, typing, invoke])
+  return <RealtimeContext.Provider value={value}>{children}</RealtimeContext.Provider>
 }

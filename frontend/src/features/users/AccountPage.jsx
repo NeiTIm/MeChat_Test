@@ -21,14 +21,16 @@ import { errorMessage } from '@/lib/errors'
 import { usersApi } from './api'
 import { AvatarEditor } from '@/features/files/AvatarEditor'
 import { filesApi } from '@/features/files/api'
+import { InterfacePreferences } from './InterfacePreferences'
+import { showSuccess } from '@/stores/ui-feedback-store'
 
-const tabs = ['profile', 'privacy', 'security', 'sessions']
+const tabs = ['profile', 'privacy', 'security', 'sessions', 'interface']
 export function AccountPage() {
   const { t } = useTranslation()
   const { section = 'profile' } = useParams()
   const me = useQuery({ queryKey: ['workspace', 'me'], queryFn: usersApi.me })
   return <ApplicationLayout area="account" title={t('users:accountTitle')} description={t('users:accountDescription')}><div className="settings-layout"><nav className="settings-tabs" aria-label={t('users:settingsNavigation')}>{tabs.map((tab) => <NavLink to={`/account/${tab}`} key={tab} className={section === tab ? 'active' : ''}>{t(`users:tabs.${tab}`)}</NavLink>)}</nav><section className="settings-content">
-    {me.isPending ? <StatePanel loading /> : me.error ? <StatePanel error={me.error} onRetry={me.refetch} /> : section === 'profile' ? <ProfileSettings profile={me.data} /> : section === 'privacy' ? <PrivacySettings /> : section === 'security' ? <SecuritySettings /> : section === 'sessions' ? <SessionSettings /> : <StatePanel title={t('common:nothing-here-just-yet')} description={t('users:invalidSection')} />}
+    {me.isPending ? <StatePanel loading /> : me.error ? <StatePanel error={me.error} onRetry={me.refetch} /> : section === 'profile' ? <ProfileSettings profile={me.data} /> : section === 'privacy' ? <PrivacySettings /> : section === 'security' ? <SecuritySettings /> : section === 'sessions' ? <SessionSettings /> : section === 'interface' ? <InterfacePreferences /> : <StatePanel title={t('common:nothing-here-just-yet')} description={t('users:invalidSection')} />}
   </section></div><div className="account-service-links"><Link to="/reports">{t('reports:title')}</Link><Link to="/appeals">{t('appeals:title')}</Link>{me.data?.systemRole === 'Admin' && <Link to="/admin">{t('common:admin')}</Link>}</div></ApplicationLayout>
 }
 function SettingsCard({ title, description, children, danger }) {
@@ -56,7 +58,7 @@ function PrivacySettings() {
 function PrivacyForm({ initial }) {
   const { t } = useTranslation()
   const [values, setValues] = useState(initial)
-  const mutation = useMutation({ mutationFn: usersApi.updatePrivacy, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['workspace'] }) })
+  const mutation = useMutation({ mutationFn: usersApi.updatePrivacy, onSuccess: () => { showSuccess(t('users:privacySaved')); return queryClient.invalidateQueries({ queryKey: ['workspace'] }) } })
   return <SettingsCard title={t('users:privacyTitle')} description={t('users:privacyDescription')}><form onSubmit={(event) => { event.preventDefault(); mutation.mutate(values) }}><fieldset className="login-fields" disabled={mutation.isPending}>{['showOnline', 'showLastSeen', 'allowStrangerMessages', 'allowGroupInvites'].map((name) => <label className="privacy-row" key={name}><span><strong>{t(`users:privacy.${name}.title`)}</strong><small>{t(`users:privacy.${name}.description`)}</small></span><input type="checkbox" checked={!!values[name]} onChange={(event) => setValues({ ...values, [name]: event.target.checked })} /></label>)}<Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? t('common:saving') : t('common:save')}</Button></fieldset>{mutation.error && <p className="form-feedback feedback-error" role="alert">{errorMessage(mutation.error)}</p>}{mutation.isSuccess && <p className="form-feedback feedback-success" role="status">{t('users:privacySaved')}</p>}</form></SettingsCard>
 }
 function SecuritySettings() {

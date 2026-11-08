@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "MeChat QA browser zoom",
+  "version": "1.0.0",
+  "permissions": ["tabs"],
+  "host_permissions": ["http://127.0.0.1:5173/*"],
+  "background": { "service_worker": "worker.js" }
+}

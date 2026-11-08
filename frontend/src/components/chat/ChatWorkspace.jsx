@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowDown, ArrowLeft, ArrowUpRight, Heart, Info, LoaderCircle, LogOut, MessageCircle, Pin, Search, ShieldCheck, Users, X } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowUpRight, Info, LoaderCircle, LogOut, MessageCircle, Pin, Search, ShieldCheck, Users, X } from 'lucide-react';
 import { navigationItems } from '@/components/layout/navigation';
+import { NavigationLinks } from '@/components/layout/NavigationLinks';
 import { Brand } from '@/components/Brand';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Avatar } from '@/components/Avatar';
@@ -12,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { errorMessage } from '@/lib/errors';
 import { Composer } from './Composer';
+import { MessageEntry } from './MessageEntry';
 import { useThreadScroll } from './use-thread-scroll';
 import { useWideLayout } from '@/hooks/use-wide-layout';
 import { roleLabel, statusLabel } from '@/i18n';
@@ -62,6 +64,9 @@ export function ChatWorkspace({
   listActions,
   threadNotice,
   headerSubtitle,
+  presenceStatus,
+  headerTools,
+  focusMessageId,
   onRead,
   onTyping,
   composerDisabled,
@@ -80,6 +85,8 @@ export function ChatWorkspace({
   const detailsTrigger = useRef(null);
   const detailsHeading = useRef(null);
   const composerField = useRef(null);
+  const focusedTarget = useRef(null);
+  const [highlighted, setHighlighted] = useState(null);
   const wide = useWideLayout();
   const {
     scrollRef,
@@ -93,7 +100,22 @@ export function ChatWorkspace({
     setSearchOpen(false);
     setMessageFilter('');
     setDetailsOpen(false);
-  }, [selectedId]);
+  }, [selectedId, focusMessageId]);
+  useEffect(() => {
+    if (!focusMessageId) { focusedTarget.current = null; setHighlighted(null); return }
+    const key = `${selectedId}:${focusMessageId}`;
+    if (focusedTarget.current === key) return;
+    const target = [...(scrollRef.current?.querySelectorAll('[data-message-id]') || [])].find((node) => node.dataset.messageId === focusMessageId);
+    if (!target) return;
+    focusedTarget.current = key;
+    target.scrollIntoView({ block: 'center' }); target.focus({ preventScroll: true });
+    setHighlighted(focusMessageId);
+  }, [focusMessageId, selectedId, messages, scrollRef]);
+  useEffect(() => {
+    if (!highlighted) return;
+    const timer = setTimeout(() => setHighlighted(null), 5000);
+    return () => clearTimeout(timer);
+  }, [highlighted]);
   useEffect(() => {
     const update = () => setOnline(navigator.onLine);
     window.addEventListener('online', update);
@@ -142,12 +164,7 @@ export function ChatWorkspace({
     <a className="skip-link" href="#main-content">{t("chat:skip-to-conversation")}</a>
     <aside className="app-rail" aria-label={t("chat:application-sidebar")}>
       <Link className="rail-brand" to={navigation[0].to} aria-label={t("chat:mechat-messages")}><Brand compact /></Link>
-      <nav className="rail-nav" aria-label={t("chat:main-navigation")}>{navigation.map(({
-          label,
-          to,
-          Icon,
-          active
-        }) => <Link key={label} className={`rail-link ${active ? 'active' : ''}`} to={to} aria-current={active ? 'page' : undefined} title={label}><Icon size={22} /><span>{label}</span></Link>)}</nav>
+      <nav className="rail-nav" aria-label={t("chat:main-navigation")}><NavigationLinks items={navigation} preview={preview} /></nav>
       <div className="rail-bottom"><ThemeToggle />{!preview && <Button variant="ghost" size="icon" className="icon-button" onClick={onLogout} disabled={logoutPending} aria-label={t("chat:sign-out")} title={t("chat:sign-out")}>{logoutPending ? <LoaderCircle className="spin" /> : <LogOut />}</Button>}<Avatar name={user?.name} small /></div>
     </aside>
     <section className="conversation-list" aria-label={title}>
@@ -181,11 +198,11 @@ export function ChatWorkspace({
             value0: title.toLowerCase()
           })}><ArrowLeft /></Button>
           <Avatar fileId={selected.avatarFileId} name={selected.name} tone={group ? 3 : 1} small />
-          <div className="thread-heading"><h1 title={selected.name}>{selected.name}</h1><p>{headerSubtitle || (group ? membersLoading || membersError ? roleLabel(selected.myRole) : t('chat:memberSummary', {
+          <div className="thread-heading"><h1 title={selected.name}>{selected.name}</h1><p>{!group && typeof presenceStatus === 'boolean' && <span aria-hidden="true" className={`presence-dot ${presenceStatus ? 'presence-online' : 'presence-offline'}`} />}{headerSubtitle || (group ? membersLoading || membersError ? roleLabel(selected.myRole) : t('chat:memberSummary', {
                 count: members.length,
                 role: roleLabel(selected.myRole)
               }) : t("chat:private-conversation"))}</p></div>
-          <div className="thread-actions"><Button variant="ghost" size="icon" className="icon-button" aria-label={t("chat:search-loaded-messages")} aria-expanded={searchOpen} onClick={() => {
+          <div className="thread-actions">{headerTools}<Button variant="ghost" size="icon" className="icon-button" aria-label={t("chat:search-loaded-messages")} aria-expanded={searchOpen} onClick={() => {
               setSearchOpen(!searchOpen);
               setMessageFilter('');
             }}><Search /></Button>
@@ -201,17 +218,7 @@ export function ChatWorkspace({
             const own = message.senderUserId === user?.id;
             const showDate = index === 0 || dateLabel(message.createdAt) !== dateLabel(visibleMessages[index - 1].createdAt);
             const author = people.get(message.senderUserId) || roleLabel('Member');
-            return <div className="message-entry" key={message.id} data-message-id={message.id}>{showDate && <div className="date-divider"><span>{dateLabel(message.createdAt)}</span></div>}<article className={`message-row ${own ? 'own' : ''}`} aria-label={t("chat:message-from-value0", {
-                value0: own ? t('common:you') : author
-              })}>
-              {!own && <Avatar name={author} small tone={group ? 2 : 1} />}<div className="message-content">{group && !own && <span className="message-author">{author}</span>}
-                <div className={`message-bubble ${message.recalled ? 'recalled' : ''}`}>{message.recalled ? t("chat:this-message-was-recalled") : <>{message.isForwarded && <span className="forwarded-label">{t("chat:forwarded")}</span>}{message.previewReply && <blockquote className="reply-preview">{message.previewReply}</blockquote>}{renderMessageContext?.(message)}<p>{message.content}</p>{message.attachments?.map(attachment => renderAttachment ? renderAttachment(attachment) : <span className="attachment-label" key={attachment.id}>{t("chat:attachment")}{attachment.fileName}</span>)}</>}</div>
-                {renderMessageReactions?.(message)}
-                {message.previewReaction && !message.recalled && <span className="reaction-preview"><Heart size={12} fill="currentColor" /> 1 <span className="sr-only">{t("chat:sample-heart-reaction")}</span></span>}
-                <div className="message-time"><time dateTime={message.createdAt}>{timeLabel(message.createdAt)}</time>{message.editedAt && <span>{t("chat:edited")}</span>}{renderMessageMeta ? renderMessageMeta(message, own) : preview && own && <span>{t("chat:sample-message")}</span>}</div>
-                {renderMessageActions?.(message, own)}
-              </div>
-            </article></div>;
+            return <MessageEntry key={message.id} message={message} own={own} author={author} group={group} preview={preview} date={showDate ? dateLabel(message.createdAt) : null} highlighted={highlighted === message.id} focused={focusMessageId === message.id} renderMessageActions={renderMessageActions} renderMessageContext={renderMessageContext} renderMessageReactions={renderMessageReactions} renderMessageMeta={renderMessageMeta} renderAttachment={renderAttachment} />;
           })}
         </div>
         {newMessages && <Button className="jump-latest" variant="secondary" onClick={jumpToLatest}><ArrowDown size={16} />{t("chat:new-messages-jump-to-latest")}</Button>}
@@ -221,11 +228,6 @@ export function ChatWorkspace({
     {wide && detailsOpen && selected && !threadLoading && !threadError && <aside className="details-panel" aria-labelledby="details-panel-title" onKeyDown={event => {
       if (event.key === 'Escape' && event.currentTarget.contains(event.target)) closeDetails();
     }}><header><h2 ref={detailsHeading} id="details-panel-title" tabIndex={-1}>{t("chat:conversation-details")}</h2><Button variant="ghost" size="icon" className="icon-button" aria-label={t("chat:close-conversation-details")} onClick={closeDetails}><X /></Button></header><div className="details-panel-scroll">{details}</div></aside>}
-    <nav className="mobile-nav" aria-label={t("chat:mobile-navigation")}>{navigation.map(({
-        label,
-        to,
-        Icon,
-        active
-      }) => <Link to={to} className={active ? 'active' : ''} aria-current={active ? 'page' : undefined} key={label}><Icon size={20} /><span>{label}</span></Link>)}</nav>
+    <nav className="mobile-nav" aria-label={t("chat:mobile-navigation")}><NavigationLinks items={navigation} mobile preview={preview} /></nav>
   </div>;
 }

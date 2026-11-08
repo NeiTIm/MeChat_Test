@@ -4,6 +4,10 @@
 
 ## Design system
 
+Đợt workbook 07/11/2026 giữ nguyên baseline: nhãn Đăng nhập căn giữa; text links chung primary/underline/focus tokens; badge Navigation lấy từ API unread projection; presence dot chỉ từ Online boolean, null không phải offline. Invitation CTA sau tạo nhóm và trong Details; token link chỉ giữ memory tại route qua cache reload. Media dùng authenticated Blob, thumbnail gần viewport, kiểm tra MIME/decode và fallback/retry/download; ảnh mở modal fit/zoom. Toast success khoảng 2s có close/pause, giữ phản hồi inline và lỗi; preference local theo account/browser. Notification preview dùng chung feed/count/read với trang chính, không tự đọc khi mở.
+
+Search result có thể mở ngữ cảnh theo sequence bằng cursor API hiện có, highlight 5s và trở về tin mới nhất. Nhóm thiếu role hoạt động không soạn tin/quản lý; Backend vẫn quyết định quyền. Xem [ledger](improvement-progress.md) và [Backend proposals](backend-change-requests.md) cho phần còn chờ; không tự thêm Friends unread hoặc Delete Notifications.
+
 MeChat Hybrid = Modern Messenger + Minimalist SaaS. Identity/logo riêng; Indigo #4F46E5, Violet #7C3AED, Inter variable cục bộ, Light mặc định và Dark hoàn chỉnh. Dùng tokens trong frontend/src/styles/index.css; cặp màu nút destructive tách khỏi màu chữ lỗi để đạt tương phản trên Dark. Button/Input/Dialog, focus ring, spacing 4px, surfaces/radii và chuyển động dùng chung.
 
 Desktop có rail, danh sách, thread và details tùy chọn; ≥1280px details inline, nhỏ hơn dùng modal. Tablet 768–1023px hiển thị danh sách hoặc thread. Mobile có back và bottom navigation; đăng xuất ở công cụ đầu trang. Không có Channel UI, call/video giả hoặc chức năng Backend chưa hỗ trợ.

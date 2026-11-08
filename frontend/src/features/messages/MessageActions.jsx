@@ -14,6 +14,7 @@ import { messagesApi } from './api'
 import { ForwardDestinations } from './ForwardDestinations';
 import { ReportForm } from '@/features/moderation/ReportsPage';
 import { sanitizeMessageCache } from './cache'
+import { showSuccess } from '@/stores/ui-feedback-store'
 
 const contextKey = (id) => ['workspace', 'messageContext', id]
 export function MessageReply({ message }) {
@@ -54,6 +55,7 @@ export function MessageActions({ message, own, onCompose, canSend = true, extraI
     } else if (emoji) await messagesApi.react(message.id, emoji)
     else await messagesApi.removeReaction(message.id)
     if (operation === 'recall' || operation === 'delete') sanitizeMessageCache(message.id, operation === 'recall')
+    showSuccess(t('messages:actionSaved'))
     await queryClient.invalidateQueries({ queryKey: ['workspace'] })
     setOperation(null)
   } })

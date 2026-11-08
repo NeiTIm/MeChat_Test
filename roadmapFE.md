@@ -1,6 +1,22 @@
 # MeChat Frontend — Roadmap hiện hành
 
-Cập nhật: **2026-11-06**, Asia/Bangkok. Đây là trạng thái đã đối chiếu source và bằng chứng; [roadmap/checkpoints trước đó](docs/frontend/history/roadmapFE-before-final-recovery.md) được giữ lại.
+Cập nhật: **2026-11-07**, Asia/Bangkok. Đây là trạng thái đã đối chiếu source và bằng chứng; [roadmap/checkpoints trước đó](docs/frontend/history/roadmapFE-before-final-recovery.md) được giữ lại.
+
+## Đợt bug fix theo workbook — checkpoint 07/11/2026
+
+Đã đọc đủ 6 sheet, xem 12 ảnh gốc và lập [ledger đầy đủ 52 ticket](docs/frontend/improvement-progress.md), [JSON giữ nguyên acceptance](docs/frontend/improvement-tickets.json). Đây là bug fix/quality pass trong Phase 06, không xây lại Feature hoặc thay Phase. Workbook riêng tư giữ nguyên, không publish ảnh/nội dung chat gốc.
+
+Baseline mới: lint/build PASS, unit33 PASS, browser132 PASS, Groups gốc13/13 PASS. Backend thật qua proxy: boundary4 PASS, auth1 SKIPPED (thiếu credentials, theo lựa chọn tiếp tục của người dùng). Không coi health hoặc client simulation là successful integration.
+
+Đã sửa: image MIME/decode/error/retry/zoom + thumbnail authorized/lazy; URL invite một lần bị mất khi GroupChanged reset cache; server unread navigation; invitation CTA; privacy-safe presence; notification preview và toast local theo account; search context jump; role-null group guard; idle typing và message-row render. Giữ nguyên API/SignalR/business contracts.
+
+Kết quả cuối: **40 unit/component PASS trong 11 tệp; 176 browser PASS / 0 FAIL / 0 flaky; 56 true browser zoom cases PASS; 57 ảnh tổng hợp mới.** Build/lint/localization 687/API 122/production isolation PASS, production smoke 1 PASS, actual anonymous boundaries 4 PASS + auth 1 SKIPPED. npm audit: 0 vulnerabilities. [Evidence](docs/frontend/improvement-verification.json), [ảnh](docs/frontend/improvement-screenshots.md). Browser integration vẫn là HTTP simulation; số đo 500 tin/17 trang không phải production load acceptance.
+
+52 ticket gốc: **8 VERIFIED, 12 FIXED_NEEDS_VERIFICATION, 2 BLOCKED_BACKEND_APPROVAL, 29 BLOCKED_TEST_ENVIRONMENT, 1 NOT_REPRODUCIBLE**. Thêm 4 FND (3 VERIFIED, 1 FIXED_NEEDS_VERIFICATION); tổng 56, còn 44 chưa nghiệm thu. MC-011/012 vẫn chưa xác minh upload/storage/device thật; không gọi original image issue đã hoàn tất.
+
+**BLOCKED_BACKEND_APPROVAL:** MC-006/BCR-001 Delete Notifications; phần unread Bạn bè của MC-002/BCR-002. [Đề xuất cụ thể](docs/frontend/backend-change-requests.md), chưa chỉnh Backend/DB/SignalR contracts. **BLOCKED_TEST_ENVIRONMENT:** business Auth/two-user/roles/storage/realtime/native-device acceptance. Không khôi phục các file người dùng đã xóa, không stage/commit/push.
+
+Next Exact Action: Product Owner xem BCR-001/BCR-002; khi có test identities qua cấu hình an toàn, chạy Auth/session trước, rồi two-user friends/messages/groups/unread/presence/reconnect/files và Admin/appeal/retention theo quyền được cấp. [Live acceptance](docs/frontend/live-integration-acceptance.md) gồm cleanup plan, điều kiện native/device/NVDA/performance. Source hiện không còn thay đổi dang dở; không tự dùng credentials thật hoặc private uploads.
 
 ## Visual Baseline và quyền phê duyệt
 
@@ -42,7 +58,7 @@ Auth lifecycle + recovery/CSRF/rotation/logout; profile/username cooldown/email/
 
 18 events trong một provider; 4 hub invocations join/leave/start/stop typing. Client xử lý dedupe, permission reset, typing expiry, HTTP reconciliation, revoke và cleanup. 3 unit cases kiểm tra hành vi chính; actual authenticated WebSocket, hai-user receipt/presence/reconnect và missed-event recovery NEEDS_VERIFICATION.
 
-## Kiểm tra đã hoàn tất
+## Bằng chứng checkpoint trước — 06/11/2026
 
 | Check | Kết quả |
 | --- | --- |

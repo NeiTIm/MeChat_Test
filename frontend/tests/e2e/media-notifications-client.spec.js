@@ -66,7 +66,7 @@ test('avatar upload uses Avatar purpose before binding and retains no local cred
   await page.goto('/account')
   await page.getByLabel('Chọn ảnh mới', { exact: true }).setInputFiles({ name: 'avatar.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+j5xQAAAAASUVORK5CYII=', 'base64') })
   await page.getByRole('button', { name: 'Lưu ảnh đại diện', exact: true }).click()
-  await expect(page.getByText('Đã cập nhật ảnh đại diện.')).toBeVisible()
+  await expect(page.locator('.avatar-editor').getByText('Đã cập nhật ảnh đại diện.')).toBeVisible()
   expect(calls.find((call) => call.path === '/api/files').body).toContain('name="purpose"\r\n\r\nAvatar')
   expect(calls.find((call) => call.path === '/api/users/me/avatar').data).toEqual({ storedFileId: 'uploaded' })
 })
@@ -80,7 +80,7 @@ test('notifications mark-read and conversation mute preserve backend contracts (
   await page.goto('/chat/conversation')
   await page.getByRole('button', { name: 'Thông tin cuộc trò chuyện', exact: true }).click()
   await page.getByRole('button', { name: 'Tắt thông báo', exact: true }).click()
-  await expect(page.getByText('Đã cập nhật cài đặt thông báo.')).toBeVisible()
+  await expect(page.locator('.conversation-notifications').getByText('Đã cập nhật cài đặt thông báo.')).toBeVisible()
   expect(Date.parse(calls.find((call) => call.path.endsWith('/settings')).data.mutedUntil)).toBeGreaterThan(Date.now())
 })
 test('final partial text preview is labelled and untrusted text remains escaped (client simulation)', async ({ page, context }) => {

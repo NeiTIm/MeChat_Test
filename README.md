@@ -2,7 +2,7 @@
 
 ASP.NET Core Web API (.NET 10), EF Core 10 / SQL Server, JWT, SignalR.
 
-ASP.NET Core backend and React/Vite JavaScript frontend for a portfolio chat application. The frontend is currently at the **design approval checkpoint**, not final feature acceptance.
+ASP.NET Core backend and React/Vite JavaScript frontend for a portfolio chat application. The visual baseline is approved. Client features are implemented and undergoing the [workbook improvement pass](docs/frontend/improvement-progress.md); authenticated integration is not yet accepted.
 
 ## Frontend preview
 
@@ -43,6 +43,8 @@ npm.cmd run test:e2e:live
 ```
 
 The live suite checks anonymous API boundaries. Its account test skips unless `MECHAT_E2E_IDENTIFIER` and `MECHAT_E2E_PASSWORD` are supplied securely in the process environment. Never put credentials in source, logs, screenshots, reports or Git. No credentials are read from private uploads/dev-mail.
+
+Responsive layout is preparation for a future PWA. This build has no service worker, installable PWA guarantee or offline cache of private messages.
 
 Progress/recovery: [roadmapFE.md](roadmapFE.md). Contracts: [API inventory](docs/frontend/api-inventory.md), [feature matrix](docs/frontend/api-to-feature-map.md). Design evidence: [UI review](docs/frontend/ui-ux-acceptance.md). Current limitations: [acceptance report](docs/frontend/final-acceptance.md).
 

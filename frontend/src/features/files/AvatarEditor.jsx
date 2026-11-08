@@ -5,6 +5,7 @@ import { errorMessage } from '@/lib/errors'
 import { filesApi } from './api'
 import { validateUpload } from './validation'
 import { useBlobUrl } from './AttachmentPreview'
+import { showSuccess } from '@/stores/ui-feedback-store'
 import { queryClient } from '@/lib/query-client'
 
 export function AvatarEditor({ onSave, group = false }) {
@@ -22,7 +23,7 @@ export function AvatarEditor({ onSave, group = false }) {
     const controller = new AbortController()
     controllerRef.current = controller
     setPending(true); setError(''); setSaved(false)
-    try { const uploaded = await filesApi.upload(file, 'Avatar', controller.signal, setProgress); await onSave(uploaded.id); await queryClient.invalidateQueries({ queryKey: ['workspace'] }); setFile(null); setSaved(true) }
+    try { const uploaded = await filesApi.upload(file, 'Avatar', controller.signal, setProgress); await onSave(uploaded.id); await queryClient.invalidateQueries({ queryKey: ['workspace'] }); setFile(null); setSaved(true); showSuccess(t('files:avatarSaved')) }
     catch (error) { if (!controller.signal.aborted) setError(errorMessage(error)) }
     finally { if (!controller.signal.aborted) setPending(false) }
   }

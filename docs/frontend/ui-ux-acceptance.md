@@ -13,6 +13,10 @@
 
 ## Bằng chứng và trạng thái
 
+Checkpoint workbook 07/11/2026 được ghi riêng ở [improvement-progress.md](improvement-progress.md); các con số phục hồi dưới đây là lịch sử 06/11. Không thay thế kiểm thử thực bằng điểm số thiết kế. Bắt buộc kiểm tra actual image decoding, denied/network/MIME fallback, một lần URL invite qua permission reload, unread không giảm khi chỉ điều hướng, toast off vẫn có inline/error, privacy null và composer khi myRole không còn hoạt động.
+
+Tách responsive 320/390/768/1366/1440 × 2 themes khỏi true browser zoom. Đã có [56 tổ hợp Chromium tabs.setZoom](improvement-browser-zoom.json); native installed Chrome/Edge, NVDA và mobile keyboard/device vẫn NEEDS_VERIFICATION. Ảnh mới chỉ dùng nội dung tổng hợp, xem [chỉ mục cải thiện](improvement-screenshots.md).
+
 | Phạm vi | Trạng thái hiện tại |
 | --- | --- |
 | Visual Direction + 3 mẫu | APPROVED bởi Product Owner, 06/11/2026 |

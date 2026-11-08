@@ -20,6 +20,6 @@ for (const row of inventory) {
     if (!row.hook_or_consumer || row.hook_or_consumer.startsWith('planned')) errors.push(`${row.id}: consumer not mapped`)
   } catch (error) { errors.push(`${row.id}: ${error.message}`) }
 }
-const report = { date: '2026-11-06', scope: 'Static module/function/consumer mapping only. Does not establish live backend business acceptance.', controllerActions: inventory.length - 1, mappedFunctions: inventory.filter((row) => row.controller !== 'Program' && !errors.some((error) => error.startsWith(row.id))).length, errors }
+const report = { capturedAt: new Date().toISOString(), date: new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date()), scope: 'Static module/function/consumer mapping only. Does not establish live backend business acceptance.', controllerActions: inventory.length - 1, mappedFunctions: inventory.filter((row) => row.controller !== 'Program' && !errors.some((error) => error.startsWith(row.id))).length, errors }
 await writeFile('../docs/frontend/api-consumer-audit.json', JSON.stringify(report, null, 2) + '\n')
 if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1 } else console.log(`PASS: ${report.mappedFunctions} controller actions map to existing JavaScript functions and named consumers; live verification stays NEEDS_VERIFICATION.`)

@@ -6,6 +6,7 @@ import { Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { errorMessage } from '@/lib/errors'
+import { showSuccess } from '@/stores/ui-feedback-store'
 
 export function PasswordInput({ id, ...props }) {
   const [visible, setVisible] = useState(false)
@@ -22,7 +23,7 @@ export function ValidatedForm({ id, fields, schema, defaultValues = {}, onSubmit
     try {
       await onSubmit(values)
       if (resetOnSuccess) reset()
-      if (successMessage) setFeedback({ success: successMessage })
+      if (successMessage) { setFeedback({ success: successMessage }); showSuccess(successMessage) }
     } catch (error) { setFeedback({ error: errorMessage(error) }) }
   }
   return <form className="validated-form" onSubmit={handleSubmit(submit)} noValidate aria-busy={isSubmitting}>

@@ -67,5 +67,8 @@
   "unknownDevice": "Thiết bị chưa xác định",
   "skipContent": "Chuyển đến nội dung chính",
   "mainNavigation": "Điều hướng chính",
-  "mobileNavigation": "Điều hướng trên điện thoại"
+  "mobileNavigation": "Điều hướng trên điện thoại",
+  "unreadCount": "{{count}} mục chưa đọc",
+  "closeToast": "Đóng thông báo nhanh",
+  "actionSaved": "Đã thực hiện thao tác."
 }

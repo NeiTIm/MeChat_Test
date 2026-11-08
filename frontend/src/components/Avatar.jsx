@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { filesApi } from '@/features/files/api'
 import { useBlobUrl } from '@/features/files/AttachmentPreview'
 
@@ -10,5 +11,6 @@ export function Avatar({ name = '?', tone = 0, small = false, fileId }) {
 function AuthorizedAvatar({ fileId, ...props }) {
   const preview = useQuery({ queryKey: ['workspace', 'file', fileId], queryFn: ({ signal }) => filesApi.preview(fileId, signal), gcTime: 0 })
   const url = useBlobUrl(preview.data)
-  return url && /^image\/(jpeg|png|webp)$/.test(preview.data?.type) ? <img aria-hidden="true" alt="" className={`avatar avatar-photo ${props.small ? 'avatar-small' : ''}`} src={url} /> : <Avatar {...props} />
+  const [failed, setFailed] = useState(null)
+  return url && failed !== url && /^image\/(jpeg|png|webp)$/.test(preview.data?.type) ? <img aria-hidden="true" alt="" className={`avatar avatar-photo ${props.small ? 'avatar-small' : ''}`} src={url} onError={() => setFailed(url)} /> : <Avatar {...props} />
 }

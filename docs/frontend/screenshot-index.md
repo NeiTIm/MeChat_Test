@@ -1,5 +1,7 @@
 # Screenshots tiếng Việt
 
+Đợt workbook07/11/2026 bổ sung **57 ảnh tổng hợp mới** ở [improvement-screenshots.md](improvement-screenshots.md). Không chứa ảnh riêng tư trích từ workbook. Số289 dưới đây là bộ checkpoint trước; ảnh test có thể được ghi đè khi chạy lại cùng case.
+
 289 ảnh PNG thực tế từ Chromium. Viewports 320/390/768/1366/1440, Light/Dark, states và interactions theo từng suite. Các ảnh client integration sử dụng HTTP simulation có nhãn trong báo cáo/tests; không phải bằng chứng tài khoản Backend thật. Không lưu authenticated screenshots/traces. Xem verification-report.md để biết trạng thái mới nhất; ảnh cũ được ghi đè khi ca tương ứng chạy lại.
 
 Ảnh English của baseline phê duyệt vẫn được giữ riêng tại screenshots/hybrid-before, hybrid-after, hybrid-states và được liên kết trong history/design-review-design-checkpoint.md.

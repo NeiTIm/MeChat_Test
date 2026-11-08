@@ -52,6 +52,8 @@ _ReSharper*/
 # ----------------------------------------------------------
 # Local uploads / Development Mail
 # ----------------------------------------------------------
+# Product Owner workbook contains private screenshots. Keep the original local.
+docs/frontend/MeChat_Danh_sach_cai_thien_va_kiem_thu_v1.xlsx
 **/private-uploads/
 **/dev-mail/
 **/uploads/
@@ -103,6 +105,8 @@ pnpm-debug.log*
 *.swp
 *.swo
 *.bak.tmp
+__pycache__/
+*.py[cod]
 
 # ----------------------------------------------------------
 # OS

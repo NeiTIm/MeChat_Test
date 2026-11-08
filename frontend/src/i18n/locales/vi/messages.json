@@ -19,7 +19,7 @@
   "replyAttachment": "Tệp đính kèm",
   "receiptUnavailable": "Chưa tải được trạng thái",
   "receiptCounts": "{{delivered}} người đã nhận · {{seen}} người đã xem",
-  "contextUnavailable": "Chưa tải được phản hồi và cảm xúc",
+  "contextUnavailable": "Tin nhắn không còn trong phạm vi lịch sử bạn được xem.",
   "loadContext": "Tải lại thông tin tin nhắn",
   "version": "Phiên bản {{version}} · {{date}}",
   "noHistory": "Tin nhắn chưa được chỉnh sửa",
@@ -57,9 +57,15 @@
   "hideConversation": "Ẩn cuộc trò chuyện",
   "hideDescription": "Ẩn cuộc trò chuyện đối với bạn. Nội dung có thể xuất hiện lại theo hoạt động mới và quy định của MeChat.",
   "online": "Đang trực tuyến",
+  "offline": "Đang ngoại tuyến",
   "lastSeen": "Hoạt động {{time}}",
   "typing": "Có người đang nhập…",
   "receiptError": "Chưa đồng bộ được trạng thái đọc. Bạn có thể thử lại.",
   "retryReceipts": "Đồng bộ lại trạng thái đọc",
-  "unreadDetail": "{{count}} tin nhắn chưa đọc trong cuộc trò chuyện."
+  "unreadDetail": "{{count}} tin nhắn chưa đọc trong cuộc trò chuyện.",
+  "editSaved": "Đã chỉnh sửa tin nhắn.",
+  "actionSaved": "Đã cập nhật tin nhắn.",
+  "jumpToMessage": "Đi tới tin nhắn trong cuộc trò chuyện",
+  "contextHistory": "Đang xem ngữ cảnh tin nhắn được tìm thấy.",
+  "backToLatest": "Trở về tin mới nhất"
 }

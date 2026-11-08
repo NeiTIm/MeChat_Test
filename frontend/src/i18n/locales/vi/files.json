@@ -22,5 +22,11 @@
   "saveAvatar": "Lưu ảnh đại diện",
   "avatarSaved": "Đã cập nhật ảnh đại diện.",
   "groupAvatar": "Đổi ảnh nhóm",
-  "partialText": "Đang hiển thị phần đầu tệp. Tải về để xem đầy đủ nội dung."
+  "partialText": "Đang hiển thị phần đầu tệp. Tải về để xem đầy đủ nội dung.",
+  "imageUnavailable": "Không thể hiển thị ảnh. Tệp có thể không hợp lệ hoặc phản hồi không đúng định dạng ảnh. Hãy thử lại hoặc tải tệp về.",
+  "thumbnailUnavailable": "Chưa tải được ảnh. Nhấn để xem và thử lại.",
+  "loadingImage": "Đang tải ảnh…",
+  "zoomImage": "Phóng to ảnh",
+  "fitImage": "Vừa khung",
+  "panImage": "Ảnh phóng to. Dùng phím mũi tên để cuộn ảnh."
 }

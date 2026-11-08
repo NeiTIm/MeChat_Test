@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQueries, useQuery } from '@tanstack/react-query';
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { ChatWorkspace } from '@/components/chat/ChatWorkspace';
 import { conversationsApi } from './api';
 import { groupsApi } from '@/features/groups/api';
@@ -24,11 +24,17 @@ import { AttachmentPreview } from '@/features/files/AttachmentPreview';
 import { ReportDialog } from '@/features/moderation/ReportsPage';
 import { GroupPins } from '@/features/groups/GroupPins';
 import { ConversationNotifications } from '@/features/notifications/NotificationsPage';
+import { NotificationPreview } from '@/features/notifications/NotificationPreview';
+import { showSuccess } from '@/stores/ui-feedback-store';
 export function mergeMessages(pages = []) {
   const byId = new Map();
   for (const page of pages) for (const message of page.items) if (!byId.has(message.id)) byId.set(message.id, message);
   return [...byId.values()].sort((a, b) => a.sequence - b.sequence);
 }
+const renderLiveAttachment = (file) => <AttachmentPreview key={file.id} file={file} />;
+const renderLiveContext = (message) => <MessageReply message={message} />;
+const renderLiveReactions = (message) => <MessageReactions message={message} />;
+const renderLiveReceipt = (message, own) => <MessageReceipt message={message} own={own} />;
 export function WorkspacePage({
   area = 'private', requestMode = false
 }) {
@@ -39,6 +45,16 @@ export function WorkspacePage({
     id
   } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const anchor = Number(searchParams.get('at'));
+  const historyBefore = Number.isSafeInteger(anchor) && anchor > 0 && anchor < Number.MAX_SAFE_INTEGER ? anchor + 1 : undefined;
+  const focusMessageId = historyBefore ? searchParams.get('message') : undefined;
+  function jumpToMessage(message) {
+    if (message.conversationId === id && Number.isSafeInteger(message.sequence) && message.sequence > 0 && message.sequence < Number.MAX_SAFE_INTEGER) {
+      setSearchParams({ at: String(message.sequence), message: message.id });
+    }
+  }
   const access = useAuthStore(state => state.access);
   const {
     status, invoke, typing
@@ -97,18 +113,18 @@ export function WorkspacePage({
     enabled: area === 'group' && !!id
   });
   const history = useInfiniteQuery({
-    queryKey: ['workspace', area, id, 'messages'],
+    queryKey: ['workspace', area, id, ...(historyBefore ? [historyBefore] : []), 'messages'],
     queryFn: ({
       pageParam,
       signal
     }) => api.history(id, pageParam, signal),
-    initialPageParam: undefined,
+    initialPageParam: historyBefore,
     getNextPageParam: last => last.hasMore ? last.nextCursor : undefined,
     enabled: !!id
   });
   const send = useMutation({
     mutationFn: input => context?.mode === 'edit' ? messagesApi.edit(context.id, input.content) : api.send(id, input),
-    onSuccess: () => { setContext(null); return queryClient.invalidateQueries({ queryKey: ['workspace'] }) }
+    onSuccess: () => { if (context?.mode === 'edit') showSuccess(t('messages:editSaved')); setContext(null); return queryClient.invalidateQueries({ queryKey: ['workspace'] }) }
   });
   const messageItems = useMemo(() => mergeMessages(history.data?.pages), [history.data]);
   const receipts = useMessageReceipts({ id, userId: access.userId, messages: messageItems, requestId: activeRequest?.id, enabled: !!id && !detail.error && !history.error && (!requestMode || !!activeRequest) });
@@ -144,9 +160,11 @@ export function WorkspacePage({
     name: area === 'group' ? detail.data.name : selectedProfile?.displayName || selectedProfile?.username || t("common:conversation"),
     username: selectedProfile?.username
   };
+  const activeGroupMember = area !== 'group' || ['Owner', 'Admin', 'Member'].includes(selected?.myRole);
+  const renderActions = useCallback((message, own) => <MessageActions message={message} own={own} onCompose={setContext} canSend={!requestMode && activeGroupMember && selected?.status === 'Active'} onPin={area === 'group' && activeGroupMember && selected?.status === 'Active' ? (messageId) => groupsApi.pin(id, messageId) : undefined} />, [area, id, requestMode, selected?.status, activeGroupMember]);
   const requestActions = activeRequest && <RequestActions request={activeRequest} onDone={(accepted) => navigate(accepted ? `/chat/${id}` : '/message-requests')} />;
-  const detailsExtra = <div className="live-thread-actions">{!requestMode && threadUnread.error && <StatePanel compact error={threadUnread.error} onRetry={threadUnread.refetch} />}{!requestMode && threadUnread.data && <p className="field-help">{t('messages:unreadDetail', { count: threadUnread.data.count })}</p>}{selected && <ReportDialog targetType={area === 'group' ? 'Group' : 'User'} targetId={area === 'group' ? id : selected.otherUserId} />}{requestMode ? requestActions : <>{id && <MessageSearch conversationId={id} />}{id && !requestMode && <ConversationNotifications id={id} />}{area === 'group' && <><Link className="text-link" to={`/groups/${id}/manage`}>{t('groups:manageTitle')}</Link><GroupPins groupId={id} canManage={selected?.status === 'Active'} /></>}<ConfirmAction label={t('messages:hideConversation')} description={t('messages:hideDescription')} onConfirm={async () => { await (area === 'group' ? groupsApi.hide(id) : conversationsApi.hide(id)); await queryClient.invalidateQueries({ queryKey: ['workspace'] }); navigate(base) }} />{area === 'private' && <ConfirmAction label={t('messages:renew')} description={t('messages:renewDescription')} onConfirm={async () => { await requestsApi.renew(id); await queryClient.invalidateQueries({ queryKey: ['workspace'] }) }} />}</>}</div>;
-  const subtitle = requestMode ? t('messages:requestsTitle') : typing.some((item) => item.conversationId === id && item.actorId !== access.userId && item.expires > Date.now()) ? t('messages:typing') : presence.data?.online === true ? t('messages:online') : presence.data?.lastSeenAt ? t('messages:lastSeen', { time: formatRelative(presence.data.lastSeenAt) }) : undefined;
+  const detailsExtra = <div className="live-thread-actions">{!requestMode && threadUnread.error && <StatePanel compact error={threadUnread.error} onRetry={threadUnread.refetch} />}{!requestMode && threadUnread.data && <p className="field-help">{t('messages:unreadDetail', { count: threadUnread.data.count })}</p>}{selected && <ReportDialog targetType={area === 'group' ? 'Group' : 'User'} targetId={area === 'group' ? id : selected.otherUserId} />}{requestMode ? requestActions : <>{id && <MessageSearch conversationId={id} onJump={jumpToMessage} />}{id && !requestMode && <ConversationNotifications id={id} />}{area === 'group' && <><Link className="text-link" to={`/groups/${id}/manage`}>{t('groups:manageTitle')}</Link><GroupPins groupId={id} canManage={activeGroupMember && selected?.status === 'Active'} /></>}<ConfirmAction label={t('messages:hideConversation')} description={t('messages:hideDescription')} onConfirm={async () => { await (area === 'group' ? groupsApi.hide(id) : conversationsApi.hide(id)); await queryClient.invalidateQueries({ queryKey: ['workspace'] }); navigate(base) }} />{area === 'private' && <ConfirmAction label={t('messages:renew')} description={t('messages:renewDescription')} onConfirm={async () => { await requestsApi.renew(id); await queryClient.invalidateQueries({ queryKey: ['workspace'] }) }} />}</>}</div>;
+  const subtitle = requestMode ? t('messages:requestsTitle') : typing.some((item) => item.conversationId === id && item.actorId !== access.userId && item.expires > Date.now()) ? t('messages:typing') : presence.data?.online === true ? t('messages:online') : presence.data?.lastSeenAt ? t('messages:lastSeen', { time: formatRelative(presence.data.lastSeenAt) }) : presence.data?.online === false ? t('messages:offline') : undefined;
   return <ChatWorkspace area={area} titleOverride={requestMode ? t('messages:requestsTitle') : undefined} user={{
     id: access.userId,
     name: me.data?.displayName || access.username
@@ -155,11 +173,14 @@ export function WorkspacePage({
     history.refetch();
   }} onRetryMembers={members.refetch} onSend={send.mutateAsync} hasMore={history.hasNextPage} loadingMore={history.isFetchingNextPage} onLoadMore={() => history.fetchNextPage()} status={status} onLogout={() => logout.mutate()} logoutPending={logout.isPending} logoutError={logout.error}
   listActions={area === 'private' ? <Link className="text-link" to={requestMode ? '/chat' : '/message-requests'}>{t(requestMode ? 'common:messages' : 'messages:requestsTitle')}{!requestMode && requestCount.data?.count > 0 && <span className="tab-count">{requestCount.data.count}</span>}</Link> : <>{[['/groups/new', 'groups:create'], ['/groups/invitations', 'groups:invitationsTitle'], ['/groups/join', 'groups:joinTitle']].map(([to, label]) => <Link className="text-link" key={to} to={to}>{t(label)}</Link>)}</>}
-  detailsExtra={detailsExtra} headerSubtitle={subtitle} onRead={receipts.onRead} onTyping={onTyping} composerDisabled={requestMode} composerContext={context} onCancelCompose={() => setContext(null)}
-  threadNotice={<>{requestMode && <div className="request-notice"><p>{t('messages:requestReadOnly')}</p>{requestActions}</div>}{receipts.error && <div className="connection-notice" role="status">{t('messages:receiptError')}<Button variant="link" onClick={receipts.retry}>{t('messages:retryReceipts')}</Button></div>}</>}
-  renderMessageActions={(message, own) => <MessageActions message={message} own={own} onCompose={setContext} canSend={!requestMode && selected?.status === 'Active'} onPin={area === 'group' && selected?.status === 'Active' ? (messageId) => groupsApi.pin(id, messageId) : undefined} />}
-  renderAttachment={(file) => <AttachmentPreview key={file.id} file={file} />}
-  renderMessageContext={(message) => <MessageReply message={message} />} renderMessageReactions={(message) => <MessageReactions message={message} />} renderMessageMeta={(message, own) => <MessageReceipt message={message} own={own} />} />;
+  detailsExtra={<>{area === 'group' && activeGroupMember && selected?.status === 'Active' && <GroupInviteCallout id={id} />}{detailsExtra}</>} headerSubtitle={subtitle} presenceStatus={requestMode ? undefined : presence.data?.online} headerTools={<NotificationPreview />} focusMessageId={focusMessageId} onRead={receipts.onRead} onTyping={onTyping} composerDisabled={requestMode || !activeGroupMember} composerContext={context} onCancelCompose={() => setContext(null)}
+  threadNotice={<>{historyBefore && <div className="context-history-notice" role="status"><p>{history.data && focusMessageId && !messageItems.some((message) => message.id === focusMessageId) ? t('messages:contextUnavailable') : t('messages:contextHistory')}</p><Button variant="link" onClick={() => setSearchParams({})}>{t('messages:backToLatest')}</Button></div>}{area === 'group' && location.state?.createdGroupId === id && <div className="group-created-notice"><p>{t('groups:createdHint')}</p><Link className="text-link" to={`/groups/${id}/manage#invite-links`}>{t('groups:inviteCta')}</Link></div>}{requestMode && <div className="request-notice"><p>{t('messages:requestReadOnly')}</p>{requestActions}</div>}{receipts.error && <div className="connection-notice" role="status">{t('messages:receiptError')}<Button variant="link" onClick={receipts.retry}>{t('messages:retryReceipts')}</Button></div>}</>}
+  renderMessageActions={renderActions} renderAttachment={renderLiveAttachment}
+  renderMessageContext={renderLiveContext} renderMessageReactions={renderLiveReactions} renderMessageMeta={renderLiveReceipt} />;
+}
+function GroupInviteCallout({ id }) {
+  const { t } = useTranslation();
+  return <section className="group-invite-cta"><Link className="text-link" to={`/groups/${id}/manage#invite-links`}>{t('groups:inviteCta')}</Link><p className="field-help">{t('groups:inviteHint')}</p></section>;
 }
 function RequestActions({ request, onDone }) {
   const { t } = useTranslation();

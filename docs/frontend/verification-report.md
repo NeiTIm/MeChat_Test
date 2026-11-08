@@ -1,4 +1,26 @@
-# Báo cáo kiểm tra triển khai — 06/11/2026
+# Báo cáo kiểm tra Frontend — 07/11/2026
+
+Checkpoint bug fix theo workbook: **52 ticket gốc +4 phát hiện mới**. [Trạng thái từng ticket](improvement-progress.md), [machine evidence](improvement-verification.json), [57 ảnh tổng hợp](improvement-screenshots.md). Không sửa Backend/Database hoặc ghi dữ liệu business. Không nghiệm thu100%.
+
+| Kiểm tra hiện hành | Kết quả |
+| --- | --- |
+| Full Chromium client regression | **176 PASS,0 FAIL,0 flaky** — improvement-final-regression.json |
+| Vitest/RTL | **40 PASS trong11 files** |
+| Build / lint | PASS / PASS |
+| Localization / API consumer audit | **687 static calls /122 source mappings PASS**, không phải live API coverage |
+| Production isolation / built smoke | PASS /1 PASS |
+| Actual browser zoom | **56 PASS** bằng Chromium chrome.tabs.setZoom; tách responsive5 widths×2theme |
+| Actual Backend anonymous boundaries | **4 PASS; successful auth1 SKIPPED** vì thiếu credentials được cấp phép |
+| Privacy scan | Không phát hiện JWT-shaped/private-key/sensitive tracked path/production console trong scope; workbook riêng tư ignored |
+| Synthetic performance sampling | 500 tin/17 cursor pages, bubble anchor shift0px; 4xCPU input/heap sample ở improvement-client-performance.json; chưa chứng nhận performance production |
+
+Source fixes: authorized image MIME/decode/fallback/zoom, lazy thumbnail, one-time invite URL qua cache reset, invite CTA, real unread badges, privacy-safe presence dot, shared notification tray/read/count, success toast local/inline fallback, search context cursor/highlight, role-null group guard, stable idle typing và memo message rows. Light/Dark, Vietnamese, focus/modal/overflow/composer có browser evidence. Lỗi HTTP403/404/401/network được giả lập có chủ đích để kiểm tra client; không phải chứng cứ Backend từ chối đúng quyền thực.
+
+**MC-011/012 còn FIXED_NEEDS_VERIFICATION**: không có test identity/file thật được phép để xác nhận storage/authorization/original file; mobile vật lý chưa chạy. **MC-006 và phần Friends unread MC-002** chờ [BCR-001/002](backend-change-requests.md). Native Chrome/Edge/NVDA/Android/iOS và authenticated performance còn NEEDS_VERIFICATION. [Live acceptance plan](live-integration-acceptance.md).
+
+Các kết quả dưới đây thuộc checkpoint06/11, giữ để truy nguyên, không cộng các lượt trùng thành số ca hiện hành.
+
+## Checkpoint triển khai trước — 06/11/2026
 
 **CLIENT_IMPLEMENTED; AUTHENTICATED_ACCEPTANCE_NEEDS_VERIFICATION.** Design Gate đã APPROVED. Không tuyên bố frontend hoàn thành 100% hoặc PORTFOLIO_READY.
 

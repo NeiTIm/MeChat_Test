@@ -45,6 +45,15 @@ it('expires typing hints and permits only the supported conversation invocations
   expect(connections[0].invoke).toHaveBeenCalledWith('StartTyping', 'thread')
   expect(await current.invoke('UnsupportedMethod', 'thread')).toBe(false)
 })
+it('does not rerender idle consumers on every typing TTL tick', async () => {
+  let renders = 0
+  function IdleConsumer() { useRealtime(); renders++; return null }
+  render(<RealtimeProvider><IdleConsumer /></RealtimeProvider>)
+  await act(async () => {})
+  const initial = renders
+  await act(async () => vi.advanceTimersByTime(5000))
+  expect(renders).toBe(initial)
+})
 it('ends revoked sessions and ignores late events after connection cleanup', async () => {
   const rendered = await mount()
   await act(async () => connections[0].handlers.SessionRevoked({ eventId: 'revocation' }))

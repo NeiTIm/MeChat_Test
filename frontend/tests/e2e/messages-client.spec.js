@@ -55,6 +55,37 @@ async function fixture(context, page, { requestMode = false } = {}) {
 }
 const options = (page, sequence) => page.getByRole('button', { name: `Tùy chọn tin nhắn ${sequence}`, exact: true })
 
+test('QA-014 search opens older context once, highlights and handles unavailable history (client simulation)', async ({ page, context }) => {
+  await fixture(context, page)
+  const old = { id: 'older', conversationId: 'conversation', senderUserId: 'friend', sequence: 100, content: 'Tin cũ để tìm lại.', createdAt: '2026-11-06T00:00:00Z' }
+  const cursors = []
+  await page.route('**/api/conversations/conversation/messages**', async (route) => {
+    if (route.request().method() !== 'GET') return route.fallback()
+    const url = new URL(route.request().url())
+    if (url.pathname.endsWith('/search')) return route.fulfill({ json: { items: [old], hasMore: false } })
+    const before = url.searchParams.get('beforeSequence')
+    cursors.push(before)
+    if (before) return route.fulfill({ json: { items: before === '101' ? [old] : [], hasMore: false } })
+    return route.fallback()
+  })
+  await page.route('**/api/messages/older', (route) => route.fulfill({ json: old }))
+  await page.goto('/chat/conversation')
+  await page.getByRole('button', { name: 'Thông tin cuộc trò chuyện', exact: true }).click()
+  await page.getByRole('button', { name: 'Tìm tin nhắn', exact: true }).click()
+  await page.getByLabel('Nội dung cần tìm').fill('Tin cũ')
+  await page.getByRole('dialog').getByRole('button', { name: 'Tìm kiếm', exact: true }).click()
+  await page.getByRole('button', { name: 'Xem tin nhắn', exact: true }).click()
+  await page.getByRole('button', { name: 'Đi tới tin nhắn trong cuộc trò chuyện', exact: true }).click()
+  await expect(page.locator('[data-message-id="older"]')).toHaveClass(/message-highlighted/)
+  await expect(page.locator('[data-message-id="older"]')).toBeFocused()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  expect(cursors).toContain('101')
+  await page.getByRole('button', { name: 'Trở về tin mới nhất', exact: true }).click()
+  await expect(page.locator('[data-message-id="own"]')).toBeVisible()
+  await page.goto('/chat/conversation?at=9&message=missing')
+  await expect(page.getByText('Tin nhắn không còn trong phạm vi lịch sử bạn được xem.')).toBeVisible()
+})
+
 test('real message consumers preserve content and wire reply/edit/reaction/recall/delete (client simulation)', async ({ page, context }) => {
   const calls = await fixture(context, page)
   await page.goto('/chat/conversation')
@@ -137,7 +168,7 @@ test('message report preserves target identifiers and foreground-only read curso
   await page.getByRole('menuitem', { name: 'Báo cáo vi phạm', exact: true }).click()
   await page.getByLabel('Lý do báo cáo', { exact: true }).fill('Nội dung có dấu hiệu vi phạm.')
   await page.getByRole('button', { name: 'Gửi báo cáo', exact: true }).click()
-  await expect(page.getByText('Đã gửi báo cáo. Bạn có thể theo dõi trong mục Báo cáo của tôi.')).toBeVisible()
+  await expect(page.locator('.form-feedback').filter({ hasText: 'Đã gửi báo cáo. Bạn có thể theo dõi trong mục Báo cáo của tôi.' })).toBeVisible()
   expect(calls.find((call) => call.path === '/api/reports').data).toEqual({ targetType: 'Message', targetId: 'incoming', reason: 'Nội dung có dấu hiệu vi phạm.' })
   expect(calls.some((call) => call.path === '/api/conversations/conversation/read-cursor')).toBe(false)
 })

@@ -6,7 +6,8 @@
     "profile": "Hồ sơ",
     "privacy": "Quyền riêng tư",
     "security": "Bảo mật",
-    "sessions": "Phiên đăng nhập"
+    "sessions": "Phiên đăng nhập",
+    "interface": "Giao diện"
   },
   "invalidSection": "Hãy chọn một mục cài đặt tài khoản.",
   "profileTitle": "Thông tin cá nhân",
@@ -49,5 +50,11 @@
       "title": "Nhận lời mời vào nhóm",
       "description": "Cho phép người phù hợp mời bạn tham gia nhóm."
     }
-  }
+  },
+  "interfaceTitle": "Thông báo giao diện",
+  "interfaceLocal": "Lựa chọn chỉ lưu trên trình duyệt này theo tài khoản. Không đồng bộ giữa các thiết bị.",
+  "toastTitle": "Hiện thông báo nhanh",
+  "toastDescription": "Thông báo thành công tự ẩn sau khoảng 2 giây. Bạn có thể đóng ngay hoặc giữ lại khi rê chuột hay đặt tiêu điểm.",
+  "toastOn": "Đang bật thông báo nhanh. Phản hồi tại biểu mẫu vẫn được giữ lại.",
+  "toastOff": "Đã tắt thông báo nhanh. Thành công và lỗi vẫn hiển thị tại nơi thao tác."
 }

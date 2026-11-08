@@ -42,6 +42,54 @@ async function fixture(context, page, role = 'Owner') {
   return calls
 }
 
+test('MC-005 one-time invite link survives permission cache reload (client simulation)', async ({ page, context }) => {
+  await fixture(context, page)
+  await page.goto('/groups/group/manage')
+  await page.getByRole('button', { name: 'Tạo liên kết mời', exact: true }).click()
+  await expect(page.getByLabel('Liên kết vừa tạo')).toHaveValue(/#token=test-only-invite-code$/)
+  // Same cache operation as GroupChanged. This is not a SignalR transport test.
+  await page.evaluate(async () => {
+    const { queryClient } = await import('/src/lib/query-client.js')
+    await queryClient.resetQueries({ queryKey: ['workspace'] })
+  })
+  await expect(page.getByLabel('Liên kết vừa tạo')).toHaveValue(/#token=test-only-invite-code$/)
+})
+
+test('MC-004 create offers an explicit invite action without silently creating a link (client simulation)', async ({ page, context }) => {
+  const calls = await fixture(context, page)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/groups/new')
+  await page.getByLabel('Tên nhóm', { exact: true }).fill('Nhóm kiểm thử lời mời')
+  await page.getByRole('button', { name: 'Tạo nhóm', exact: true }).click()
+  await expect(page.locator('.group-created-notice')).toBeVisible()
+  await mkdir('../docs/frontend/screenshots/vi/improvements', { recursive: true })
+  await page.screenshot({ path: '../docs/frontend/screenshots/vi/improvements/group-created-390-light.png' })
+  expect(calls.some((call) => call.path.endsWith('/invite-links'))).toBe(false)
+  await page.locator('.group-created-notice').getByRole('link', { name: 'Mời thành viên / Tạo liên kết mời', exact: true }).click()
+  await expect(page.locator('#invite-links')).toBeFocused()
+  await expect(page.getByRole('button', { name: 'Tạo liên kết mời', exact: true })).toBeVisible()
+})
+
+test('QA-017 past membership cannot compose or manage an active group (client simulation)', async ({ page, context }) => {
+  await fixture(context, page, null)
+  await page.goto('/groups/group/manage')
+  await expect(page.getByRole('button', { name: 'Tạo liên kết mời', exact: true })).toHaveCount(0)
+  await expect(page.getByLabel('Tên nhóm', { exact: true })).toHaveCount(0)
+  await page.goto('/groups/group')
+  await expect(page.getByRole('textbox', { name: 'Tin nhắn', exact: true })).toBeDisabled()
+  await page.getByRole('button', { name: 'Thông tin cuộc trò chuyện', exact: true }).click()
+  await expect(page.getByRole('link', { name: 'Mời thành viên / Tạo liên kết mời', exact: true })).toHaveCount(0)
+})
+
+test('MC-005 rejects a create response without a one-time token (client simulation)', async ({ page, context }) => {
+  await fixture(context, page)
+  await page.route('**/api/groups/group/invite-links', (route) => route.request().method() === 'POST' ? route.fulfill({ json: { id: 'no-token' } }) : route.fallback())
+  await page.goto('/groups/group/manage')
+  await page.getByRole('button', { name: 'Tạo liên kết mời', exact: true }).click()
+  await expect(page.locator('form').filter({ has: page.getByRole('button', { name: 'Tạo liên kết mời', exact: true }) }).getByRole('alert')).toBeVisible()
+  await expect(page.getByLabel('Liên kết vừa tạo')).toHaveCount(0)
+})
+
 test('create, invite, group profile and role DTOs (client simulation)', async ({ page, context }) => {
   const calls = await fixture(context, page)
   await page.goto('/groups/new')
@@ -53,13 +101,13 @@ test('create, invite, group profile and role DTOs (client simulation)', async ({
   await page.goto('/groups/group/manage')
   await page.getByLabel('Tên nhóm', { exact: true }).fill('Nhóm của chúng mình')
   await page.locator('form').filter({ has: page.getByLabel('Tên nhóm', { exact: true }) }).getByRole('button', { name: 'Lưu thay đổi', exact: true }).click()
-  await expect(page.getByText('Đã cập nhật thông tin nhóm.')).toBeVisible()
+  await expect(page.locator('.form-feedback').filter({ hasText: 'Đã cập nhật thông tin nhóm.' })).toBeVisible()
   expect(calls.find((call) => call.path === '/api/groups/group').data).toEqual({ name: 'Nhóm của chúng mình', description: 'Cùng sẻ chia những ý tưởng nhỏ mỗi ngày.', avatarFileId: null })
   await page.getByLabel('Tìm theo tên hoặc tên đăng nhập', { exact: true }).fill('Tuấn')
   await page.getByRole('button', { name: 'Tìm kiếm', exact: true }).click()
   await page.getByRole('radio', { name: /Tuấn Minh/ }).check()
   await page.getByRole('button', { name: 'Gửi lời mời', exact: true }).click()
-  await expect(page.getByText('Đã gửi lời mời vào nhóm.')).toBeVisible()
+  await expect(page.locator('.form-feedback').filter({ hasText: 'Đã gửi lời mời vào nhóm.' })).toBeVisible()
   expect(calls.find((call) => call.path.endsWith('/invitations')).data).toEqual({ inviteeUserId: 'invitee' })
   const member = page.getByRole('article').filter({ hasText: 'Gia Huy' })
   await member.getByRole('button', { name: 'Đặt làm quản trị viên', exact: true }).click()

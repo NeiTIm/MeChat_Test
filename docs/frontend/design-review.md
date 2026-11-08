@@ -4,6 +4,8 @@
 
 ## Bằng chứng hiện hành
 
+Review bổ sung theo workbook 07/11/2026: [52 ticket gốc + các phát hiện mới](improvement-progress.md), [ảnh kiểm tra tổng hợp](improvement-screenshots.md). Đã xem 12 ảnh gốc tại workbook, không xuất bản nội dung riêng tư. Cải thiện trong cùng Visual Direction; không tự tăng điểm scorecard hoặc tự nghiệm thu authenticated Backend.
+
 Đã Việt hóa ba mẫu và mở rộng Auth/account/Friends/chat/Groups/Files/Notifications/moderation/Admin theo cùng baseline. Ảnh Chromium thật: [Login](screenshots/vi/samples/login-390-light.png), [Private](screenshots/vi/integration/private-390-dark.png), [Groups](screenshots/vi/groups/manage-390-light.png), [Admin desktop](screenshots/vi/admin/dashboard-1440-dark.png), [Notifications](screenshots/vi/notifications/list-390-light.png). Ảnh client integration dùng HTTP simulation có nhãn trong report; không phải tài khoản Backend thật. Xem screenshot-index.md.
 
 Vấn đề đã xử lý: bản dịch thiếu/English copy; label logo/profile; tương phản nút destructive trên Dark; blob URL null gây runtime; trạng thái chưa đọc thiếu role; headings mobile; nested-dialog test phải chờ exit/pending; retry idempotency phân biệt reply/attachment; đăng xuất và nhãn navigation mobile. Build split vendor tránh entry >500 kB; DEV routes/fixtures bị loại khỏi production. Bộ hồi quy cuối đã hoàn tất, không dùng kết quả lịch sử để che lỗi mới.

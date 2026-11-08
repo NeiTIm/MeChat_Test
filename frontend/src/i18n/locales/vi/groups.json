@@ -96,5 +96,11 @@
   "unpinConfirmation": "Tin nhắn sẽ được bỏ khỏi danh sách ghim.",
   "pinnedAt": "Ghim lúc {{date}}",
   "pinUnavailable": "Tin nhắn ghim không còn khả dụng",
-  "pinSuccess": "Đã ghim tin nhắn."
+  "pinSuccess": "Đã ghim tin nhắn.",
+  "inviteCta": "Mời thành viên / Tạo liên kết mời",
+  "inviteHint": "Tạo liên kết rồi sao chép để chia sẻ. Liên kết không tự được tạo khi lập nhóm.",
+  "createdHint": "Đã tạo nhóm. Mời thêm thành viên để bắt đầu trò chuyện.",
+  "linkActive": "Còn hiệu lực",
+  "linkExpired": "Đã hết hạn",
+  "linkUnavailable": "Liên kết vừa tạo đã hết hạn, bị thu hồi hoặc không còn trong phạm vi bạn quản lý. Hãy tạo liên kết mới nếu cần."
 }
