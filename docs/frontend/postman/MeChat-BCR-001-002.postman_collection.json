@@ -1,0 +1,4234 @@
+{
+  "info": {
+    "name": "MeChat BCR-001 BCR-002 - G3 ONLY - NOT RUN",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "47 planned acceptance folders. Source artifact only; G1/G2 approved, G3/G4/G5 NOT AUTHORIZED. No credentials included. Setup/cleanup and manual concurrency/SignalR evidence required; see bcr-001-002-test-and-rollout-plan.md."
+  },
+  "variable": [
+    {
+      "key": "accessTokenA",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accessTokenB",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accessTokenC",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "appealAccessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "approvedBaseUrl",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "baseUrl",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "before",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "beforeId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "expiredAccessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "g3ApprovalReference",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationAlienId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationHiddenId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationReadId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationTrashReadId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationTrashUnreadId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationTrashedId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationUnreadId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "recipientA",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestAlienId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestNonPendingId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestOutgoingId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestPendingId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestSeenId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestUnknownId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "senderB",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "testDatabaseName",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "unknownGuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestRejectId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "invalidAccessToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// G3 is NOT granted in G2. These variables are operator interlocks, not approval.",
+          "const base = pm.environment.get(\"baseUrl\");",
+          "const approved = pm.environment.get(\"approvedBaseUrl\");",
+          "const approval = pm.environment.get(\"g3ApprovalReference\");",
+          "const database = pm.environment.get(\"testDatabaseName\");",
+          "if (!base || base !== approved || !/^https?:\\/\\//.test(base) || !approval?.startsWith(\"BCR-G3-\") || !database?.startsWith(\"MeChat_BcrTest_\")) { pm.execution.skipRequest(); throw new Error(\"BLOCKED: named isolated G3 target approval required.\"); }",
+          "if (/{{.+?}}/.test(pm.variables.replaceIn(pm.request.url.toString()))) { pm.execution.skipRequest(); throw new Error(\"BLOCKED: missing approved fixture variables.\"); }",
+          "// Never log request/response bodies, JWT, cookies, IDs or private content."
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "P-N01 - A DELETE single active unread",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A DELETE single active unread\nAcceptance: 204 empty; absent active; present Trash; ReadAt vẫn null; visible unread count giảm đúng 1\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N01 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationUnreadId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify active projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify trash projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N02 - A DELETE single active read",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A DELETE single active read\nAcceptance: 204; ReadAt/CreatedAt/reference giữ nguyên; unread count không đổi\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N02 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationReadId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify active projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify trash projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N03 - DELETE lại cùng owned visible Trash ID",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: DELETE lại cùng owned visible Trash ID\nAcceptance: 204; DeletedAt không bị đổi; không cần event mới khi no-op\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N03 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashedId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P-N03 replay",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashedId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N04 - A POST restore trash unread",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A POST restore trash unread\nAcceptance: 204; active trở lại nếu vẫn visible; DeletedAt null; ReadAt null; count tăng lại\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N04 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashUnreadId}}/restore",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify active projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify trash projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N05 - Restore trash read rồi restore lặp",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Restore trash read rồi restore lặp\nAcceptance: 204 mỗi lần; ReadAt giữ nguyên; replay không đổi timestamp khác\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N05 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashReadId}}/restore",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P-N05 replay",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashReadId}}/restore",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify active projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify trash projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N06 - B/C delete hoặc restore ID của A",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: B/C delete hoặc restore ID của A\nAcceptance: 404 NOTIFICATION_UNAVAILABLE cùng shape như unknown; state A không đổi\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N06 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationAlienId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenC}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Alien restore",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notifications/{{notificationAlienId}}/restore",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenC}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N07 - Unknown GUID, Guid.Empty, malformed route",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Unknown GUID, Guid.Empty, malformed route\nAcceptance: Unknown/empty 404 generic; malformed route framework404; không trả recipient/type/ref\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N07 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/00000000-0000-0000-0000-000000000000",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unknown GUID",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{unknownGuid}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Malformed route",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/not-a-guid",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N08 - A single action trên hidden message notification, gồm replay",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A single action trên hidden message notification, gồm replay\nAcceptance: Theo T01:404 dù owner; không lộ source; resource access không được khôi phục\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N08 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationHiddenId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N09 - A DELETE /read với đủ bốn states, owner khác và hidden read",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A DELETE /read với đủ bốn states, owner khác và hidden read\nAcceptance: Chỉ A active-read được soft-delete, gồm hidden nếu T01 được chốt; active-unread, existing Trash và B không đổi\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N09 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/read",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify active projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify trash projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N10 - Bulk khi không có active-read; gửi lại",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Bulk khi không có active-read; gửi lại\nAcceptance: 204 empty; không counts/ID list; không side effect trên unread\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N10 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/read",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P-N10 replay",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/read",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N11 - GET active/count và /api/unread sau delete",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: GET active/count và /api/unread sau delete\nAcceptance: Trash không góp active items/notificationCount; DTO count cũ vẫn count, không đổi thành unreadCount\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-N11 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N12 - PATCH read lên Trash; POST read-all",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: PATCH read lên Trash; POST read-all\nAcceptance: Single Trash404; read-all chỉ active unread của A; hidden active vẫn giữ semantics read-all cũ; Trash ReadAt không đổi\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N12 primary",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashedId}}/read",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Read-all excludes Trash",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notifications/read-all",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N13 - GET Trash mặc định, limit 1/50/0/51, non-int",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: GET Trash mặc định, limit 1/50/0/51, non-int\nAcceptance: Default30/clamp1–50 như T02; non-int400; items chỉ owner+trashed+visible\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N13 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?limit=30",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "limit 1",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?limit=1",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "limit 50",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?limit=50",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "limit 0",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?limit=0",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "limit 51",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?limit=51",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Non-integer limit",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?limit=not-an-int",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N14 - Nhiều trang cùng CreatedAt, roundtrip full cursor",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Nhiều trang cùng CreatedAt, roundtrip full cursor\nAcceptance: DESC CreatedAt/SQL Id; không duplicate/skip trong dataset tĩnh; timestamps không round qua JS Date\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-N14 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?before={{before}}&beforeId={{beforeId}}&limit=1",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N15 - Thiếu nửa cursor pair, invalid GUID/time, Guid.Empty",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Thiếu nửa cursor pair, invalid GUID/time, Guid.Empty\nAcceptance: New Trash400 INVALID_NOTIFICATION_CURSOR; không chạy mutation; active legacy before-only vẫn dùng được\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N15 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?before=2026-11-08T10:00:00Z",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Half cursor ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?beforeId={{beforeId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Malformed pair",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?before=invalid&beforeId=not-a-guid",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Empty GUID cursor",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?before=2026-11-08T10:00:00Z&beforeId=00000000-0000-0000-0000-000000000000",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N16 - 200 hidden rows rồi visible page; tất cả hidden",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: 200 hidden rows rồi visible page; tất cả hidden\nAcceptance: T02: có thể empty items+hasMore true, cursor tiến; next page đọc tiếp; kết thúc hasMore false/cursors null; không loop\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-N16 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash?before={{before}}&beforeId={{beforeId}}&limit=50",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N17 - Restore/delete/new arrival giữa các lượt GET",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Restore/delete/new arrival giữa các lượt GET\nAcceptance: Không giả snapshot; state membership có thể đổi; không trả active item trong Trash response tại thời điểm query; client dedupe IDs khi refetch\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-N17 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N18 - AdminWarning text projection và source reference mismatch",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: AdminWarning text projection và source reference mismatch\nAcceptance: Chỉ recipient warning đúng filter có text; không đọc trực tiếp audit Details theo reference; không thêm exception/storage data\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N18 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N19 - Xóa/restore notification tham chiếu message/invite/report",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Xóa/restore notification tham chiếu message/invite/report\nAcceptance: Entity nguồn, attachment/evidence/audit không bị xóa/restore/cấp quyền lại\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N19 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationReadId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify active projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify trash projection",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N20 - Revoke source permission trước GET/action",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Revoke source permission trước GET/action\nAcceptance: Reauthorize theo VisibleAsync hiện có; không cache quyền cũ để bypass; other types không tự thêm business rule\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N20 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N21 - Single/bulk/restore khi flag off",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Single/bulk/restore khi flag off\nAcceptance: New APIs404 BCR_FEATURE_DISABLED; old active filters DeletedAt luôn còn hiệu lực\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nOperator prerequisite: approved flags-OFF or controlled rate-limit test instance. Collection never changes configuration or injects production failures.\n",
+      "item": [
+        {
+          "name": "P-N21 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-N22 - GET list/count/Trash lặp, route-open",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: GET list/count/Trash lặp, route-open\nAcceptance: Không thay ReadAt/DeletedAt; GET read-only\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-N22 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trash page contract\", () => { const j=pm.response.json(); pm.expect(j.items).to.be.an(\"array\"); pm.expect(j.hasMore).to.be.a(\"boolean\"); j.items.forEach(n => pm.expect(n.deletedAt).to.be.a(\"string\")); if(j.hasMore){pm.expect(j.nextCursor).to.be.a(\"string\");pm.expect(j.nextCursorId).to.be.a(\"string\");} });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F01 - B gửi request mới đến A",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: B gửi request mới đến A\nAcceptance: Existing send201, request Pending/SeenAt null; A unreadCount+1, B count không tăng do outgoing\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F01 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenB}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetUserId\": \"{{recipientA}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 201\", () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F02 - A GET requests và unread-count lặp",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A GET requests và unread-count lặp\nAcceptance: GET không mark; Incoming marker thật; Outgoing.SeenAt luôn null theo T04; count chỉ receiver+Pending+null\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F02 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F03 - A mark-seen subset IDs thực sự visible",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A mark-seen subset IDs thực sự visible\nAcceptance: 204; chỉ subset SeenAt=opUtc; Pending status/list/pending count không giảm; unseenCount giảm đúng\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F03 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestPendingId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F04 - A mark lại ID đã seen",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A mark lại ID đã seen\nAcceptance: 204; SeenAt đầu tiên giữ nguyên; no-op không phát count-change event\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F04 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestSeenId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P-F04 replay",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestSeenId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F05 - Mixed own/alien/outgoing/unknown/non-Pending IDs",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Mixed own/alien/outgoing/unknown/non-Pending IDs\nAcceptance: 204; chỉ own Pending unseen đổi; không per-ID result/affected count/oracle\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F05 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestPendingId}}\",\n    \"{{requestAlienId}}\",\n    \"{{requestOutgoingId}}\",\n    \"{{requestNonPendingId}}\",\n    \"{{requestUnknownId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F06 - Missing/null/empty list, invalid/empty GUID, wrong property shape",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Missing/null/empty list, invalid/empty GUID, wrong property shape\nAcceptance: T03:400 INVALID_REQUEST_IDS/model errors; batch atomic reject, không partial write\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F06 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing list",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Null list",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"requestIds\": null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Malformed GUID",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"requestIds\": [\"not-a-guid\"]}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Empty GUID",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"requestIds\": [\"00000000-0000-0000-0000-000000000000\"]}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F07 - 100 raw IDs hợp lệ, duplicates trong limit; 101 raw entries",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: 100 raw IDs hợp lệ, duplicates trong limit; 101 raw entries\nAcceptance: ≤100 xử lý/dedupe; 101400 kể cả duplicate; không vượt SQL parameter/body limits\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F07 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "100 raw duplicates normalize",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"requestIds\": [\"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\", \"{{requestPendingId}}\"]}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F08 - Body >8KiB và wrong Content-Type",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Body >8KiB và wrong Content-Type\nAcceptance: T03/T08:413/415 khi policy được chốt; error không echo body; host/gateway behavior được ghi thực tế\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F08 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestPendingId}}\"\n  ],\n  \"padding\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 413\", () => pm.response.to.have.status(413));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unsupported media type",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"requestIds\": [\"{{requestPendingId}}\"]}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 415\", () => pm.response.to.have.status(415));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F09 - A accept/reject một unseen incoming",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A accept/reject một unseen incoming\nAcceptance: Existing204; Status/RespondedAt như cũ; unseen count tự giảm; không viết SeenAt như cách accept giả\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-F09 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/{{requestPendingId}}/accept",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reject distinct approved fixture",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/{{requestRejectId}}/reject",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F10 - B cancel unseen outgoing đến A",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: B cancel unseen outgoing đến A\nAcceptance: Existing204; A count giảm; event đến receiver A, không gửi payload request sang C\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F10 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/{{requestPendingId}}/cancel",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenB}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F11 - Reverse send auto-accept",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Reverse send auto-accept\nAcceptance: Existing200 Accepted; friendship/chat semantics giữ nguyên; request rời Pending, đúng receiver count/event\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-F11 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetUserId\": \"{{senderB}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F12 - A/B block, kể cả replay",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A/B block, kể cả replay\nAcceptance: Pending chuyển Blocked như source; affected receiver count về đúng; giữ PermissionsChanged; không chỉ hook FriendshipChanged\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-F12 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/blocks",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetUserId\": \"{{senderB}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify dedicated unread count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Pending list/privacy",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F13 - Unfriend/unblock",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Unfriend/unblock\nAcceptance: Không tự tạo Pending hoặc SeenAt mới; count không tăng giả, không hồi sinh request\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F13 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/blocks/{{senderB}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F14 - Mark-seen flag off, GET count/list",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Mark-seen flag off, GET count/list\nAcceptance: Endpoint mới404; list DTO/additive behavior theo build mới; request mới vẫn SeenAt null, không chạy lại backfill\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nOperator prerequisite: approved flags-OFF or controlled rate-limit test instance. Collection never changes configuration or injects production failures.\n",
+      "item": [
+        {
+          "name": "P-F14 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-F15 - Frontend hidden tab/offscreen/route-open/account switch",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Frontend hidden tab/offscreen/route-open/account switch\nAcceptance: Chỉ visible recipient rows được queue; không mark nền; abort/clear khi đổi account, không replay batch A dưới token B\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-F15 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S01 - Missing/expired/invalid JWT, revoked sid, suspended/deactivated/unverified actor",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Missing/expired/invalid JWT, revoked sid, suspended/deactivated/unverified actor\nAcceptance: Giữ auth/session validation hiện tại; challenge phù hợp, không update/emit event; không claim custom401 body sẵn có\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-S01 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{expiredAccessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "No authentication",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Invalid token variable",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{invalidAccessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S02 - Appeal-scope token vào BCR routes",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Appeal-scope token vào BCR routes\nAcceptance: Bị từ chối bởi existing scope validation; không mở quyền để tiện test\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-S02 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{appealAccessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S03 - New API request giả recipientUserId/actor, JSON/query thừa",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: New API request giả recipientUserId/actor, JSON/query thừa\nAcceptance: Actor chỉ từ claims; không thao tác dữ liệu actor khác; input không có ownership selector\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-S03 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestAlienId}}\"\n  ],\n  \"receiverUserId\": \"{{recipientA}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S04 - Rate limit429 và server500 có kiểm soát trong test fixture",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Rate limit429 và server500 có kiểm soát trong test fixture\nAcceptance: Safe errors, không stack/SQL/token; UI không retry mutation vô hạn; unknown commit outcome xử lý GET reconciliation\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nOperator prerequisite: approved flags-OFF or controlled rate-limit test instance. Collection never changes configuration or injects production failures.\n",
+      "item": [
+        {
+          "name": "P-S04 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/trash",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 429\", () => pm.response.to.have.status(429));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S05 - Old client + new BE; new client + flags off",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Old client + new BE; new client + flags off\nAcceptance: Existing routes/status/DTO fields/events hoạt động; feature mới không giả success; không sửa /api/unread.requestCount thành friend count\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\n",
+      "item": [
+        {
+          "name": "P-S05 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S06 - A, A2, B, C subscribe, trigger lifecycle/seen",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: A, A2, B, C subscribe, trigger lifecycle/seen\nAcceptance: Event mới chỉ đúng account; A/A2 cùng eventId; batch không IDs list; không notification/message text\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-S06 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationUnreadId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S07 - Drop event, disconnect/reconnect, visibility/focus/online",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Drop event, disconnect/reconnect, visibility/focus/online\nAcceptance: HTTP refetch phục hồi count/feed/trash; không dựa cộng/trừ event; không yêu cầu delivery exactly-once\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-S07 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/friends/requests/unread-count",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Dedicated friend count\", () => { const j=pm.response.json(); pm.expect(j.unreadCount).to.be.a(\"number\"); pm.expect(j).not.to.have.property(\"requestCount\"); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S08 - Publisher failure/cancel sau commit",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Publisher failure/cancel sau commit\nAcceptance: DB mutation không rollback giả; event mất được HTTP repair; lỗi không log payload nhạy cảm\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-S08 primary",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/friends/requests/mark-seen",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestIds\": [\n    \"{{requestPendingId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S09 - Rollback transaction/no-op",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Rollback transaction/no-op\nAcceptance: Không phát new event cho transaction rollback; no-op không bắt buộc event; retry callback không nhân đôi trước commit\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-S09 primary",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notifications/{{notificationTrashedId}}",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"No response body\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P-S10 - Regression 18 old events và 4 hub invocations",
+      "description": "Status: NOT_RUN (G3 not authorized).\nAction: Regression 18 old events và 4 hub invocations\nAcceptance: Không rename/payload breaking change; ChatHub join/leave/typing không bị BCR sửa\nUse fresh approved fixture IDs for this case. Shared placeholders must be rebound before each folder. Do not run the full collection against reused mutable fixtures. No automatic database cleanup. HTTP assertions alone do not certify the whole case.\nCONCURRENCY/REALTIME NOTE: coordinate independent A/A2/B/C clients and SQL tests; observe account recipients, postcommit events, rollback and HTTP convergence manually as in the test plan. Postman alone does not assert this.\n",
+      "item": [
+        {
+          "name": "P-S10 primary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessTokenA}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Expected HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-11-06T18:40:37.548Z",
-  "date": "2026-11-07",
+  "capturedAt": "2026-11-08T15:45:13.870Z",
+  "date": "2026-11-08",
   "scope": "Static module/function/consumer mapping only. Does not establish live backend business acceptance.",
-  "controllerActions": 122,
-  "mappedFunctions": 122,
+  "controllerActions": 128,
+  "mappedFunctions": 128,
   "errors": []
 }

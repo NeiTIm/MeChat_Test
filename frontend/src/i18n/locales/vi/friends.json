@@ -1,7 +1,13 @@
 {
   "title": "Bạn bè",
   "description": "Tìm người quen và giữ những kết nối gần gũi.",
-  "tabs": { "list": "Tất cả bạn bè", "incoming": "Lời mời nhận được", "outgoing": "Lời mời đã gửi", "search": "Tìm bạn", "blocked": "Đã chặn" },
+  "tabs": {
+    "list": "Tất cả bạn bè",
+    "incoming": "Lời mời nhận được",
+    "outgoing": "Lời mời đã gửi",
+    "search": "Tìm bạn",
+    "blocked": "Đã chặn"
+  },
   "searchLabel": "Tìm theo tên hoặc tên đăng nhập",
   "searchPlaceholder": "Bạn muốn kết nối với ai?",
   "search": "Tìm kiếm",
@@ -43,5 +49,6 @@
   "pending": "Đã gửi lời mời",
   "yourAccount": "Tài khoản của bạn",
   "resultCount": "{{count}} người đã tải",
-  "more": "Tải thêm kết quả"
+  "more": "Tải thêm kết quả",
+  "retrySeen": "Thử đánh dấu đã xem lại"
 }

@@ -9,4 +9,5 @@ public sealed class Notification
     public Guid? ReferenceId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? ReadAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

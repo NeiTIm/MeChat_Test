@@ -8,6 +8,7 @@ public sealed class NotificationConfiguration : IEntityTypeConfiguration<Notific
 {
     public void Configure(EntityTypeBuilder<Notification> e)
     {
+        e.Property(x => x.DeletedAt).HasPrecision(7);
         e.HasIndex(x => new { x.RecipientUserId, x.CreatedAt });
         e.HasOne<User>().WithMany().HasForeignKey(x => x.RecipientUserId);
     }

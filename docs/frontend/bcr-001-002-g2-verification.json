@@ -1,0 +1,399 @@
+{
+  "capturedAt": "2026-11-08T15:50:40.289862+00:00",
+  "baseHead": "ecb129989cb4271d05f669a4b712026f2e1200a2",
+  "gates": {
+    "business": "BUSINESS_APPROVED",
+    "technical": "TECHNICAL_APPROVED",
+    "source": "SOURCE_IMPLEMENTATION_AUTHORIZED",
+    "G2": "COMPLETE_SAFE_BOUNDARY_ONLY",
+    "G3": "NOT_AUTHORIZED",
+    "G4": "NOT_AUTHORIZED",
+    "G5": "NOT_AUTHORIZED"
+  },
+  "boundary": "No SQL connection/application/data write or SQL/Postman test execution by agent. Backend in-process HTTP uses test auth and repository doubles. Browser uses test-only HTTP simulation, not successful business integration.",
+  "backend": {
+    "build": "PASS",
+    "pureUnitAndHttpContract": {
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0,
+      "inProcessHttpCases": 19,
+      "source": "backend/MeChat.Bcr.UnitTests/TestResults/bcr-unit.trx"
+    },
+    "sqlProjectBuild": "PASS",
+    "sqlExecution": {
+      "status": "BLOCKED_NOT_RUN_G3",
+      "sourceCases": 16
+    },
+    "protectedFilesUnchanged": [
+      "backend/MeChat.Api/Program.cs",
+      "backend/MeChat.Api/Infrastructure/Persistence/DatabaseTarget.cs",
+      "backend/MeChat.Api/Infrastructure/Persistence/MeChatDesignTimeFactory.cs",
+      "backend/MeChat.Api/Infrastructure/Persistence/Migrations/20261028101015_InitialSchema.cs",
+      "backend/MeChat.Api/Infrastructure/Persistence/Migrations/20261028101250_AuthLockoutFields.cs"
+    ]
+  },
+  "frontend": {
+    "lint": "PASS",
+    "build": "PASS",
+    "unitComponent": {
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "Observed Vitest console run, 13 files; no fabricated SQL evidence."
+    },
+    "bcrPlaywright": {
+      "startTime": "2026-11-08T15:22:57.047Z",
+      "duration": 104139.99500000001,
+      "expected": 14,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "fullIsolatedPlaywright": {
+      "startTime": "2026-11-08T15:30:06.014Z",
+      "duration": 616769.3489999999,
+      "expected": 176,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "productionIsolation": "PASS",
+    "productionSmoke": {
+      "passed": 1,
+      "failed": 0
+    },
+    "localization": {
+      "status": "PASS",
+      "staticCalls": 693
+    },
+    "apiConsumerAudit": {
+      "status": "PASS",
+      "controllerActions": 128,
+      "totalIncludingHealth": 129
+    }
+  },
+  "migration": {
+    "id": "20261108144829_NotificationTrashFriendSeen",
+    "status": "GENERATED_NOT_APPLIED",
+    "modelPendingChanges": false,
+    "newColumns": [
+      "Notifications.DeletedAt:nullable datetime2(7)",
+      "FriendRequests.SeenAt:nullable datetime2(7)"
+    ],
+    "backfill": "One database UTC instant, Pending AND SeenAt IS NULL; constant EXEC for deferred compilation; maintenance write quiescence required.",
+    "newIndexes": 0,
+    "oldMigrationsModified": false
+  },
+  "signalr": {
+    "new": [
+      "NotificationDeleted",
+      "NotificationRestored",
+      "FriendRequestsUnreadChanged"
+    ],
+    "existingNamesPreserved": 18,
+    "total": 21,
+    "actualTransportAcceptance": "BLOCKED_G3"
+  },
+  "postman": {
+    "folders": 47,
+    "requests": 104,
+    "execution": "BLOCKED_NOT_RUN_G3",
+    "secretsEmbedded": false
+  },
+  "plan73": {
+    "safeUnitGroups": 12,
+    "blockedPostmanGroups": 47,
+    "blockedSqlGroups": 14,
+    "warning": "Groups are not executable test counts; see case ledger."
+  },
+  "screenshots": [
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-1366-dark.png",
+      "sha256": "1e00fac716f80d7eee3d67e64dfe7d383810ccce26727c0da37f9205334e5106"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-1366-light.png",
+      "sha256": "5e26532b0168d48ae6716d8bb2ff4af518af2a570b3d8e294fff2f2449d7004b"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-1440-dark.png",
+      "sha256": "e396dd83ba3dd20df5963b814c8a7937d4dfc2b389c99cf6f6cbebdb6b76d3b5"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-1440-light.png",
+      "sha256": "71088f02e1a3835a79d9a06eb660ceba6d0de52955aea39db5171400ec26f68c"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-320-dark.png",
+      "sha256": "5c7b0e2a109f4a42c511079ff643befbb181fead557d9e6f048768884feb48c1"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-320-light.png",
+      "sha256": "e8f727fea9f49f91d510d3a4f8645ae5c922bd0af71803f43dfda3477eb2dd0a"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-390-dark.png",
+      "sha256": "dcf2b80063f2fd2fbf84496944a0e82bed962f3ccc6b03923ebdd346ac44a3e1"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-390-light.png",
+      "sha256": "60f39b3dfec7922fa7e5f5dd8b633f468c690afb2885244e3ea98761835fc54a"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-768-dark.png",
+      "sha256": "237e421c62ea7707d58aaeff90ea68573b88b05bdd068340e802228ed736155d"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/active-768-light.png",
+      "sha256": "24b5344417ff7d99e7dd4d9af87a36e2681769d624b4b52777f7ef9edfb89bb1"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-1366-dark.png",
+      "sha256": "30bab145e16306c73028c55013d2281916dcf05d0d1b00e43f831118f8046e14"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-1366-light.png",
+      "sha256": "b01a4808fd52e7dce3322e19a9e33fe5485e69aed22f5f8727d8e5ae494e4816"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-1440-dark.png",
+      "sha256": "69efd5047fbd7855e42ed2426cc4df310b2c62e79a37a5deca3d203dc38d4220"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-1440-light.png",
+      "sha256": "8eae2cf875b8dfeb85ef69ed9b5b2c9952302853c7d65ca2e74543ec41d5821b"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-320-dark.png",
+      "sha256": "df568c0e5f485fdd9525faa269ed32877428e3ccf95ae45b21b44ae605358917"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-320-light.png",
+      "sha256": "485cd78bfde89659539e72c8ba6f88143848f4c0b7e146334e4860c1d2926ed8"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-390-dark.png",
+      "sha256": "f08591ebd7a44e4ca5096fb664fb1035f971fde5c0326e88bce22d1e513f8296"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-390-light.png",
+      "sha256": "34e2cc65f27fb8181a640dd31674348e7c7efcb1305bba53308375394ebb83d0"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-768-dark.png",
+      "sha256": "ec7f6c18ca435369a281aaac47a9c53e0c1684fb125f7dab7c0c5c8a2d01faff"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/confirm-768-light.png",
+      "sha256": "5eadcb4a046b12c367e9a5c2a08b96df3bd37b34f75329ba3397e237034af203"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-1366-dark.png",
+      "sha256": "f1ab3a093c4b25481572e0b1a803407dc86db7885a95ade6cf746d42a156ddf8"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-1366-light.png",
+      "sha256": "63d7e92a3e6beb869db6b0e0430996967bdfa00290f7ccace44d13b5cde67877"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-1440-dark.png",
+      "sha256": "c0324f445ec53579931c3c01abc90e12f8cc90ae2c4092e5a74166c9c9e6f177"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-1440-light.png",
+      "sha256": "c43150423018679255fba4c57dc345ec681a4096a4ef0295efae816ad986af6a"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-320-dark.png",
+      "sha256": "ae9a62728aa3ac7ddb244a7179846d3af93d552a8ba84d1ada08c636260d8f3f"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-320-light.png",
+      "sha256": "8e4d6da1049c790b32942e694941bf5ac5b02daf3f1f5458ddd66bf6f067757f"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-390-dark.png",
+      "sha256": "fff411e04f54018c790547d2ddc6d62b910747a85a8fa9342baa272fe0082770"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-390-light.png",
+      "sha256": "2ca815dab7f3a054df9784027bd7bf312d50399edd74500c8eacb6cdec9a672a"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-768-dark.png",
+      "sha256": "1ccf330e52d9e00f0872a4646e438f455e4e4c73a4a47d80ef09c1323efb8ec7"
+    },
+    {
+      "path": "frontend/test-results/bcr/screenshots/trash-768-light.png",
+      "sha256": "b9b681e71e64d46348bafd4bb21efa0777ffe756b053c346bff3ffe935a0eaaa"
+    }
+  ],
+  "failureHistory": "bcr-001-002-g2-failure-history.json",
+  "remaining": [
+    "Actual SQL migration/backfill/locking/index/query plan/tie-order/concurrency verification",
+    "True JWT/CSRF/session and A/A2/B/C SignalR acceptance",
+    "Exact G3 target, backup/maintenance/credentials/cleanup manifest",
+    "Initial performance anchor failure not reproduced in isolated focused/full runs; full production performance still unaccepted"
+  ],
+  "backendFiles": [
+    "backend/MeChat.Api/Configurations/BcrFeatureOptions.cs",
+    "backend/MeChat.Api/Configurations/BcrInputValidationAttribute.cs",
+    "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
+    "backend/MeChat.Api/Features/Friends/DTOs/FriendDtos.cs",
+    "backend/MeChat.Api/Features/Friends/DependencyInjection.cs",
+    "backend/MeChat.Api/Features/Friends/Models/FriendRequest.cs",
+    "backend/MeChat.Api/Features/Friends/Repositories/FriendRepository.cs",
+    "backend/MeChat.Api/Features/Friends/Repositories/Interfaces/IFriendRepository.cs",
+    "backend/MeChat.Api/Features/Friends/Services/FriendService.cs",
+    "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
+    "backend/MeChat.Api/Features/Notifications/DTOs/NotificationDtos.cs",
+    "backend/MeChat.Api/Features/Notifications/DependencyInjection.cs",
+    "backend/MeChat.Api/Features/Notifications/Models/Notification.cs",
+    "backend/MeChat.Api/Features/Notifications/Repositories/Interfaces/INotificationRepository.cs",
+    "backend/MeChat.Api/Features/Notifications/Repositories/NotificationRepository.cs",
+    "backend/MeChat.Api/Features/Notifications/Services/NotificationService.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Configurations/Friends/FriendRequestConfiguration.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Configurations/Notifications/NotificationConfiguration.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Migrations/20261108144829_NotificationTrashFriendSeen.Designer.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Migrations/20261108144829_NotificationTrashFriendSeen.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs"
+  ],
+  "frontendFiles": [
+    "frontend/playwright.bcr.config.js",
+    "frontend/playwright.config.js",
+    "frontend/playwright.g2-regression.config.js",
+    "frontend/src/app/providers/RealtimeProvider.jsx",
+    "frontend/src/components/layout/NavigationLinks.jsx",
+    "frontend/src/features/friends/FriendsPage.jsx",
+    "frontend/src/features/friends/api.js",
+    "frontend/src/features/friends/seen-queue.js",
+    "frontend/src/features/friends/use-friend-unread.js",
+    "frontend/src/features/friends/use-request-seen.js",
+    "frontend/src/features/notifications/NotificationsPage.jsx",
+    "frontend/src/features/notifications/api.js",
+    "frontend/src/features/notifications/use-notifications.js",
+    "frontend/src/i18n/locales/vi/errors.json",
+    "frontend/src/i18n/locales/vi/friends.json",
+    "frontend/src/i18n/locales/vi/notifications.json",
+    "frontend/src/lib/bcr-features.js",
+    "frontend/src/lib/errors.js",
+    "frontend/src/styles/index.css",
+    "frontend/tests/bcr-components.test.jsx",
+    "frontend/tests/bcr-seen-queue.test.js",
+    "frontend/tests/e2e/bcr-client.spec.js",
+    "frontend/tests/realtime.test.jsx"
+  ],
+  "testArtifacts": [
+    "backend/MeChat.Bcr.SqlTests/ApprovedSqlFixture.cs",
+    "backend/MeChat.Bcr.SqlTests/BcrTestDbOverride.cs",
+    "backend/MeChat.Bcr.SqlTests/ConditionalSqlTests.cs",
+    "backend/MeChat.Bcr.SqlTests/MeChat.Bcr.SqlTests.csproj",
+    "backend/MeChat.Bcr.SqlTests/SqlTestTarget.cs",
+    "backend/MeChat.Bcr.UnitTests/ContractAndMigrationTests.cs",
+    "backend/MeChat.Bcr.UnitTests/FriendSeenTests.cs",
+    "backend/MeChat.Bcr.UnitTests/HttpContractTests.cs",
+    "backend/MeChat.Bcr.UnitTests/MeChat.Bcr.UnitTests.csproj",
+    "backend/MeChat.Bcr.UnitTests/NotificationLifecycleTests.cs",
+    "backend/MeChat.Bcr.UnitTests/SqlTargetGuardTests.cs",
+    "backend/MeChat.Bcr.UnitTests/TestDoubles.cs",
+    "backend/MeChat.Bcr.UnitTests/TestResults/bcr-unit.trx",
+    "docs/frontend/postman/MeChat-BCR-001-002.postman_collection.json",
+    "docs/frontend/sql/bcr-001-002-review-only.sql"
+  ],
+  "changedFilesAtCheckpoint": [
+    ".gitignore",
+    "backend/MeChat.Api/Configurations/BcrFeatureOptions.cs",
+    "backend/MeChat.Api/Configurations/BcrInputValidationAttribute.cs",
+    "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
+    "backend/MeChat.Api/Features/Friends/DTOs/FriendDtos.cs",
+    "backend/MeChat.Api/Features/Friends/DependencyInjection.cs",
+    "backend/MeChat.Api/Features/Friends/Models/FriendRequest.cs",
+    "backend/MeChat.Api/Features/Friends/Repositories/FriendRepository.cs",
+    "backend/MeChat.Api/Features/Friends/Repositories/Interfaces/IFriendRepository.cs",
+    "backend/MeChat.Api/Features/Friends/Services/FriendService.cs",
+    "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
+    "backend/MeChat.Api/Features/Notifications/DTOs/NotificationDtos.cs",
+    "backend/MeChat.Api/Features/Notifications/DependencyInjection.cs",
+    "backend/MeChat.Api/Features/Notifications/Models/Notification.cs",
+    "backend/MeChat.Api/Features/Notifications/Repositories/Interfaces/INotificationRepository.cs",
+    "backend/MeChat.Api/Features/Notifications/Repositories/NotificationRepository.cs",
+    "backend/MeChat.Api/Features/Notifications/Services/NotificationService.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Configurations/Friends/FriendRequestConfiguration.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Configurations/Notifications/NotificationConfiguration.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Migrations/20261108144829_NotificationTrashFriendSeen.Designer.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Migrations/20261108144829_NotificationTrashFriendSeen.cs",
+    "backend/MeChat.Api/Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs",
+    "backend/MeChat.Bcr.SqlTests/ApprovedSqlFixture.cs",
+    "backend/MeChat.Bcr.SqlTests/BcrTestDbOverride.cs",
+    "backend/MeChat.Bcr.SqlTests/ConditionalSqlTests.cs",
+    "backend/MeChat.Bcr.SqlTests/MeChat.Bcr.SqlTests.csproj",
+    "backend/MeChat.Bcr.SqlTests/SqlTestTarget.cs",
+    "backend/MeChat.Bcr.UnitTests/ContractAndMigrationTests.cs",
+    "backend/MeChat.Bcr.UnitTests/FriendSeenTests.cs",
+    "backend/MeChat.Bcr.UnitTests/HttpContractTests.cs",
+    "backend/MeChat.Bcr.UnitTests/MeChat.Bcr.UnitTests.csproj",
+    "backend/MeChat.Bcr.UnitTests/NotificationLifecycleTests.cs",
+    "backend/MeChat.Bcr.UnitTests/SqlTargetGuardTests.cs",
+    "backend/MeChat.Bcr.UnitTests/TestDoubles.cs",
+    "backend/MeChat.Bcr.UnitTests/TestResults/bcr-unit.trx",
+    "docs/frontend/MeChat_BCR001_BCR002_Technical_Design_Baseline_v1.md",
+    "docs/frontend/api-consumer-audit.json",
+    "docs/frontend/api-contracts.md",
+    "docs/frontend/api-inventory.json",
+    "docs/frontend/api-inventory.md",
+    "docs/frontend/api-to-feature-map.md",
+    "docs/frontend/backend-change-requests.md",
+    "docs/frontend/bcr-001-002-case-evidence.md",
+    "docs/frontend/bcr-001-002-g2-failure-history.json",
+    "docs/frontend/bcr-001-002-g2-report.md",
+    "docs/frontend/bcr-001-002-g2-verification.json",
+    "docs/frontend/bcr-001-002-g3-approval-package.md",
+    "docs/frontend/bcr-001-002-implementation-approval-package.md",
+    "docs/frontend/bcr-001-002-screenshots.md",
+    "docs/frontend/bcr-001-002-test-and-rollout-plan.md",
+    "docs/frontend/improvement-client-performance.json",
+    "docs/frontend/postman/MeChat-BCR-001-002.postman_collection.json",
+    "docs/frontend/signalr-contract.md",
+    "docs/frontend/sql/bcr-001-002-review-only.sql",
+    "frontend/playwright.bcr.config.js",
+    "frontend/playwright.config.js",
+    "frontend/playwright.g2-regression.config.js",
+    "frontend/src/app/providers/RealtimeProvider.jsx",
+    "frontend/src/components/layout/NavigationLinks.jsx",
+    "frontend/src/features/friends/FriendsPage.jsx",
+    "frontend/src/features/friends/api.js",
+    "frontend/src/features/friends/seen-queue.js",
+    "frontend/src/features/friends/use-friend-unread.js",
+    "frontend/src/features/friends/use-request-seen.js",
+    "frontend/src/features/notifications/NotificationsPage.jsx",
+    "frontend/src/features/notifications/api.js",
+    "frontend/src/features/notifications/use-notifications.js",
+    "frontend/src/i18n/locales/vi/errors.json",
+    "frontend/src/i18n/locales/vi/friends.json",
+    "frontend/src/i18n/locales/vi/notifications.json",
+    "frontend/src/lib/bcr-features.js",
+    "frontend/src/lib/errors.js",
+    "frontend/src/styles/index.css",
+    "frontend/tests/bcr-components.test.jsx",
+    "frontend/tests/bcr-seen-queue.test.js",
+    "frontend/tests/e2e/bcr-client.spec.js",
+    "frontend/tests/realtime.test.jsx",
+    "roadmapFE.md",
+    "scripts/frontend-inventory.py"
+  ],
+  "documentationCheck": {
+    "status": "PASS",
+    "relativeLinks": "PASS",
+    "planIds": 73,
+    "unicodeLabels": "PASS",
+    "diffWhitespace": "PASS"
+  },
+  "safetyReview": {
+    "migrationSql": "PASS_STATIC_NOT_EXECUTED",
+    "oneUtcInstant": true,
+    "newDefaults": false,
+    "newIndexes": false,
+    "legacyMigrationsUnchanged": true
+  }
+}

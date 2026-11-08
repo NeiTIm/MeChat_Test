@@ -17,6 +17,8 @@ public static class FriendsDependencyInjection
     public static IServiceCollection AddFriendsFeature(
         this IServiceCollection services)
     {
+        services.AddOptions<MeChat.Api.Configurations.BcrFeatureOptions>()
+            .BindConfiguration(MeChat.Api.Configurations.BcrFeatureOptions.SectionName);
         // -------------------------------------------------
         // REPOSITORIES
         // -------------------------------------------------

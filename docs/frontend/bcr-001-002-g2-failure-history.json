@@ -1,0 +1,49 @@
+{
+  "scope": "Observed intermediate failures; not current final acceptance. Synthetic tests only.",
+  "runs": [
+    {
+      "name": "Backend pure tests first compile",
+      "status": "FAIL_COMPILE",
+      "reason": "RequestSizeLimitAttribute.Bytes is not public; fixed by reading IRequestSizeLimitMetadata."
+    },
+    {
+      "name": "BCR browser first attempt",
+      "status": "INTERRUPTED",
+      "observedTimeouts": 5,
+      "reason": "New Vietnamese resources were damaged by PowerShell pipeline encoding. Fixed UTF-8 transport and added label checks."
+    },
+    {
+      "name": "BCR browser second full attempt",
+      "passed": 13,
+      "failed": 1,
+      "reason": "Test used Tai them while common UI label was Xem them; copy and locator aligned without changing pagination assertions."
+    },
+    {
+      "name": "New component tests first run",
+      "passed": 55,
+      "failed": 1,
+      "reason": "Deferred mutation callback was resolved before it started; explicit wait for API invocation added."
+    },
+    {
+      "name": "Existing 176 client regression first run",
+      "passed": 175,
+      "failed": 1,
+      "case": "QA-012/034 500-message scroll anchor",
+      "maxAnchorShift": 23,
+      "limitPixels": 3,
+      "status": "INVESTIGATING"
+    },
+    {
+      "name": "Seen-hook logout guard test",
+      "passed": 57,
+      "failed": 1,
+      "reason": "Null failure and missing identity compared equal; explicit failure guard added. New tests then passed58/58."
+    }
+  ],
+  "resolution": {
+    "existingFullInitial": "175 PASS /1 FAIL kept as history",
+    "focusedPerformance": "1 PASS; unchanged threshold/source Chat",
+    "isolatedFullFinal": "176 PASS /0 FAIL",
+    "attribution": "Initial anchor failure not reproduced in isolated runs; no claim it was a BCR Chat bug or fixed by changing threshold."
+  }
+}

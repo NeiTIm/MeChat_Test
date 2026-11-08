@@ -10,4 +10,5 @@ public sealed class FriendRequest
     public string Status { get; set; } = "Pending";
     public DateTime CreatedAt { get; set; }
     public DateTime? RespondedAt { get; set; }
+    public DateTime? SeenAt { get; set; }
 }

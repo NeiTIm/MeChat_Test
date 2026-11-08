@@ -276,7 +276,8 @@ public sealed class FriendRepository(
                 request.ReceiverUserId,
                 request.Status,
                 request.CreatedAt,
-                request.RespondedAt))
+                request.RespondedAt,
+                request.SeenAt))
             .ToListAsync(ct);
 
         var outgoing = await db.FriendRequests
@@ -292,7 +293,8 @@ public sealed class FriendRepository(
                 request.ReceiverUserId,
                 request.Status,
                 request.CreatedAt,
-                request.RespondedAt))
+                request.RespondedAt,
+                null))
             .ToListAsync(ct);
 
         return new FriendRequestsDto(
@@ -304,6 +306,13 @@ public sealed class FriendRepository(
     {
         db.FriendRequests.Add(request);
     }
+
+    public Task<int> GetUnseenCountAsync(Guid actor, CancellationToken ct) =>
+        db.FriendRequests.CountAsync(r => r.ReceiverUserId == actor && r.Status == "Pending" && r.SeenAt == null, ct);
+
+    public Task<int> MarkSeenAsync(Guid actor, Guid[] ids, DateTime now, CancellationToken ct) =>
+        db.FriendRequests.Where(r => r.ReceiverUserId == actor && r.Status == "Pending" && r.SeenAt == null && ids.Contains(r.Id))
+            .ExecuteUpdateAsync(s => s.SetProperty(r => r.SeenAt, (DateTime?)now), ct);
 
     // =====================================================
     // USER BLOCKS

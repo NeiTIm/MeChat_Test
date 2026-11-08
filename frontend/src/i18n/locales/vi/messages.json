@@ -1,4 +1,6 @@
 {
+  "metadataRateLimited": "Đồng bộ tạm hoãn. Vui lòng thử lại sau.",
+  "metadataPaused": "Đồng bộ tạm hoãn",
   "options": "Tùy chọn tin nhắn {{sequence}}",
   "reply": "Trả lời",
   "edit": "Chỉnh sửa",

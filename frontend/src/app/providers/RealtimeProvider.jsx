@@ -3,6 +3,7 @@ import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { useAuthStore } from '@/stores/auth-store'
 import { accessToken, clearSession } from '@/lib/http'
 import { queryClient } from '@/lib/query-client'
+import { handleMessageHint } from '@/features/messages/message-events'
 
 export const REALTIME_EVENTS = [
   'MessageCreated', 'MessageEdited', 'MessageRecalled', 'MessageDeletedForMe',
@@ -10,6 +11,7 @@ export const REALTIME_EVENTS = [
   'TypingChanged', 'PresenceChanged', 'FriendshipChanged', 'PermissionsChanged',
   'MessageRequestChanged', 'GroupChanged', 'GroupInvitationChanged',
   'NotificationCreated', 'NotificationRead', 'SessionRevoked',
+  'NotificationDeleted', 'NotificationRestored', 'FriendRequestsUnreadChanged',
 ]
 const RealtimeContext = createContext({ status: 'disconnected', typing: [], invoke: async () => false })
 export function useRealtime() { return useContext(RealtimeContext) }
@@ -27,6 +29,8 @@ export function RealtimeProvider({ children }) {
     if (!userId) return
     let disposed = false
     let startTimer
+    let hintTimer
+    const messageHints = new Map()
     const seen = new Set()
     const connection = new HubConnectionBuilder()
       .withUrl('/hubs/chat', { accessTokenFactory: accessToken })
@@ -34,7 +38,7 @@ export function RealtimeProvider({ children }) {
       .withAutomaticReconnect([0, 2000, 5000, 10000, 30000])
       .build()
     connectionRef.current = connection
-    const sync = () => queryClient.invalidateQueries({ queryKey: ['workspace'] })
+    const sync = () => queryClient.invalidateQueries({ queryKey: ['workspace'] }, { cancelRefetch: false })
     for (const event of REALTIME_EVENTS) {
       connection.on(event, (payload) => {
         if (disposed) return
@@ -48,11 +52,35 @@ export function RealtimeProvider({ children }) {
           setTyping((current) => [...current.filter((item) => item.conversationId !== payload.conversationId || item.actorId !== payload.actorId), ...(payload.isTyping ? [{ ...payload, recipientUserId: userId, expires: Math.min(Date.now() + 5000, new Date(payload.expiresAt).getTime()) }] : [])])
           return
         }
-        if (['PermissionsChanged', 'GroupChanged', 'ConversationHidden', 'MessageDeletedForMe', 'MessageRecalled'].includes(event)) {
+        if (event === 'MessageRecalled' || event === 'MessageDeletedForMe') {
+          handleMessageHint(queryClient, event, payload, userId)
+          return
+        }
+        if (['MessageCreated', 'MessageEdited', 'MessageReactionChanged', 'MessageDelivered', 'MessageSeen'].includes(event)) {
+          const key = `${event}:${payload?.conversationId || ''}:${payload?.messageId || payload?.userId || ''}`
+          const previous = messageHints.get(key)
+          const merged = event === 'MessageSeen' && previous?.payload?.lastReadSequence > payload?.lastReadSequence
+            ? { ...payload, lastReadSequence: previous.payload.lastReadSequence } : payload
+          messageHints.set(key, { event, payload: merged })
+          if (!hintTimer) hintTimer = setTimeout(() => {
+            hintTimer = undefined
+            if (disposed || useAuthStore.getState().access?.userId !== userId) { messageHints.clear(); return }
+            for (const hint of messageHints.values()) handleMessageHint(queryClient, hint.event, hint.payload, userId)
+            messageHints.clear()
+          }, 80)
+          return
+        }
+        if (['PermissionsChanged', 'GroupChanged', 'ConversationHidden'].includes(event)) {
           setTyping([])
           // Reset first: do not leave old message content visible while permissions are checked.
           queryClient.resetQueries({ queryKey: ['workspace'] })
-        } else if (event !== 'TypingChanged') sync()
+        } else if (event.startsWith('Notification')) {
+          queryClient.invalidateQueries({ queryKey: ['workspace'], predicate: q => ['notifications', 'notificationCount', 'unreadSummary'].includes(q.queryKey[1]) }, { cancelRefetch: false })
+        } else if (event === 'FriendRequestsUnreadChanged') {
+          queryClient.invalidateQueries({ queryKey: ['workspace'], predicate: q => ['friendUnread', 'friendRequests'].includes(q.queryKey[1]) }, { cancelRefetch: false })
+        } else if (event === 'PresenceChanged') {
+          queryClient.invalidateQueries({ queryKey: ['workspace', 'presence'] }, { cancelRefetch: false })
+        } else sync()
       })
     }
     async function start() {
@@ -81,14 +109,18 @@ export function RealtimeProvider({ children }) {
       return remaining.length === items.length ? items : remaining
     }), 1000)
     window.addEventListener('online', foregroundSync)
+    window.addEventListener('focus', foregroundSync)
     document.addEventListener('visibilitychange', foregroundSync)
     start()
     return () => {
       disposed = true
       clearTimeout(startTimer)
+      clearTimeout(hintTimer)
+      messageHints.clear()
       clearInterval(interval)
       clearInterval(typingInterval)
       window.removeEventListener('online', foregroundSync)
+      window.removeEventListener('focus', foregroundSync)
       document.removeEventListener('visibilitychange', foregroundSync)
       connection.stop()
       if (connectionRef.current === connection) connectionRef.current = null

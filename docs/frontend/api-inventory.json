@@ -802,6 +802,56 @@
   {
     "id": "API-033",
     "method": "GET",
+    "route": "/api/friends/requests/unread-count",
+    "controller": "Friends",
+    "action": "UnreadCount",
+    "request": "none",
+    "parameters": "CancellationToken ct",
+    "response": "FriendRequestUnreadCountDto",
+    "authentication": "Bearer",
+    "authorization": "actor + service resource checks",
+    "errors": "401, 400 (binding), 429, 500",
+    "consumer": "internal flow",
+    "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
+    "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
+    "line": 16,
+    "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
+    "verification": "NEEDS_VERIFICATION",
+    "feature": "friends",
+    "validation": "none DTO annotations + path/query binding; exact declarations and parameters in api-contracts.md",
+    "api_function": "friendsApi.unreadCount",
+    "hook_or_consumer": "useFriendUnread/NavigationLinks; BCR flag OFF by default",
+    "module": "frontend/src/features/friends/api.js",
+    "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
+  },
+  {
+    "id": "API-034",
+    "method": "POST",
+    "route": "/api/friends/requests/mark-seen",
+    "controller": "Friends",
+    "action": "MarkSeen",
+    "request": "none",
+    "parameters": "FriendRequestSeenInput input, CancellationToken ct",
+    "response": "204 empty",
+    "authentication": "Bearer",
+    "authorization": "actor + service resource checks",
+    "errors": "401, 400 (binding), 429, 500",
+    "consumer": "UI action",
+    "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
+    "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
+    "line": 21,
+    "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
+    "verification": "NEEDS_VERIFICATION",
+    "feature": "friends",
+    "validation": "none DTO annotations + path/query binding; exact declarations and parameters in api-contracts.md",
+    "api_function": "friendsApi.markSeen",
+    "hook_or_consumer": "useRequestSeen account-local viewport dwell queue; BCR flag OFF by default",
+    "module": "frontend/src/features/friends/api.js",
+    "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
+  },
+  {
+    "id": "API-035",
+    "method": "GET",
     "route": "/api/friends",
     "controller": "Friends",
     "action": "List",
@@ -814,7 +864,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 15,
+    "line": 33,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -825,7 +875,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-034",
+    "id": "API-036",
     "method": "GET",
     "route": "/api/friends/requests",
     "controller": "Friends",
@@ -839,7 +889,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 18,
+    "line": 36,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -850,7 +900,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-035",
+    "id": "API-037",
     "method": "POST",
     "route": "/api/friends/requests",
     "controller": "Friends",
@@ -864,7 +914,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 21,
+    "line": 40,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -875,7 +925,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-036",
+    "id": "API-038",
     "method": "POST",
     "route": "/api/friends/requests/{id:guid}/accept",
     "controller": "Friends",
@@ -889,7 +939,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 32,
+    "line": 51,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -900,7 +950,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-037",
+    "id": "API-039",
     "method": "POST",
     "route": "/api/friends/requests/{id:guid}/reject",
     "controller": "Friends",
@@ -914,7 +964,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 36,
+    "line": 55,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -925,7 +975,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-038",
+    "id": "API-040",
     "method": "POST",
     "route": "/api/friends/requests/{id:guid}/cancel",
     "controller": "Friends",
@@ -939,7 +989,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 40,
+    "line": 59,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -950,7 +1000,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-039",
+    "id": "API-041",
     "method": "DELETE",
     "route": "/api/friends/{targetUserId:guid}",
     "controller": "Friends",
@@ -964,7 +1014,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 44,
+    "line": 63,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -975,7 +1025,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-040",
+    "id": "API-042",
     "method": "POST",
     "route": "/api/blocks",
     "controller": "Friends",
@@ -989,7 +1039,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 48,
+    "line": 67,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -1000,7 +1050,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-041",
+    "id": "API-043",
     "method": "GET",
     "route": "/api/blocks",
     "controller": "Friends",
@@ -1014,7 +1064,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 52,
+    "line": 71,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -1025,7 +1075,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-042",
+    "id": "API-044",
     "method": "DELETE",
     "route": "/api/blocks/{targetUserId:guid}",
     "controller": "Friends",
@@ -1039,7 +1089,7 @@
     "consumer": "UI action",
     "rules": "FriendService: directional requests; reverse request can accept; block overrides friendship and private access; no self-action; actor must own/respond to the relevant request.",
     "source": "backend/MeChat.Api/Features/Friends/Controllers/FriendsController.cs",
-    "line": 55,
+    "line": 74,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "friends",
@@ -1050,7 +1100,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-043",
+    "id": "API-045",
     "method": "PATCH",
     "route": "/api/groups/{id:guid}",
     "controller": "AdvancedGroups",
@@ -1075,7 +1125,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-044",
+    "id": "API-046",
     "method": "PATCH",
     "route": "/api/groups/{id:guid}/members/{userId:guid}/role",
     "controller": "AdvancedGroups",
@@ -1100,7 +1150,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-045",
+    "id": "API-047",
     "method": "DELETE",
     "route": "/api/groups/{id:guid}/members/{userId:guid}",
     "controller": "AdvancedGroups",
@@ -1125,7 +1175,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-046",
+    "id": "API-048",
     "method": "POST",
     "route": "/api/groups/{id:guid}/transfer-owner",
     "controller": "AdvancedGroups",
@@ -1150,7 +1200,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-047",
+    "id": "API-049",
     "method": "POST",
     "route": "/api/groups/{id:guid}/dissolve",
     "controller": "AdvancedGroups",
@@ -1175,7 +1225,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-048",
+    "id": "API-050",
     "method": "GET",
     "route": "/api/groups/{id:guid}/pins",
     "controller": "AdvancedGroups",
@@ -1200,7 +1250,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-049",
+    "id": "API-051",
     "method": "GET",
     "route": "/api/groups/{id:guid}/pins/page",
     "controller": "AdvancedGroups",
@@ -1225,7 +1275,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-050",
+    "id": "API-052",
     "method": "POST",
     "route": "/api/groups/{id:guid}/pins",
     "controller": "AdvancedGroups",
@@ -1250,7 +1300,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-051",
+    "id": "API-053",
     "method": "DELETE",
     "route": "/api/groups/{id:guid}/pins/{messageId:guid}",
     "controller": "AdvancedGroups",
@@ -1275,7 +1325,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-052",
+    "id": "API-054",
     "method": "POST",
     "route": "/api/groups/{id:guid}/invite-links",
     "controller": "GroupInviteLinks",
@@ -1300,7 +1350,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-053",
+    "id": "API-055",
     "method": "GET",
     "route": "/api/groups/{id:guid}/invite-links",
     "controller": "GroupInviteLinks",
@@ -1325,7 +1375,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-054",
+    "id": "API-056",
     "method": "DELETE",
     "route": "/api/groups/{id:guid}/invite-links/{linkId:guid}",
     "controller": "GroupInviteLinks",
@@ -1350,7 +1400,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-055",
+    "id": "API-057",
     "method": "POST",
     "route": "/api/group-invite-links/resolve",
     "controller": "GroupInviteLinks",
@@ -1375,7 +1425,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-056",
+    "id": "API-058",
     "method": "POST",
     "route": "/api/group-invite-links/join",
     "controller": "GroupInviteLinks",
@@ -1400,7 +1450,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-057",
+    "id": "API-059",
     "method": "DELETE",
     "route": "/api/groups/{id:guid}/for-me",
     "controller": "Groups",
@@ -1425,7 +1475,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-058",
+    "id": "API-060",
     "method": "GET",
     "route": "/api/groups",
     "controller": "Groups",
@@ -1450,7 +1500,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-059",
+    "id": "API-061",
     "method": "POST",
     "route": "/api/groups",
     "controller": "Groups",
@@ -1475,7 +1525,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-060",
+    "id": "API-062",
     "method": "GET",
     "route": "/api/groups/{id:guid}",
     "controller": "Groups",
@@ -1500,7 +1550,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-061",
+    "id": "API-063",
     "method": "GET",
     "route": "/api/groups/{id:guid}/members",
     "controller": "Groups",
@@ -1525,7 +1575,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-062",
+    "id": "API-064",
     "method": "POST",
     "route": "/api/groups/{id:guid}/invitations",
     "controller": "Groups",
@@ -1550,7 +1600,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-063",
+    "id": "API-065",
     "method": "GET",
     "route": "/api/group-invitations",
     "controller": "Groups",
@@ -1575,7 +1625,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-064",
+    "id": "API-066",
     "method": "POST",
     "route": "/api/group-invitations/{id:guid}/accept",
     "controller": "Groups",
@@ -1600,7 +1650,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-065",
+    "id": "API-067",
     "method": "POST",
     "route": "/api/group-invitations/{id:guid}/reject",
     "controller": "Groups",
@@ -1625,7 +1675,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-066",
+    "id": "API-068",
     "method": "POST",
     "route": "/api/groups/{id:guid}/leave",
     "controller": "Groups",
@@ -1650,7 +1700,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-067",
+    "id": "API-069",
     "method": "GET",
     "route": "/api/groups/{id:guid}/messages",
     "controller": "Groups",
@@ -1675,7 +1725,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-068",
+    "id": "API-070",
     "method": "POST",
     "route": "/api/groups/{id:guid}/messages",
     "controller": "Groups",
@@ -1700,7 +1750,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-069",
+    "id": "API-071",
     "method": "POST",
     "route": "/api/conversations/{conversationId:guid}/delivery-acks",
     "controller": "ConversationStatus",
@@ -1725,7 +1775,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-070",
+    "id": "API-072",
     "method": "PUT",
     "route": "/api/conversations/{conversationId:guid}/read-cursor",
     "controller": "ConversationStatus",
@@ -1750,7 +1800,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-071",
+    "id": "API-073",
     "method": "GET",
     "route": "/api/conversations/{conversationId:guid}/unread",
     "controller": "ConversationStatus",
@@ -1775,7 +1825,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-072",
+    "id": "API-074",
     "method": "GET",
     "route": "/api/messages/{id:guid}/receipts",
     "controller": "MessageReceipts",
@@ -1800,7 +1850,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-073",
+    "id": "API-075",
     "method": "GET",
     "route": "/api/messages/{id:guid}",
     "controller": "Messages",
@@ -1825,7 +1875,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-074",
+    "id": "API-076",
     "method": "GET",
     "route": "/api/messages/{id:guid}/context",
     "controller": "Messages",
@@ -1850,7 +1900,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-075",
+    "id": "API-077",
     "method": "PATCH",
     "route": "/api/messages/{id:guid}",
     "controller": "Messages",
@@ -1875,7 +1925,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-076",
+    "id": "API-078",
     "method": "GET",
     "route": "/api/messages/{id:guid}/edit-history",
     "controller": "Messages",
@@ -1900,7 +1950,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-077",
+    "id": "API-079",
     "method": "POST",
     "route": "/api/messages/{id:guid}/recall",
     "controller": "Messages",
@@ -1925,7 +1975,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-078",
+    "id": "API-080",
     "method": "DELETE",
     "route": "/api/messages/{id:guid}/for-me",
     "controller": "Messages",
@@ -1950,7 +2000,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-079",
+    "id": "API-081",
     "method": "PUT",
     "route": "/api/messages/{id:guid}/reaction",
     "controller": "Messages",
@@ -1975,7 +2025,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-080",
+    "id": "API-082",
     "method": "DELETE",
     "route": "/api/messages/{id:guid}/reaction",
     "controller": "Messages",
@@ -2000,7 +2050,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-081",
+    "id": "API-083",
     "method": "POST",
     "route": "/api/messages/{id:guid}/forward",
     "controller": "Messages",
@@ -2025,7 +2075,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-082",
+    "id": "API-084",
     "method": "GET",
     "route": "/api/unread",
     "controller": "Unread",
@@ -2050,7 +2100,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-083",
+    "id": "API-085",
     "method": "GET",
     "route": "/api/admin/dashboard",
     "controller": "Admin",
@@ -2075,7 +2125,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-084",
+    "id": "API-086",
     "method": "GET",
     "route": "/api/admin/users",
     "controller": "Admin",
@@ -2100,7 +2150,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-085",
+    "id": "API-087",
     "method": "GET",
     "route": "/api/admin/groups",
     "controller": "Admin",
@@ -2125,7 +2175,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-086",
+    "id": "API-088",
     "method": "GET",
     "route": "/api/admin/reports",
     "controller": "Admin",
@@ -2150,7 +2200,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-087",
+    "id": "API-089",
     "method": "POST",
     "route": "/api/admin/reports/{id:guid}/claim",
     "controller": "Admin",
@@ -2175,7 +2225,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-088",
+    "id": "API-090",
     "method": "GET",
     "route": "/api/admin/reports/{id:guid}",
     "controller": "Admin",
@@ -2200,7 +2250,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-089",
+    "id": "API-091",
     "method": "GET",
     "route": "/api/admin/reports/{id:guid}/evidence/{evidenceId:guid}/file",
     "controller": "Admin",
@@ -2225,7 +2275,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-090",
+    "id": "API-092",
     "method": "POST",
     "route": "/api/admin/reports/{id:guid}/resolve",
     "controller": "Admin",
@@ -2250,7 +2300,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-091",
+    "id": "API-093",
     "method": "POST",
     "route": "/api/admin/users/{id:guid}/warn",
     "controller": "Admin",
@@ -2275,7 +2325,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-092",
+    "id": "API-094",
     "method": "POST",
     "route": "/api/admin/users/{id:guid}/suspend",
     "controller": "Admin",
@@ -2300,7 +2350,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-093",
+    "id": "API-095",
     "method": "POST",
     "route": "/api/admin/users/{id:guid}/unsuspend",
     "controller": "Admin",
@@ -2325,7 +2375,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-094",
+    "id": "API-096",
     "method": "POST",
     "route": "/api/admin/groups/{id:guid}/disable",
     "controller": "Admin",
@@ -2350,7 +2400,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-095",
+    "id": "API-097",
     "method": "GET",
     "route": "/api/admin/appeals",
     "controller": "Admin",
@@ -2375,7 +2425,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-096",
+    "id": "API-098",
     "method": "POST",
     "route": "/api/admin/appeals/{id:guid}/review",
     "controller": "Admin",
@@ -2400,7 +2450,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-097",
+    "id": "API-099",
     "method": "GET",
     "route": "/api/admin/audit",
     "controller": "Admin",
@@ -2425,7 +2475,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-098",
+    "id": "API-100",
     "method": "GET",
     "route": "/api/admin/retention/preview",
     "controller": "Admin",
@@ -2450,7 +2500,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-099",
+    "id": "API-101",
     "method": "GET",
     "route": "/api/admin/retention/files/preview",
     "controller": "Admin",
@@ -2475,7 +2525,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-100",
+    "id": "API-102",
     "method": "GET",
     "route": "/api/admin/retention/plan",
     "controller": "Admin",
@@ -2500,7 +2550,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-101",
+    "id": "API-103",
     "method": "PUT",
     "route": "/api/admin/retention/{kind}/{id:guid}/hold",
     "controller": "Admin",
@@ -2525,7 +2575,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-102",
+    "id": "API-104",
     "method": "POST",
     "route": "/api/appeals/authenticate",
     "controller": "Appeals",
@@ -2550,7 +2600,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-103",
+    "id": "API-105",
     "method": "POST",
     "route": "/api/appeals",
     "controller": "Appeals",
@@ -2575,7 +2625,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-104",
+    "id": "API-106",
     "method": "GET",
     "route": "/api/appeals/me",
     "controller": "Appeals",
@@ -2600,7 +2650,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-105",
+    "id": "API-107",
     "method": "POST",
     "route": "/api/reports",
     "controller": "Reports",
@@ -2625,7 +2675,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-106",
+    "id": "API-108",
     "method": "GET",
     "route": "/api/reports/me",
     "controller": "Reports",
@@ -2650,13 +2700,113 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-107",
+    "id": "API-109",
+    "method": "DELETE",
+    "route": "/api/notifications/{id:guid}",
+    "controller": "Notifications",
+    "action": "Delete",
+    "request": "none",
+    "parameters": "Guid id, CancellationToken ct",
+    "response": "204 empty",
+    "authentication": "Bearer",
+    "authorization": "actor + service resource checks",
+    "errors": "401, 400 (binding), 429, 500",
+    "consumer": "UI action",
+    "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
+    "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
+    "line": 16,
+    "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
+    "verification": "NEEDS_VERIFICATION",
+    "feature": "notifications",
+    "validation": "none DTO annotations + path/query binding; exact declarations and parameters in api-contracts.md",
+    "api_function": "notificationsApi.remove",
+    "hook_or_consumer": "useNotificationLifecycle/NotificationsPage; BCR flag OFF by default",
+    "module": "frontend/src/features/notifications/api.js",
+    "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
+  },
+  {
+    "id": "API-110",
+    "method": "DELETE",
+    "route": "/api/notifications/read",
+    "controller": "Notifications",
+    "action": "DeleteRead",
+    "request": "none",
+    "parameters": "CancellationToken ct",
+    "response": "204 empty",
+    "authentication": "Bearer",
+    "authorization": "actor + service resource checks",
+    "errors": "401, 400 (binding), 429, 500",
+    "consumer": "UI action",
+    "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
+    "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
+    "line": 21,
+    "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
+    "verification": "NEEDS_VERIFICATION",
+    "feature": "notifications",
+    "validation": "none DTO annotations + path/query binding; exact declarations and parameters in api-contracts.md",
+    "api_function": "notificationsApi.deleteRead",
+    "hook_or_consumer": "useNotificationLifecycle/NotificationsPage; BCR flag OFF by default",
+    "module": "frontend/src/features/notifications/api.js",
+    "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
+  },
+  {
+    "id": "API-111",
+    "method": "GET",
+    "route": "/api/notifications/trash",
+    "controller": "Notifications",
+    "action": "Trash",
+    "request": "none",
+    "parameters": "[FromQuery] DateTime? before, [FromQuery] Guid? beforeId, [FromQuery] int limit = 30, CancellationToken ct = default",
+    "response": "TrashedNotificationPageDto",
+    "authentication": "Bearer",
+    "authorization": "actor + service resource checks",
+    "errors": "401, 400 (binding), 429, 500",
+    "consumer": "UI action",
+    "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
+    "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
+    "line": 29,
+    "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
+    "verification": "NEEDS_VERIFICATION",
+    "feature": "notifications",
+    "validation": "none DTO annotations + path/query binding; exact declarations and parameters in api-contracts.md",
+    "api_function": "notificationsApi.trash",
+    "hook_or_consumer": "useNotifications/NotificationsPage; BCR flag OFF by default",
+    "module": "frontend/src/features/notifications/api.js",
+    "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
+  },
+  {
+    "id": "API-112",
+    "method": "POST",
+    "route": "/api/notifications/{id:guid}/restore",
+    "controller": "Notifications",
+    "action": "Restore",
+    "request": "none",
+    "parameters": "Guid id, CancellationToken ct",
+    "response": "204 empty",
+    "authentication": "Bearer",
+    "authorization": "actor + service resource checks",
+    "errors": "401, 400 (binding), 429, 500",
+    "consumer": "UI action",
+    "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
+    "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
+    "line": 41,
+    "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
+    "verification": "NEEDS_VERIFICATION",
+    "feature": "notifications",
+    "validation": "none DTO annotations + path/query binding; exact declarations and parameters in api-contracts.md",
+    "api_function": "notificationsApi.restore",
+    "hook_or_consumer": "useNotificationLifecycle/NotificationsPage; BCR flag OFF by default",
+    "module": "frontend/src/features/notifications/api.js",
+    "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
+  },
+  {
+    "id": "API-113",
     "method": "GET",
     "route": "/api/notifications",
     "controller": "Notifications",
     "action": "List",
     "request": "none",
-    "parameters": "[FromQuery] DateTime? before, [FromQuery] int limit = 30, CancellationToken ct = default, [FromQuery] Guid? beforeId = null",
+    "parameters": " [FromQuery] DateTime? before, [FromQuery] int limit = 30, [FromQuery] Guid? beforeId = null, CancellationToken ct = default",
     "response": "NotificationPageDto",
     "authentication": "Bearer",
     "authorization": "actor + service resource checks",
@@ -2664,7 +2814,7 @@
     "consumer": "UI action",
     "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
     "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
-    "line": 14,
+    "line": 47,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "notifications",
@@ -2675,7 +2825,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-108",
+    "id": "API-114",
     "method": "GET",
     "route": "/api/notifications/unread-count",
     "controller": "Notifications",
@@ -2689,7 +2839,7 @@
     "consumer": "internal flow",
     "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
     "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
-    "line": 18,
+    "line": 59,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "notifications",
@@ -2700,7 +2850,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-109",
+    "id": "API-115",
     "method": "PATCH",
     "route": "/api/notifications/{id:guid}/read",
     "controller": "Notifications",
@@ -2714,7 +2864,7 @@
     "consumer": "UI action",
     "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
     "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
-    "line": 21,
+    "line": 67,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "notifications",
@@ -2725,7 +2875,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-110",
+    "id": "API-116",
     "method": "POST",
     "route": "/api/notifications/read-all",
     "controller": "Notifications",
@@ -2739,7 +2889,7 @@
     "consumer": "UI action",
     "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
     "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
-    "line": 25,
+    "line": 75,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "notifications",
@@ -2750,7 +2900,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-111",
+    "id": "API-117",
     "method": "GET",
     "route": "/api/conversations/{id:guid}/settings",
     "controller": "Notifications",
@@ -2764,7 +2914,7 @@
     "consumer": "UI action",
     "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
     "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
-    "line": 28,
+    "line": 83,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "notifications",
@@ -2775,7 +2925,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-112",
+    "id": "API-118",
     "method": "PATCH",
     "route": "/api/conversations/{id:guid}/settings",
     "controller": "Notifications",
@@ -2789,7 +2939,7 @@
     "consumer": "UI action",
     "rules": "NotificationService: recipient-only read; cursor timestamp + ID tie-break; mute settings require conversation access.",
     "source": "backend/MeChat.Api/Features/Notifications/Controllers/NotificationsController.cs",
-    "line": 32,
+    "line": 91,
     "implementation": "IMPLEMENTED_CLIENT; NEEDS_VERIFICATION",
     "verification": "NEEDS_VERIFICATION",
     "feature": "notifications",
@@ -2800,7 +2950,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-113",
+    "id": "API-119",
     "method": "GET",
     "route": "/api/users/{id:guid}/presence",
     "controller": "Presence",
@@ -2825,7 +2975,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-114",
+    "id": "API-120",
     "method": "GET",
     "route": "/api/users/me",
     "controller": "Users",
@@ -2850,7 +3000,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-115",
+    "id": "API-121",
     "method": "PATCH",
     "route": "/api/users/me",
     "controller": "Users",
@@ -2875,7 +3025,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-116",
+    "id": "API-122",
     "method": "PATCH",
     "route": "/api/users/me/username",
     "controller": "Users",
@@ -2900,7 +3050,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-117",
+    "id": "API-123",
     "method": "POST",
     "route": "/api/users/me/email-change",
     "controller": "Users",
@@ -2925,7 +3075,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-118",
+    "id": "API-124",
     "method": "POST",
     "route": "/api/users/me/confirm-email-change",
     "controller": "Users",
@@ -2950,7 +3100,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-119",
+    "id": "API-125",
     "method": "GET",
     "route": "/api/users/me/privacy",
     "controller": "Users",
@@ -2975,7 +3125,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-120",
+    "id": "API-126",
     "method": "PATCH",
     "route": "/api/users/me/privacy",
     "controller": "Users",
@@ -3000,7 +3150,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-121",
+    "id": "API-127",
     "method": "GET",
     "route": "/api/users/search",
     "controller": "Users",
@@ -3025,7 +3175,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-122",
+    "id": "API-128",
     "method": "GET",
     "route": "/api/users/{id:guid}",
     "controller": "Users",
@@ -3050,7 +3200,7 @@
     "test": "client contract/browser tests by feature; authenticated backend NEEDS_VERIFICATION"
   },
   {
-    "id": "API-123",
+    "id": "API-129",
     "method": "GET",
     "route": "/api/health",
     "controller": "Program",

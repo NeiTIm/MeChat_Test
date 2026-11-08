@@ -17,7 +17,7 @@ RESPONSES = {
     'Conversations': {'List': 'ConversationDto[]', 'Open': 'ConversationDto', 'Get': 'ConversationDto', 'Send': 'MessageDto', 'History': 'MessagePageDto', 'Search': 'MessagePageDto'},
     'MessageRequests': {'Inbox': 'MessageRequestDto[]', 'UnreadCount': '{count:int}'},
     'Users': {'Me': 'PrivateProfileDto', 'Update': 'PrivateProfileDto', 'Privacy': 'PrivacyDto', 'UpdatePrivacy': 'PrivacyDto', 'Search': 'SearchPageDto', 'Public': 'PublicProfileDto'},
-    'Friends': {'List': 'FriendDto[]', 'Requests': 'FriendRequestsDto', 'Blocks': 'BlockedUserDto[]', 'Send': '201 or {status:Accepted}'},
+    'Friends': {'List': 'FriendDto[]', 'Requests': 'FriendRequestsDto', 'Blocks': 'BlockedUserDto[]', 'Send': '201 or {status:Accepted}', 'UnreadCount': 'FriendRequestUnreadCountDto'},
     'Groups': {'List': 'GroupDto[]', 'Create': 'GroupDto', 'Get': 'GroupDto', 'Members': 'GroupMemberDto[]', 'Invitations': 'GroupInvitationDto[]', 'History': 'MessagePageDto', 'Send': 'MessageDto'},
     'AdvancedGroups': {'Pins': 'GroupPinDto[]', 'PinPage': 'GroupPinPageDto'},
     'GroupInviteLinks': {'Create': 'GroupLinkDto', 'List': 'GroupLinkDto[]', 'Resolve': 'GroupLinkPreviewDto', 'Join': '{groupId:Guid}'},
@@ -27,7 +27,7 @@ RESPONSES = {
     'Unread': {'Get': 'UnreadSummaryDto'},
     'Files': {'Upload': 'StoredFileDto', 'Preview': 'authorized binary stream', 'Download': 'authorized binary + Content-Disposition'},
     'Presence': {'Get': 'PresenceDto'},
-    'Notifications': {'List': 'NotificationPageDto', 'Unread': 'NotificationCountDto', 'Settings': 'ConversationSettingsDto'},
+    'Notifications': {'List': 'NotificationPageDto', 'Unread': 'NotificationCountDto', 'Settings': 'ConversationSettingsDto', 'Trash': 'TrashedNotificationPageDto'},
     'Reports': {'Create': 'ReportDto', 'Mine': 'ReportDto[]'},
     'Appeals': {'Authenticate': 'AppealAccessDto', 'Create': 'AppealDto', 'Mine': 'AppealDto[]'},
     'Admin': {'Dashboard': 'AdminDashboardDto', 'Users': 'AdminUserDto[]', 'Groups': 'AdminGroupDto[]', 'Reports': 'AdminReportDto[]', 'Case': 'AdminCaseDto', 'EvidenceFile': 'authorized binary', 'Appeals': 'AppealDto[]', 'Audit': 'audit projection[] (see controller)', 'RetentionPreview': 'RetentionPreviewDto', 'FileRetentionPreview': 'FileCleanupPreview', 'RetentionPlan': 'RetentionPlanDto'},
@@ -80,6 +80,8 @@ CURRENT = {
     ('Users', 'Search'): ('users', 'usersApi.search', 'AccountPage/FriendsPage/UserPicker/WorkspacePage'),
     ('Users', 'Public'): ('users', 'usersApi.profile', 'AccountPage/FriendsPage/UserPicker/WorkspacePage'),
     ('Friends', 'List'): ('friends', 'friendsApi.list', 'FriendsPage real queries/actions'),
+    ('Friends', 'UnreadCount'): ('friends', 'friendsApi.unreadCount', 'useFriendUnread/NavigationLinks; BCR flag OFF by default'),
+    ('Friends', 'MarkSeen'): ('friends', 'friendsApi.markSeen', 'useRequestSeen account-local viewport dwell queue; BCR flag OFF by default'),
     ('Friends', 'Requests'): ('friends', 'friendsApi.requests', 'FriendsPage real queries/actions'),
     ('Friends', 'Send'): ('friends', 'friendsApi.send', 'FriendsPage real queries/actions'),
     ('Friends', 'Accept'): ('friends', 'friendsApi.accept', 'FriendsPage real queries/actions'),
@@ -147,6 +149,10 @@ CURRENT = {
     ('Files', 'Download'): ('files', 'filesApi.download', 'AttachmentDraft/AttachmentPreview/AvatarEditor/Avatar'),
     ('UserAvatar', 'Set'): ('files', 'filesApi.avatar', 'AvatarEditor in AccountPage'),
     ('Notifications', 'List'): ('notifications', 'notificationsApi.list', 'NotificationsPage/ConversationNotifications'),
+    ('Notifications', 'Trash'): ('notifications', 'notificationsApi.trash', 'useNotifications/NotificationsPage; BCR flag OFF by default'),
+    ('Notifications', 'Delete'): ('notifications', 'notificationsApi.remove', 'useNotificationLifecycle/NotificationsPage; BCR flag OFF by default'),
+    ('Notifications', 'DeleteRead'): ('notifications', 'notificationsApi.deleteRead', 'useNotificationLifecycle/NotificationsPage; BCR flag OFF by default'),
+    ('Notifications', 'Restore'): ('notifications', 'notificationsApi.restore', 'useNotificationLifecycle/NotificationsPage; BCR flag OFF by default'),
     ('Notifications', 'Unread'): ('notifications', 'notificationsApi.count', 'NotificationsPage/ConversationNotifications'),
     ('Notifications', 'Read'): ('notifications', 'notificationsApi.read', 'NotificationsPage/ConversationNotifications'),
     ('Notifications', 'ReadAll'): ('notifications', 'notificationsApi.readAll', 'NotificationsPage/ConversationNotifications'),
@@ -254,7 +260,9 @@ contracts += ['', '## Source DTO declarations', '']
 for file in sorted(API.glob('Features/**/DTOs/*.cs')) + [API / 'Common/HealthResponse.cs']:
     source = file.read_text(encoding='utf-8-sig')
     # Records terminate at semicolon, including multiline parameter annotations.
-    decls = re.findall(r'public sealed record .*?;', source, re.S)
+    # Positional DTO signature only, including records that also have validation helpers.
+    decls = [d.rstrip().removesuffix('{').rstrip() + ';' if d.rstrip().endswith('{') else d
+             for d in re.findall(r'public sealed record .*?\)\s*[;{]', source, re.S)]
     contracts += [f'### {file.relative_to(API).as_posix()}', '', '```csharp', '\n'.join(decls), '```', '']
 contracts += ['Inline controller DTOs: `NewMessageRequest(bool Confirm)`; `SetAvatarRequest(Guid StoredFileId)`.', '', '## Authentication transport', '', '- AccessResponse has no role. Fetch `/api/users/me` for `systemRole`; server DB authorization remains authoritative.', '- Refresh cookie `webchat_refresh`: HttpOnly, Strict, path `/api/auth`, 30 days. CSRF cookie `webchat_csrf`: readable, Strict, path `/`. Send current cookie in `X-CSRF-Token` on refresh/logout. Cookie rotates after refresh; never cache CSRF value.', '- Same-origin proxy required in dev. Backend CORS currently omits AllowCredentials; do not use a credentialed cross-origin Axios base URL.', '- Refresh is a single in-flight request; coordinate across tabs with Web Locks where available. Never store access/refresh tokens in localStorage. Retry a 401 once after refresh; do not refresh public login failures.', '- SQL transactions, uniqueness, lifecycle and visibility checks remain backend responsibilities. Do not infer permissions from a successful list response.', '', '## Pagination and errors', '', '- Message history and search: `beforeSequence`, `limit` default 30, service clamp 1–50; response items newest first, render ascending; `nextCursor`, `hasMore`.', '- Users: `query`, opaque `cursor`, `limit`; retain server cursor unchanged.', '- Notifications: `before` + `beforeId`, `limit`; use both returned cursor fields.', '- Admin lists: `skip`; retention plan `kind`, `offset`, `limit`; do not invent total counts.', '- 400: validation/invalid action; 401: reauthenticate; 403: permission; 404: unavailable or intentionally hidden; 409: conflict/cooldown; 429: wait/manual retry; 500: generic server failure. Network/timeout/offline are separate. Do not automatically replay mutations.', '- DTO success shapes are static source evidence, not proof that SQL dependencies are configured. Runtime status remains NEEDS_VERIFICATION.']
 (OUT / 'api-contracts.md').write_text('\n'.join(contracts), encoding='utf-8')

@@ -26,6 +26,7 @@ import { GroupPins } from '@/features/groups/GroupPins';
 import { ConversationNotifications } from '@/features/notifications/NotificationsPage';
 import { NotificationPreview } from '@/features/notifications/NotificationPreview';
 import { showSuccess } from '@/stores/ui-feedback-store';
+import { refreshMessageContext, refreshMessageThread } from '@/features/messages/message-events';
 export function mergeMessages(pages = []) {
   const byId = new Map();
   for (const page of pages) for (const message of page.items) if (!byId.has(message.id)) byId.set(message.id, message);
@@ -124,7 +125,7 @@ export function WorkspacePage({
   });
   const send = useMutation({
     mutationFn: input => context?.mode === 'edit' ? messagesApi.edit(context.id, input.content) : api.send(id, input),
-    onSuccess: () => { if (context?.mode === 'edit') showSuccess(t('messages:editSaved')); setContext(null); return queryClient.invalidateQueries({ queryKey: ['workspace'] }) }
+    onSuccess: () => { if (context?.mode === 'edit') { showSuccess(t('messages:editSaved')); refreshMessageContext(queryClient, context.id, access.userId, true); queryClient.invalidateQueries({ queryKey: ['workspace', 'message', context.id] }); } setContext(null); return refreshMessageThread(queryClient, id) }
   });
   const messageItems = useMemo(() => mergeMessages(history.data?.pages), [history.data]);
   const receipts = useMessageReceipts({ id, userId: access.userId, messages: messageItems, requestId: activeRequest?.id, enabled: !!id && !detail.error && !history.error && (!requestMode || !!activeRequest) });

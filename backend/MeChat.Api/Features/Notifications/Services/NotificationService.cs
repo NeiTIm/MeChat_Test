@@ -1,4 +1,3 @@
-
 using MeChat.Api.Features.Conversations;
 using MeChat.Api.Features.Groups;
 using MeChat.Api.Features.Messages;
@@ -18,10 +17,7 @@ public sealed class NotificationService(
 {
     private DateTime Now => clock.GetUtcNow().UtcDateTime;
 
-    // =====================================================
-    // LIST NOTIFICATIONS
-    // =====================================================
-
+    // Lấy một trang thông báo, lọc bỏ những cái actor không còn xem được.
     public async Task<NotificationPageDto> ListAsync(
         Guid actor,
         DateTime? before,
@@ -29,82 +25,47 @@ public sealed class NotificationService(
         CancellationToken ct,
         Guid? beforeId = null)
     {
-        // =================================================
-        // PAGINATION
-        // =================================================
-
         var count = Math.Clamp(limit, 1, 50);
 
         const int batchSize = 200;
 
-        var rows =
-            await repository.GetNotificationPageAsync(
-                actor,
-                before,
-                beforeId,
-                batchSize,
-                ct);
-
-        // =================================================
-        // FILTER VISIBLE NOTIFICATIONS
-        // =================================================
+        var rows = await repository.GetNotificationPageAsync(
+            actor,
+            before,
+            beforeId,
+            batchSize,
+            ct);
 
         var visible = new List<NotificationDto>();
 
         foreach (var row in rows)
         {
-            var canView = await VisibleAsync(
-                actor,
-                row,
-                ct);
+            var canView = await VisibleAsync(actor, row, ct);
+            if (!canView)
+                continue;
 
-            if (canView)
+            string? text = null;
+
+            // Cảnh báo admin: chỉ lấy nội dung gửi cho chính người nhận này.
+            if (row.Type == "AdminWarning" && row.ReferenceId is { } auditLogId)
             {
-                string? text = null;
-
-                // =============================================
-                // ADMIN WARNING
-                // =============================================
-
-                if (row.Type == "AdminWarning" &&
-                    row.ReferenceId is { } auditLogId)
-                {
-                    // Only retrieve the warning addressed
-                    // to this authenticated recipient.
-                    text =
-                        await repository.GetAdminWarningTextAsync(
-                            auditLogId,
-                            actor,
-                            ct);
-                }
-
-                // =============================================
-                // MAP NOTIFICATION DTO
-                // =============================================
-
-                visible.Add(
-                    new NotificationDto(
-                        row.Id,
-                        row.Type,
-                        row.ReferenceId,
-                        row.CreatedAt,
-                        row.ReadAt,
-                        text));
+                text = await repository.GetAdminWarningTextAsync(auditLogId, actor, ct);
             }
 
-            // Keep one extra visible item to determine
-            // whether another page exists.
+            visible.Add(new NotificationDto(
+                row.Id,
+                row.Type,
+                row.ReferenceId,
+                row.CreatedAt,
+                row.ReadAt,
+                text));
+
+            // Giữ dư một phần tử để biết còn trang kế tiếp hay không.
             if (visible.Count > count)
                 break;
         }
 
-        // =================================================
-        // NEXT PAGE
-        // =================================================
-
-        var hasMore =
-            visible.Count > count ||
-            rows.Count == batchSize;
+        var hasMore = visible.Count > count || rows.Count == batchSize;
 
         var cursor = visible.Count > count
             ? visible[count - 1]
@@ -120,10 +81,6 @@ public sealed class NotificationService(
             ? cursor?.Id ?? lastScannedRow?.Id
             : null;
 
-        // =================================================
-        // RESPONSE
-        // =================================================
-
         return new NotificationPageDto(
             visible.Take(count).ToList(),
             nextCursor,
@@ -131,154 +88,109 @@ public sealed class NotificationService(
             nextCursorId);
     }
 
-    // =====================================================
-    // UNREAD NOTIFICATION COUNT
-    // =====================================================
-
-    public async Task<NotificationCountDto> UnreadAsync(
-        Guid actor,
-        CancellationToken ct)
+    // Đếm thông báo chưa đọc, chỉ tính những cái còn hiển thị.
+    public async Task<NotificationCountDto> UnreadAsync(Guid actor, CancellationToken ct)
     {
-        var rows =
-            await repository.GetUnreadNotificationsAsync(
-                actor,
-                ct);
+        var rows = await repository.GetUnreadNotificationsAsync(actor, ct);
 
         var count = 0;
 
         foreach (var row in rows)
         {
-            // Only visible notifications contribute
-            // to the unread count.
-
-            if (await VisibleAsync(
-                    actor,
-                    row,
-                    ct))
-            {
+            if (await VisibleAsync(actor, row, ct))
                 count++;
-            }
         }
 
         return new NotificationCountDto(count);
     }
 
-    // =====================================================
-    // MARK ONE NOTIFICATION AS READ
-    // =====================================================
-
-    public async Task<bool> MarkReadAsync(
-        Guid actor,
-        Guid id,
-        CancellationToken ct)
+    // Đánh dấu một thông báo là đã đọc, sau khi kiểm tra quyền xem.
+    public async Task<bool> MarkReadAsync(Guid actor, Guid id, CancellationToken ct)
     {
-        // =================================================
-        // GET NOTIFICATION
-        // =================================================
-
-        var notification =
-            await repository.GetNotificationAsync(
-                id,
-                actor,
-                ct);
-
+        var notification = await repository.GetNotificationAsync(id, actor, ct);
         if (notification is null)
             return false;
 
-        // =================================================
-        // VISIBILITY CHECK
-        // =================================================
-
-        var canView =
-            await VisibleAsync(
-                actor,
-                notification,
-                ct);
-
+        var canView = await VisibleAsync(actor, notification, ct);
         if (!canView)
             return false;
 
-        // =================================================
-        // UPDATE READ STATE
-        // =================================================
-
-        notification.ReadAt ??= Now;
-
-        await repository.SaveChangesAsync(ct);
-
-        // =================================================
-        // REALTIME
-        // =================================================
-
+        var changed = await repository.MarkReadAsync(id, actor, Now, ct);
+        if (changed == 0)
+        {
+            // A delete may have committed since the initial SELECT. Never mark Trash read.
+            var current = await repository.GetNotificationAsync(id, actor, ct);
+            if (current is null || current.ReadAt is null || !await VisibleAsync(actor, current, ct)) return false;
+        }
         await NotifyReadAsync(actor, ct);
 
         return true;
     }
 
-    // =====================================================
-    // MARK ALL NOTIFICATIONS AS READ
-    // =====================================================
-
-    public async Task MarkAllReadAsync(
-        Guid actor,
-        CancellationToken ct)
+    // Đánh dấu tất cả là đã đọc, kể cả cái đang bị bộ lọc hiển thị ẩn đi.
+    public async Task MarkAllReadAsync(Guid actor, CancellationToken ct)
     {
-        // Preserve the original behavior:
-        // all unread notifications owned by actor are
-        // marked as read, including ones currently hidden
-        // by the visibility filter.
-
-        await repository.MarkAllReadAsync(
-            actor,
-            Now,
-            ct);
-
-        // =================================================
-        // REALTIME
-        // =================================================
+        await repository.MarkAllReadAsync(actor, Now, ct);
 
         await NotifyReadAsync(actor, ct);
     }
 
-    // =====================================================
-    // GET CONVERSATION SETTINGS
-    // =====================================================
+    public async Task<TrashedNotificationPageDto> TrashAsync(Guid actor, DateTime? before, Guid? beforeId, int limit, CancellationToken ct)
+    {
+        var count = Math.Clamp(limit, 1, 50);
+        var rows = await repository.GetTrashPageAsync(actor, before, beforeId, 200, ct);
+        var visible = new List<TrashedNotificationDto>();
+        foreach (var row in rows)
+        {
+            if (!await VisibleAsync(actor, row, ct)) continue;
+            var text = row.Type == "AdminWarning" && row.ReferenceId is { } auditId
+                ? await repository.GetAdminWarningTextAsync(auditId, actor, ct) : null;
+            visible.Add(new(row.Id, row.Type, row.ReferenceId, row.CreatedAt, row.ReadAt, row.DeletedAt!.Value, text));
+            if (visible.Count > count) break;
+        }
+        var hasMore = visible.Count > count || rows.Count == 200;
+        var last = visible.Count > count ? visible[count - 1] : null;
+        return new(visible.Take(count).ToList(), hasMore ? last?.CreatedAt ?? rows.LastOrDefault()?.CreatedAt : null,
+            hasMore, hasMore ? last?.Id ?? rows.LastOrDefault()?.Id : null);
+    }
 
+    public async Task<bool> SetDeletedAsync(Guid actor, Guid id, bool restore, CancellationToken ct)
+    {
+        var row = await repository.GetLifecycleNotificationAsync(id, actor, ct);
+        if (row is null || !await VisibleAsync(actor, row, ct)) return false;
+        // ExecuteUpdate is a single autocommitted statement; publish only after it succeeds.
+        var changed = await repository.SetDeletedAsync(id, actor, restore ? null : Now, ct);
+        if (changed > 0)
+        {
+            if (restore)
+                await events.SendAsync([actor], "NotificationRestored", new { eventId = Guid.NewGuid(), notificationId = id }, ct);
+            else
+                await events.SendAsync([actor], "NotificationDeleted", new { eventId = Guid.NewGuid(), scope = "Single", notificationId = (Guid?)id }, ct);
+        }
+        return true;
+    }
+
+    public async Task DeleteReadAsync(Guid actor, CancellationToken ct)
+    {
+        if (await repository.DeleteReadAsync(actor, Now, ct) > 0)
+            await events.SendAsync([actor], "NotificationDeleted", new { eventId = Guid.NewGuid(), scope = "ReadBatch", notificationId = (Guid?)null }, ct);
+    }
+
+    // Lấy cài đặt mute của actor trong hội thoại.
     public async Task<ConversationSettingsDto?> SettingsAsync(
         Guid actor,
         Guid conversationId,
         CancellationToken ct)
     {
-        // =================================================
-        // AUTHORIZATION
-        // =================================================
-
-        if (!await CanSetAsync(
-                actor,
-                conversationId,
-                ct))
-        {
+        if (!await CanSetAsync(actor, conversationId, ct))
             return null;
-        }
 
-        // =================================================
-        // MUTE SETTINGS
-        // =================================================
+        var mutedUntil = await repository.GetMutedUntilAsync(conversationId, actor, ct);
 
-        var mutedUntil =
-            await repository.GetMutedUntilAsync(
-                conversationId,
-                actor,
-                ct);
-
-        return new ConversationSettingsDto(
-            mutedUntil);
+        return new ConversationSettingsDto(mutedUntil);
     }
 
-    // =====================================================
-    // SET CONVERSATION MUTE
-    // =====================================================
-
+    // Đặt hoặc huỷ mute; từ chối mốc trong quá khứ hoặc quá một năm.
     public async Task<bool> SetMuteAsync(
         Guid actor,
         Guid conversationId,
@@ -287,40 +199,16 @@ public sealed class NotificationService(
     {
         var now = Now;
 
-        // =================================================
-        // VALIDATE MUTE EXPIRATION
-        // =================================================
-
         if (mutedUntil is not null &&
-            (
-                mutedUntil <= now ||
-                mutedUntil > now.AddYears(1)
-            ))
+            (mutedUntil <= now || mutedUntil > now.AddYears(1)))
         {
             return false;
         }
 
-        // =================================================
-        // AUTHORIZATION
-        // =================================================
-
-        if (!await CanSetAsync(
-                actor,
-                conversationId,
-                ct))
-        {
+        if (!await CanSetAsync(actor, conversationId, ct))
             return false;
-        }
 
-        // =================================================
-        // GET OR CREATE USER STATE
-        // =================================================
-
-        var state =
-            await repository.GetConversationUserStateAsync(
-                conversationId,
-                actor,
-                ct);
+        var state = await repository.GetConversationUserStateAsync(conversationId, actor, ct);
 
         if (state is null)
         {
@@ -333,10 +221,6 @@ public sealed class NotificationService(
             repository.AddConversationUserState(state);
         }
 
-        // =================================================
-        // UPDATE MUTE
-        // =================================================
-
         state.MutedUntil = mutedUntil;
 
         await repository.SaveChangesAsync(ct);
@@ -344,106 +228,43 @@ public sealed class NotificationService(
         return true;
     }
 
-    // =====================================================
-    // CAN CHANGE CONVERSATION SETTINGS
-    // =====================================================
-
-    private async Task<bool> CanSetAsync(
-        Guid actor,
-        Guid conversationId,
-        CancellationToken ct)
+    // Kiểm tra actor có quyền đổi cài đặt hội thoại hay không.
+    private async Task<bool> CanSetAsync(Guid actor, Guid conversationId, CancellationToken ct)
     {
-        var type =
-            await repository.GetConversationTypeAsync(
-                conversationId,
-                ct);
+        var type = await repository.GetConversationTypeAsync(conversationId, ct);
 
-        // =================================================
-        // GROUP CONVERSATION
-        // =================================================
-
-        if (type == "Group")
+        return type switch
         {
-            return await groups.CanSendAsync(
-                actor,
-                conversationId,
-                ct);
-        }
-
-        // =================================================
-        // PRIVATE CONVERSATION
-        // =================================================
-
-        if (type == "Private")
-        {
-            return await privateChats.CanReadAsync(
-                actor,
-                conversationId,
-                ct);
-        }
-
-        return false;
+            "Group" => await groups.CanSendAsync(actor, conversationId, ct),
+            "Private" => await privateChats.CanReadAsync(actor, conversationId, ct),
+            _ => false
+        };
     }
 
-    // =====================================================
-    // NOTIFICATION VISIBILITY
-    // =====================================================
-
-    private async Task<bool> VisibleAsync(
-        Guid actor,
-        Notification notification,
-        CancellationToken ct)
+    // Kiểm tra thông báo còn hiển thị được với actor hay không.
+    private async Task<bool> VisibleAsync(Guid actor, Notification notification, CancellationToken ct)
     {
-        // =================================================
-        // NOTIFICATIONS WITHOUT REFERENCE
-        // =================================================
-
+        // Không có tham chiếu thì luôn hiển thị.
         if (notification.ReferenceId is not { } referenceId)
-        {
             return true;
-        }
 
-        // =================================================
-        // MESSAGE-RELATED NOTIFICATIONS
-        // =================================================
-
-        if (notification.Type is
-            "Message" or
-            "GroupMessage" or
-            "MessageRequest")
+        // Thông báo tin nhắn: dùng lại quyền xem của MessageActionService,
+        // tránh lộ thông báo của tin đã thu hồi / đã xoá phía tôi / không truy cập được.
+        if (notification.Type is "Message" or "GroupMessage" or "MessageRequest")
         {
-            // Reuse MessageActionService authorization.
-            // Recalled, deleted-for-me or inaccessible
-            // messages must not expose their notifications.
-
-            return await actions.CanViewAttachmentAsync(
-                actor,
-                referenceId,
-                ct);
+            return await actions.CanViewAttachmentAsync(actor, referenceId, ct);
         }
-
-        // =================================================
-        // OTHER NOTIFICATION TYPES
-        // =================================================
 
         return true;
     }
 
-    // =====================================================
-    // REALTIME NOTIFICATION READ EVENT
-    // =====================================================
-
-    private Task NotifyReadAsync(
-        Guid actor,
-        CancellationToken ct)
+    // Bắn sự kiện realtime báo cho client biết trạng thái đọc đã thay đổi.
+    private Task NotifyReadAsync(Guid actor, CancellationToken ct)
     {
         return events.SendAsync(
             [actor],
             "NotificationRead",
-            new
-            {
-                eventId = Guid.NewGuid()
-            },
+            new { eventId = Guid.NewGuid() },
             ct);
     }
 }

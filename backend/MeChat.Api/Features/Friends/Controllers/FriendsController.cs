@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using MeChat.Api.Configurations;
 
 namespace MeChat.Api.Features.Friends;
 
@@ -12,10 +13,28 @@ public sealed class FriendsController(FriendService friends) : ControllerBase
 {
     private Guid Actor => Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
+    [HttpGet("friends/requests/unread-count")]
+    [BcrFeature(false)]
+    public async Task<IActionResult> UnreadCount(CancellationToken ct) =>
+        Ok(new FriendRequestUnreadCountDto(await friends.UnseenCountAsync(Actor, ct)));
+
+    [HttpPost("friends/requests/mark-seen")]
+    [BcrFeature(false)]
+    [BcrInputValidation("INVALID_REQUEST_IDS")]
+    [RequestSizeLimit(8192)]
+    public async Task<IActionResult> MarkSeen(FriendRequestSeenInput input, CancellationToken ct)
+    {
+        if (!FriendRequestSeenInput.TryNormalize(input.RequestIds, out var ids))
+            return BcrResponses.Invalid("INVALID_REQUEST_IDS");
+        await friends.MarkSeenAsync(Actor, ids, ct);
+        return NoContent();
+    }
+
     [HttpGet("friends")]
     public async Task<IActionResult> List(CancellationToken ct) => Ok(await friends.FriendsAsync(Actor, ct));
 
     [HttpGet("friends/requests")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public async Task<IActionResult> Requests(CancellationToken ct) => Ok(await friends.RequestsAsync(Actor, ct));
 
     [HttpPost("friends/requests")]

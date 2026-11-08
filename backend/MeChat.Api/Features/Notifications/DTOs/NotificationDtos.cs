@@ -30,6 +30,14 @@ public sealed record NotificationPageDto(
 public sealed record NotificationCountDto(
     int Count);
 
+public sealed record TrashedNotificationDto(
+    Guid Id, string Type, Guid? ReferenceId, DateTime CreatedAt,
+    DateTime? ReadAt, DateTime DeletedAt, string? Text = null);
+
+public sealed record TrashedNotificationPageDto(
+    IReadOnlyList<TrashedNotificationDto> Items, DateTime? NextCursor,
+    bool HasMore, Guid? NextCursorId = null);
+
 // =====================================================
 // CONVERSATION SETTINGS
 // =====================================================

@@ -90,6 +90,9 @@ public interface IFriendRepository
 
     void AddFriendRequest(FriendRequest request);
 
+    Task<int> GetUnseenCountAsync(Guid actor, CancellationToken ct);
+    Task<int> MarkSeenAsync(Guid actor, Guid[] ids, DateTime now, CancellationToken ct);
+
     // =====================================================
     // USER BLOCKS
     // =====================================================

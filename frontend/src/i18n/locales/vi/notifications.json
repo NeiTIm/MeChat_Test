@@ -32,5 +32,18 @@
   "saved": "Đã cập nhật cài đặt thông báo.",
   "quickView": "Xem nhanh thông báo",
   "viewAll": "Xem tất cả",
-  "quickViewUnread": "Xem nhanh thông báo, {{badge}} ({{count}} mục chưa đọc)"
+  "quickViewUnread": "Xem nhanh thông báo, {{badge}} ({{count}} mục chưa đọc)",
+  "views": "Danh sách và thùng rác",
+  "active": "Thông báo hiện tại",
+  "trash": "Thùng rác",
+  "delete": "Xóa",
+  "restore": "Khôi phục",
+  "deleteRead": "Xóa thông báo đã đọc",
+  "deleteReadConfirm": "Chuyển các thông báo đã đọc vào thùng rác? Thông báo chưa đọc được giữ nguyên. Bạn có thể khôi phục sau.",
+  "lifecycleSuccess": "Đã cập nhật thông báo.",
+  "trashEmpty": "Thùng rác trống",
+  "trashDescription": "Thông báo đã xóa sẽ xuất hiện ở đây khi bạn còn quyền xem.",
+  "scanEmpty": "Chưa có thông báo hiển thị ở trang này",
+  "scanDescription": "Có thể còn thông báo ở trang tiếp theo. Chọn Xem thêm để tiếp tục.",
+  "deletedAt": "Đã xóa lúc {{date}}"
 }

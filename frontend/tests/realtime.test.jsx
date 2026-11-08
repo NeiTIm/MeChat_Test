@@ -29,7 +29,7 @@ async function mount() { const rendered = render(<RealtimeProvider><Consumer /><
 it('deduplicates message hints and discards protected cached content on permissions changes', async () => {
   await mount()
   const invalidate = vi.spyOn(queryClient, 'invalidateQueries')
-  await act(async () => { connections[0].handlers.MessageCreated({ eventId: 'event-1' }); connections[0].handlers.MessageCreated({ eventId: 'event-1' }) })
+  await act(async () => { connections[0].handlers.MessageCreated({ eventId: 'event-1' }); connections[0].handlers.MessageCreated({ eventId: 'event-1' }); vi.advanceTimersByTime(81) })
   expect(invalidate).toHaveBeenCalledTimes(1)
   queryClient.setQueryData(['workspace', 'private', 'test-thread', 'messages'], { content: 'private test content' })
   await act(async () => connections[0].handlers.PermissionsChanged({ eventId: 'permission-1' }))
@@ -64,4 +64,33 @@ it('ends revoked sessions and ignores late events after connection cleanup', asy
   await act(async () => connections[0].handlers.MessageCreated({ eventId: 'late-event' }))
   expect(invalidate).not.toHaveBeenCalled()
   expect(screen.queryByText(/connected/)).not.toBeInTheDocument()
+})
+
+it('reconciles all three BCR metadata events and HTTP fallback signals', async () => {
+  await mount()
+  const invalidate = vi.spyOn(queryClient, 'invalidateQueries')
+  await act(async () => {
+    for (const name of ['NotificationDeleted', 'NotificationRestored', 'FriendRequestsUnreadChanged'])
+      connections[0].handlers[name]({ eventId: name })
+  })
+  expect(invalidate).toHaveBeenCalledTimes(3)
+  await act(async () => { window.dispatchEvent(new Event('focus')); window.dispatchEvent(new Event('online')); connections[0].reconnected() })
+  expect(invalidate).toHaveBeenCalledTimes(6)
+})
+
+it('coalesces receipt bursts without invalidating history and drops queued hints after cleanup', async () => {
+  const rendered = await mount()
+  const history = ['workspace', 'private', 'room', 'messages']
+  queryClient.setQueryData(history, { pages: [{ items: [] }] })
+  const invalidate = vi.spyOn(queryClient, 'invalidateQueries')
+  await act(async () => {
+    for (let i = 0; i < 20; i++) connections[0].handlers.MessageSeen({ eventId: `seen-${i}`, conversationId: 'room', userId: 'peer', lastReadSequence: 20 - i })
+    vi.advanceTimersByTime(81)
+  })
+  expect(invalidate).toHaveBeenCalledTimes(1)
+  expect(queryClient.getQueryState(history).isInvalidated).toBe(false)
+  connections[0].handlers.MessageReactionChanged({ conversationId: 'room', messageId: 'queued' })
+  rendered.unmount(); invalidate.mockClear()
+  await act(async () => vi.advanceTimersByTime(100))
+  expect(invalidate).not.toHaveBeenCalled()
 })

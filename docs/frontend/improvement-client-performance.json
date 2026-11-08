@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-11-06T18:45:17.691Z",
+  "capturedAt": "2026-11-08T15:36:03.544Z",
   "scope": "Synthetic 500 incoming messages, 17 real consumer cursor requests mocked in test. Chromium 390px, input sampling under 4x CPU throttle; includes automation overhead, not production load or Web Vitals.",
   "messages": 500,
   "pages": 17,
   "maxAnchorShift": 0,
-  "elapsedMs": 13597,
+  "elapsedMs": 28772,
   "inputSamplesMs": [
-    159,
-    134,
-    141
+    210,
+    165,
+    184
   ],
-  "heapUsedBytes": 114987836,
+  "heapUsedBytes": 141078256,
   "errors": []
 }

@@ -20,6 +20,8 @@ public static class NotificationsDependencyInjection
         this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+        services.AddOptions<MeChat.Api.Configurations.BcrFeatureOptions>()
+            .BindConfiguration(MeChat.Api.Configurations.BcrFeatureOptions.SectionName);
 
         // -------------------------------------------------
         // REPOSITORIES

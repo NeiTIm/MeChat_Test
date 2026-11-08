@@ -1,0 +1,64 @@
+{
+  "capturedAt": "2026-11-08T17:50:56.525Z",
+  "phase": "before",
+  "scope": "Synthetic 30 messages, actual browser consumers + mocked HTTP/SignalR, 1366x900, 60 seconds wall-clock idle. No SQL/live business acceptance.",
+  "tests": [
+    {
+      "name": "idle60s",
+      "opened": {
+        "total": 174,
+        "context": 90,
+        "receipts": 45,
+        "history": 3
+      },
+      "idle": {
+        "total": 230,
+        "context": 120,
+        "receipts": 60,
+        "history": 4
+      }
+    },
+    {
+      "name": "sendReceiveHintsReconnect",
+      "opened": {
+        "total": 182,
+        "context": 90,
+        "receipts": 45,
+        "history": 4
+      },
+      "sentReceived": {
+        "total": 421,
+        "context": 216,
+        "receipts": 108,
+        "history": 8
+      },
+      "hints": {
+        "total": 480,
+        "context": 248,
+        "receipts": 124,
+        "history": 9
+      },
+      "reconnected": {
+        "total": 539,
+        "context": 280,
+        "receipts": 140,
+        "history": 10
+      }
+    },
+    {
+      "name": "429",
+      "opened": {
+        "total": 182,
+        "context": 90,
+        "receipts": 45,
+        "history": 4
+      },
+      "hints": {
+        "total": 350,
+        "context": 180,
+        "receipts": 90,
+        "history": 7
+      }
+    }
+  ]
+}

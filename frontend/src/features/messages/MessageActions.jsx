@@ -15,30 +15,32 @@ import { ForwardDestinations } from './ForwardDestinations';
 import { ReportForm } from '@/features/moderation/ReportsPage';
 import { sanitizeMessageCache } from './cache'
 import { showSuccess } from '@/stores/ui-feedback-store'
+import { useMessageMetadata } from './message-metadata'
+import { refreshMessageContext, refreshMessageThread } from './message-events'
 
-const contextKey = (id) => ['workspace', 'messageContext', id]
 export function MessageReply({ message }) {
   const { t } = useTranslation()
-  const context = useQuery({ queryKey: contextKey(message.id), queryFn: ({ signal }) => messagesApi.context(message.id, signal), enabled: !message.recalled })
-  const source = useQuery({ queryKey: ['workspace', 'message', message.replyToMessageId], queryFn: ({ signal }) => messagesApi.get(message.replyToMessageId, signal), enabled: !!message.replyToMessageId && context.data?.reply?.available && context.data?.reply?.content === 'Attachment' })
-  if (!message.replyToMessageId || !context.data?.reply) return null
-  const reply = context.data.reply
+  const { ref, query: context, userId, active } = useMessageMetadata('context', message, !!message.replyToMessageId && !message.recalled)
+  const source = useQuery({ queryKey: ['workspace', 'message', message.replyToMessageId, userId, message.conversationId], queryFn: ({ signal }) => messagesApi.get(message.replyToMessageId, signal), staleTime: Infinity, refetchOnWindowFocus: false, retry: false, enabled: !!(active && userId && message.replyToMessageId && context.data?.reply?.available && context.data?.reply?.content === 'Attachment') })
+  if (!message.replyToMessageId || message.recalled) return null
+  const reply = context.data?.reply
   // Resolve the ambiguous server sentinel before translating; user-entered "Attachment" stays intact.
-  const content = reply.available ? reply.content === 'Attachment' && source.data?.content === null ? t('messages:replyAttachment') : reply.content : t('messages:replyUnavailable')
-  return <blockquote className="reply-preview">{content}</blockquote>
+  const content = reply?.available ? reply.content === 'Attachment' && source.data?.content === null ? t('messages:replyAttachment') : reply.content : t('messages:replyUnavailable')
+  return <div ref={ref}>{reply && <blockquote className="reply-preview">{content}</blockquote>}</div>
 }
 export function MessageReactions({ message }) {
   const { t } = useTranslation()
-  const context = useQuery({ queryKey: contextKey(message.id), queryFn: ({ signal }) => messagesApi.context(message.id, signal), enabled: !message.recalled })
+  const { ref, query: context } = useMessageMetadata('context', message, !message.recalled)
   if (message.recalled) return null
-  if (context.error) return <button className="metadata-retry" onClick={() => context.refetch()} title={t('messages:loadContext')}>{t('messages:contextUnavailable')}</button>
-  return <div className="message-reactions">{context.data?.reactions.map((reaction) => <span key={reaction.emoji} className={context.data.myReaction === reaction.emoji ? 'mine' : ''} aria-label={t('messages:reactionLabel', { emoji: reaction.emoji, count: formatNumber(reaction.count) })}>{reaction.emoji} {formatNumber(reaction.count)}</span>)}</div>
+  const limited = context.error?.response?.status === 429
+  return <div ref={ref} className="message-reactions">{context.error ? <button className="metadata-retry" onClick={() => context.refetch()} title={t(limited ? 'messages:metadataRateLimited' : 'messages:loadContext')} aria-label={limited ? t('messages:metadataRateLimited') : undefined}>{t(limited ? 'messages:metadataPaused' : 'messages:contextUnavailable')}</button> : context.data?.reactions.map((reaction) => <span key={reaction.emoji} className={context.data.myReaction === reaction.emoji ? 'mine' : ''} aria-label={t('messages:reactionLabel', { emoji: reaction.emoji, count: formatNumber(reaction.count) })}>{reaction.emoji} {formatNumber(reaction.count)}</span>)}</div>
 }
 export function MessageReceipt({ message, own }) {
   const { t } = useTranslation()
-  const receipt = useQuery({ queryKey: ['workspace', 'receipt', message.id], queryFn: ({ signal }) => messagesApi.receipts(message.id, signal), enabled: own })
+  const { ref, query: receipt } = useMessageMetadata('receipt', message, own)
   if (!own) return null
-  return receipt.data ? <span title={t('messages:receiptCounts', { delivered: formatNumber(receipt.data.deliveredCount), seen: formatNumber(receipt.data.seenCount) })}>{statusLabel(receipt.data.status)}</span> : receipt.error ? <button onClick={() => receipt.refetch()}>{t('messages:receiptUnavailable')}</button> : null
+  const limited = receipt.error?.response?.status === 429
+  return <span ref={ref}>{receipt.data && <span title={t('messages:receiptCounts', { delivered: formatNumber(receipt.data.deliveredCount), seen: formatNumber(receipt.data.seenCount) })}>{statusLabel(receipt.data.status)}</span>}{receipt.error && <button className="metadata-retry" onClick={() => receipt.refetch()} title={limited ? t('messages:metadataRateLimited') : undefined} aria-label={limited ? t('messages:metadataRateLimited') : undefined}>{t(limited ? 'messages:metadataPaused' : 'messages:receiptUnavailable')}</button>}</span>
 }
 export function MessageActions({ message, own, onCompose, canSend = true, extraItems, onPin }) {
   const { t } = useTranslation()
@@ -56,7 +58,9 @@ export function MessageActions({ message, own, onCompose, canSend = true, extraI
     else await messagesApi.removeReaction(message.id)
     if (operation === 'recall' || operation === 'delete') sanitizeMessageCache(message.id, operation === 'recall')
     showSuccess(t('messages:actionSaved'))
-    await queryClient.invalidateQueries({ queryKey: ['workspace'] })
+    if (operation === 'react') await refreshMessageContext(queryClient, message.id)
+    else if (operation === 'pin') await queryClient.invalidateQueries({ queryKey: ['workspace'], predicate: q => ['groupPins', 'groupPinsSummary'].includes(q.queryKey[1]) && q.queryKey[2] === message.conversationId })
+    else await refreshMessageThread(queryClient, operation === 'forward' ? destination : message.conversationId)
     setOperation(null)
   } })
   const versions = useQuery({ queryKey: ['workspace', 'editHistory', message.id], queryFn: ({ signal }) => messagesApi.history(message.id, signal), enabled: operation === 'history' })

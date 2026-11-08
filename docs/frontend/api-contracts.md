@@ -38,97 +38,103 @@ Source DTO declarations below retain annotations, nullability and defaults. ASP.
 | API-030 | `/api/files/{id:guid}/preview` | `Guid id, CancellationToken ct` |
 | API-031 | `/api/files/{id:guid}/download` | `Guid id, CancellationToken ct` |
 | API-032 | `/api/users/me/avatar` | `SetAvatarRequest input, CancellationToken ct` |
-| API-033 | `/api/friends` | `CancellationToken ct` |
-| API-034 | `/api/friends/requests` | `CancellationToken ct` |
-| API-035 | `/api/friends/requests` | `FriendRequestCreate input, CancellationToken ct` |
-| API-036 | `/api/friends/requests/{id:guid}/accept` | `Guid id, CancellationToken ct` |
-| API-037 | `/api/friends/requests/{id:guid}/reject` | `Guid id, CancellationToken ct` |
-| API-038 | `/api/friends/requests/{id:guid}/cancel` | `Guid id, CancellationToken ct` |
-| API-039 | `/api/friends/{targetUserId:guid}` | `Guid targetUserId, CancellationToken ct` |
-| API-040 | `/api/blocks` | `BlockCreate input, CancellationToken ct` |
-| API-041 | `/api/blocks` | `CancellationToken ct` |
-| API-042 | `/api/blocks/{targetUserId:guid}` | `Guid targetUserId, CancellationToken ct` |
-| API-043 | `/api/groups/{id:guid}` | `Guid id, UpdateGroupRequest input, CancellationToken ct` |
-| API-044 | `/api/groups/{id:guid}/members/{userId:guid}/role` | `Guid id, Guid userId, ChangeGroupRoleRequest input, CancellationToken ct` |
-| API-045 | `/api/groups/{id:guid}/members/{userId:guid}` | `Guid id, Guid userId, CancellationToken ct` |
-| API-046 | `/api/groups/{id:guid}/transfer-owner` | `Guid id, TransferGroupOwnerRequest input, CancellationToken ct` |
-| API-047 | `/api/groups/{id:guid}/dissolve` | `Guid id, DissolveGroupRequest input, CancellationToken ct` |
-| API-048 | `/api/groups/{id:guid}/pins` | `Guid id, CancellationToken ct` |
-| API-049 | `/api/groups/{id:guid}/pins/page` | `Guid id, [FromQuery] long? beforeSequence, [FromQuery] int limit = 30, CancellationToken ct = default` |
-| API-050 | `/api/groups/{id:guid}/pins` | `Guid id, PinGroupMessageRequest input, CancellationToken ct` |
-| API-051 | `/api/groups/{id:guid}/pins/{messageId:guid}` | `Guid id, Guid messageId, CancellationToken ct` |
-| API-052 | `/api/groups/{id:guid}/invite-links` | `Guid id, CreateGroupLinkRequest input, CancellationToken ct` |
-| API-053 | `/api/groups/{id:guid}/invite-links` | `Guid id, CancellationToken ct` |
-| API-054 | `/api/groups/{id:guid}/invite-links/{linkId:guid}` | `Guid id, Guid linkId, CancellationToken ct` |
-| API-055 | `/api/group-invite-links/resolve` | `GroupLinkTokenRequest input, CancellationToken ct` |
-| API-056 | `/api/group-invite-links/join` | `JoinGroupLinkRequest input, CancellationToken ct` |
-| API-057 | `/api/groups/{id:guid}/for-me` | `Guid id, CancellationToken ct` |
-| API-058 | `/api/groups` | `CancellationToken ct` |
-| API-059 | `/api/groups` | `CreateGroupRequest input, CancellationToken ct` |
-| API-060 | `/api/groups/{id:guid}` | `Guid id, CancellationToken ct` |
-| API-061 | `/api/groups/{id:guid}/members` | `Guid id, CancellationToken ct` |
-| API-062 | `/api/groups/{id:guid}/invitations` | `Guid id, InviteGroupRequest input, CancellationToken ct` |
-| API-063 | `/api/group-invitations` | `CancellationToken ct` |
-| API-064 | `/api/group-invitations/{id:guid}/accept` | `Guid id, CancellationToken ct` |
-| API-065 | `/api/group-invitations/{id:guid}/reject` | `Guid id, CancellationToken ct` |
-| API-066 | `/api/groups/{id:guid}/leave` | `Guid id, CancellationToken ct` |
-| API-067 | `/api/groups/{id:guid}/messages` | `Guid id, [FromQuery] long? beforeSequence, [FromQuery] int limit = 30, CancellationToken ct = default` |
-| API-068 | `/api/groups/{id:guid}/messages` | `Guid id, SendMessageRequest input, CancellationToken ct` |
-| API-069 | `/api/conversations/{conversationId:guid}/delivery-acks` | `Guid conversationId, DeliveryAcksRequest input, CancellationToken ct` |
-| API-070 | `/api/conversations/{conversationId:guid}/read-cursor` | `Guid conversationId, ReadCursorRequest input, CancellationToken ct` |
-| API-071 | `/api/conversations/{conversationId:guid}/unread` | `Guid conversationId, CancellationToken ct` |
-| API-072 | `/api/messages/{id:guid}/receipts` | `Guid id, CancellationToken ct` |
-| API-073 | `/api/messages/{id:guid}` | `Guid id, CancellationToken ct` |
-| API-074 | `/api/messages/{id:guid}/context` | `Guid id, CancellationToken ct` |
-| API-075 | `/api/messages/{id:guid}` | `Guid id, EditMessageRequest input, CancellationToken ct` |
-| API-076 | `/api/messages/{id:guid}/edit-history` | `Guid id, CancellationToken ct` |
-| API-077 | `/api/messages/{id:guid}/recall` | `Guid id, CancellationToken ct` |
-| API-078 | `/api/messages/{id:guid}/for-me` | `Guid id, CancellationToken ct` |
-| API-079 | `/api/messages/{id:guid}/reaction` | `Guid id, ReactionRequest input, CancellationToken ct` |
-| API-080 | `/api/messages/{id:guid}/reaction` | `Guid id, CancellationToken ct` |
-| API-081 | `/api/messages/{id:guid}/forward` | `Guid id, ForwardMessageRequest input, CancellationToken ct` |
-| API-082 | `/api/unread` | `CancellationToken ct` |
-| API-083 | `/api/admin/dashboard` | `CancellationToken ct` |
-| API-084 | `/api/admin/users` | `CancellationToken ct, [FromQuery] int skip = 0` |
-| API-085 | `/api/admin/groups` | `CancellationToken ct, [FromQuery] int skip = 0` |
-| API-086 | `/api/admin/reports` | `CancellationToken ct, [FromQuery] int skip = 0` |
-| API-087 | `/api/admin/reports/{id:guid}/claim` | `Guid id, CancellationToken ct` |
-| API-088 | `/api/admin/reports/{id:guid}` | `Guid id, CancellationToken ct` |
-| API-089 | `/api/admin/reports/{id:guid}/evidence/{evidenceId:guid}/file` | `Guid id, Guid evidenceId, CancellationToken ct` |
-| API-090 | `/api/admin/reports/{id:guid}/resolve` | `Guid id, ResolveReportRequest input, CancellationToken ct` |
-| API-091 | `/api/admin/users/{id:guid}/warn` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
-| API-092 | `/api/admin/users/{id:guid}/suspend` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
-| API-093 | `/api/admin/users/{id:guid}/unsuspend` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
-| API-094 | `/api/admin/groups/{id:guid}/disable` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
-| API-095 | `/api/admin/appeals` | `CancellationToken ct, [FromQuery] int skip = 0` |
-| API-096 | `/api/admin/appeals/{id:guid}/review` | `Guid id, ReviewAppealRequest input, CancellationToken ct` |
-| API-097 | `/api/admin/audit` | `CancellationToken ct, [FromQuery] int skip = 0` |
-| API-098 | `/api/admin/retention/preview` | `CancellationToken ct` |
-| API-099 | `/api/admin/retention/files/preview` | `CancellationToken ct` |
-| API-100 | `/api/admin/retention/plan` | `[FromQuery] string kind, [FromQuery] int offset = 0, [FromQuery] int limit = 30, CancellationToken ct = default` |
-| API-101 | `/api/admin/retention/{kind}/{id:guid}/hold` | `string kind, Guid id, RetentionHoldRequest input, CancellationToken ct` |
-| API-102 | `/api/appeals/authenticate` | `AppealLoginRequest input, CancellationToken ct` |
-| API-103 | `/api/appeals` | `CreateAppealRequest input, CancellationToken ct` |
-| API-104 | `/api/appeals/me` | `CancellationToken ct` |
-| API-105 | `/api/reports` | `CreateReportRequest input, CancellationToken ct` |
-| API-106 | `/api/reports/me` | `CancellationToken ct` |
-| API-107 | `/api/notifications` | `[FromQuery] DateTime? before, [FromQuery] int limit = 30, CancellationToken ct = default, [FromQuery] Guid? beforeId = null` |
-| API-108 | `/api/notifications/unread-count` | `CancellationToken ct` |
-| API-109 | `/api/notifications/{id:guid}/read` | `Guid id, CancellationToken ct` |
-| API-110 | `/api/notifications/read-all` | `CancellationToken ct` |
-| API-111 | `/api/conversations/{id:guid}/settings` | `Guid id, CancellationToken ct` |
-| API-112 | `/api/conversations/{id:guid}/settings` | `Guid id, ConversationSettingsDto input, CancellationToken ct` |
-| API-113 | `/api/users/{id:guid}/presence` | `Guid id, CancellationToken ct` |
-| API-114 | `/api/users/me` | `CancellationToken ct` |
-| API-115 | `/api/users/me` | `UpdateProfileRequest request, CancellationToken ct` |
-| API-116 | `/api/users/me/username` | `ChangeUsernameRequest request, CancellationToken ct` |
-| API-117 | `/api/users/me/email-change` | `ChangeEmailRequest request, CancellationToken ct` |
-| API-118 | `/api/users/me/confirm-email-change` | `ConfirmEmailRequest request, CancellationToken ct` |
-| API-119 | `/api/users/me/privacy` | `CancellationToken ct` |
-| API-120 | `/api/users/me/privacy` | `PrivacyDto request, CancellationToken ct` |
-| API-121 | `/api/users/search` | `[FromQuery] string query, [FromQuery] string? cursor, [FromQuery] int limit = 30, CancellationToken ct = default` |
-| API-122 | `/api/users/{id:guid}` | `Guid id, CancellationToken ct` |
-| API-123 | `/api/health` | `none` |
+| API-033 | `/api/friends/requests/unread-count` | `CancellationToken ct` |
+| API-034 | `/api/friends/requests/mark-seen` | `FriendRequestSeenInput input, CancellationToken ct` |
+| API-035 | `/api/friends` | `CancellationToken ct` |
+| API-036 | `/api/friends/requests` | `CancellationToken ct` |
+| API-037 | `/api/friends/requests` | `FriendRequestCreate input, CancellationToken ct` |
+| API-038 | `/api/friends/requests/{id:guid}/accept` | `Guid id, CancellationToken ct` |
+| API-039 | `/api/friends/requests/{id:guid}/reject` | `Guid id, CancellationToken ct` |
+| API-040 | `/api/friends/requests/{id:guid}/cancel` | `Guid id, CancellationToken ct` |
+| API-041 | `/api/friends/{targetUserId:guid}` | `Guid targetUserId, CancellationToken ct` |
+| API-042 | `/api/blocks` | `BlockCreate input, CancellationToken ct` |
+| API-043 | `/api/blocks` | `CancellationToken ct` |
+| API-044 | `/api/blocks/{targetUserId:guid}` | `Guid targetUserId, CancellationToken ct` |
+| API-045 | `/api/groups/{id:guid}` | `Guid id, UpdateGroupRequest input, CancellationToken ct` |
+| API-046 | `/api/groups/{id:guid}/members/{userId:guid}/role` | `Guid id, Guid userId, ChangeGroupRoleRequest input, CancellationToken ct` |
+| API-047 | `/api/groups/{id:guid}/members/{userId:guid}` | `Guid id, Guid userId, CancellationToken ct` |
+| API-048 | `/api/groups/{id:guid}/transfer-owner` | `Guid id, TransferGroupOwnerRequest input, CancellationToken ct` |
+| API-049 | `/api/groups/{id:guid}/dissolve` | `Guid id, DissolveGroupRequest input, CancellationToken ct` |
+| API-050 | `/api/groups/{id:guid}/pins` | `Guid id, CancellationToken ct` |
+| API-051 | `/api/groups/{id:guid}/pins/page` | `Guid id, [FromQuery] long? beforeSequence, [FromQuery] int limit = 30, CancellationToken ct = default` |
+| API-052 | `/api/groups/{id:guid}/pins` | `Guid id, PinGroupMessageRequest input, CancellationToken ct` |
+| API-053 | `/api/groups/{id:guid}/pins/{messageId:guid}` | `Guid id, Guid messageId, CancellationToken ct` |
+| API-054 | `/api/groups/{id:guid}/invite-links` | `Guid id, CreateGroupLinkRequest input, CancellationToken ct` |
+| API-055 | `/api/groups/{id:guid}/invite-links` | `Guid id, CancellationToken ct` |
+| API-056 | `/api/groups/{id:guid}/invite-links/{linkId:guid}` | `Guid id, Guid linkId, CancellationToken ct` |
+| API-057 | `/api/group-invite-links/resolve` | `GroupLinkTokenRequest input, CancellationToken ct` |
+| API-058 | `/api/group-invite-links/join` | `JoinGroupLinkRequest input, CancellationToken ct` |
+| API-059 | `/api/groups/{id:guid}/for-me` | `Guid id, CancellationToken ct` |
+| API-060 | `/api/groups` | `CancellationToken ct` |
+| API-061 | `/api/groups` | `CreateGroupRequest input, CancellationToken ct` |
+| API-062 | `/api/groups/{id:guid}` | `Guid id, CancellationToken ct` |
+| API-063 | `/api/groups/{id:guid}/members` | `Guid id, CancellationToken ct` |
+| API-064 | `/api/groups/{id:guid}/invitations` | `Guid id, InviteGroupRequest input, CancellationToken ct` |
+| API-065 | `/api/group-invitations` | `CancellationToken ct` |
+| API-066 | `/api/group-invitations/{id:guid}/accept` | `Guid id, CancellationToken ct` |
+| API-067 | `/api/group-invitations/{id:guid}/reject` | `Guid id, CancellationToken ct` |
+| API-068 | `/api/groups/{id:guid}/leave` | `Guid id, CancellationToken ct` |
+| API-069 | `/api/groups/{id:guid}/messages` | `Guid id, [FromQuery] long? beforeSequence, [FromQuery] int limit = 30, CancellationToken ct = default` |
+| API-070 | `/api/groups/{id:guid}/messages` | `Guid id, SendMessageRequest input, CancellationToken ct` |
+| API-071 | `/api/conversations/{conversationId:guid}/delivery-acks` | `Guid conversationId, DeliveryAcksRequest input, CancellationToken ct` |
+| API-072 | `/api/conversations/{conversationId:guid}/read-cursor` | `Guid conversationId, ReadCursorRequest input, CancellationToken ct` |
+| API-073 | `/api/conversations/{conversationId:guid}/unread` | `Guid conversationId, CancellationToken ct` |
+| API-074 | `/api/messages/{id:guid}/receipts` | `Guid id, CancellationToken ct` |
+| API-075 | `/api/messages/{id:guid}` | `Guid id, CancellationToken ct` |
+| API-076 | `/api/messages/{id:guid}/context` | `Guid id, CancellationToken ct` |
+| API-077 | `/api/messages/{id:guid}` | `Guid id, EditMessageRequest input, CancellationToken ct` |
+| API-078 | `/api/messages/{id:guid}/edit-history` | `Guid id, CancellationToken ct` |
+| API-079 | `/api/messages/{id:guid}/recall` | `Guid id, CancellationToken ct` |
+| API-080 | `/api/messages/{id:guid}/for-me` | `Guid id, CancellationToken ct` |
+| API-081 | `/api/messages/{id:guid}/reaction` | `Guid id, ReactionRequest input, CancellationToken ct` |
+| API-082 | `/api/messages/{id:guid}/reaction` | `Guid id, CancellationToken ct` |
+| API-083 | `/api/messages/{id:guid}/forward` | `Guid id, ForwardMessageRequest input, CancellationToken ct` |
+| API-084 | `/api/unread` | `CancellationToken ct` |
+| API-085 | `/api/admin/dashboard` | `CancellationToken ct` |
+| API-086 | `/api/admin/users` | `CancellationToken ct, [FromQuery] int skip = 0` |
+| API-087 | `/api/admin/groups` | `CancellationToken ct, [FromQuery] int skip = 0` |
+| API-088 | `/api/admin/reports` | `CancellationToken ct, [FromQuery] int skip = 0` |
+| API-089 | `/api/admin/reports/{id:guid}/claim` | `Guid id, CancellationToken ct` |
+| API-090 | `/api/admin/reports/{id:guid}` | `Guid id, CancellationToken ct` |
+| API-091 | `/api/admin/reports/{id:guid}/evidence/{evidenceId:guid}/file` | `Guid id, Guid evidenceId, CancellationToken ct` |
+| API-092 | `/api/admin/reports/{id:guid}/resolve` | `Guid id, ResolveReportRequest input, CancellationToken ct` |
+| API-093 | `/api/admin/users/{id:guid}/warn` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
+| API-094 | `/api/admin/users/{id:guid}/suspend` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
+| API-095 | `/api/admin/users/{id:guid}/unsuspend` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
+| API-096 | `/api/admin/groups/{id:guid}/disable` | `Guid id, AdminReasonRequest input, CancellationToken ct` |
+| API-097 | `/api/admin/appeals` | `CancellationToken ct, [FromQuery] int skip = 0` |
+| API-098 | `/api/admin/appeals/{id:guid}/review` | `Guid id, ReviewAppealRequest input, CancellationToken ct` |
+| API-099 | `/api/admin/audit` | `CancellationToken ct, [FromQuery] int skip = 0` |
+| API-100 | `/api/admin/retention/preview` | `CancellationToken ct` |
+| API-101 | `/api/admin/retention/files/preview` | `CancellationToken ct` |
+| API-102 | `/api/admin/retention/plan` | `[FromQuery] string kind, [FromQuery] int offset = 0, [FromQuery] int limit = 30, CancellationToken ct = default` |
+| API-103 | `/api/admin/retention/{kind}/{id:guid}/hold` | `string kind, Guid id, RetentionHoldRequest input, CancellationToken ct` |
+| API-104 | `/api/appeals/authenticate` | `AppealLoginRequest input, CancellationToken ct` |
+| API-105 | `/api/appeals` | `CreateAppealRequest input, CancellationToken ct` |
+| API-106 | `/api/appeals/me` | `CancellationToken ct` |
+| API-107 | `/api/reports` | `CreateReportRequest input, CancellationToken ct` |
+| API-108 | `/api/reports/me` | `CancellationToken ct` |
+| API-109 | `/api/notifications/{id:guid}` | `Guid id, CancellationToken ct` |
+| API-110 | `/api/notifications/read` | `CancellationToken ct` |
+| API-111 | `/api/notifications/trash` | `[FromQuery] DateTime? before, [FromQuery] Guid? beforeId, [FromQuery] int limit = 30, CancellationToken ct = default` |
+| API-112 | `/api/notifications/{id:guid}/restore` | `Guid id, CancellationToken ct` |
+| API-113 | `/api/notifications` | ` [FromQuery] DateTime? before, [FromQuery] int limit = 30, [FromQuery] Guid? beforeId = null, CancellationToken ct = default` |
+| API-114 | `/api/notifications/unread-count` | `CancellationToken ct` |
+| API-115 | `/api/notifications/{id:guid}/read` | `Guid id, CancellationToken ct` |
+| API-116 | `/api/notifications/read-all` | `CancellationToken ct` |
+| API-117 | `/api/conversations/{id:guid}/settings` | `Guid id, CancellationToken ct` |
+| API-118 | `/api/conversations/{id:guid}/settings` | `Guid id, ConversationSettingsDto input, CancellationToken ct` |
+| API-119 | `/api/users/{id:guid}/presence` | `Guid id, CancellationToken ct` |
+| API-120 | `/api/users/me` | `CancellationToken ct` |
+| API-121 | `/api/users/me` | `UpdateProfileRequest request, CancellationToken ct` |
+| API-122 | `/api/users/me/username` | `ChangeUsernameRequest request, CancellationToken ct` |
+| API-123 | `/api/users/me/email-change` | `ChangeEmailRequest request, CancellationToken ct` |
+| API-124 | `/api/users/me/confirm-email-change` | `ConfirmEmailRequest request, CancellationToken ct` |
+| API-125 | `/api/users/me/privacy` | `CancellationToken ct` |
+| API-126 | `/api/users/me/privacy` | `PrivacyDto request, CancellationToken ct` |
+| API-127 | `/api/users/search` | `[FromQuery] string query, [FromQuery] string? cursor, [FromQuery] int limit = 30, CancellationToken ct = default` |
+| API-128 | `/api/users/{id:guid}` | `Guid id, CancellationToken ct` |
+| API-129 | `/api/health` | `none` |
 
 ## Source DTO declarations
 
@@ -260,7 +266,9 @@ public sealed record FileCleanupPreview(
 
 ```csharp
 public sealed record FriendRequestCreate([Required] Guid TargetUserId);
-public sealed record FriendRequestDto(Guid Id, Guid SenderUserId, Guid ReceiverUserId, string Status, DateTime CreatedAt, DateTime? RespondedAt);
+public sealed record FriendRequestDto(Guid Id, Guid SenderUserId, Guid ReceiverUserId, string Status, DateTime CreatedAt, DateTime? RespondedAt, DateTime? SeenAt = null);
+public sealed record FriendRequestUnreadCountDto(int UnreadCount);
+public sealed record FriendRequestSeenInput(IReadOnlyList<Guid>? RequestIds);
 public sealed record FriendDto(Guid UserId, string Username, string DisplayName, Guid? AvatarFileId, DateTime Since);
 public sealed record FriendRequestsDto(IReadOnlyList<FriendRequestDto> Incoming, IReadOnlyList<FriendRequestDto> Outgoing);
 public sealed record BlockCreate([Required] Guid TargetUserId);
@@ -522,6 +530,12 @@ public sealed record NotificationPageDto(
     Guid? NextCursorId = null);
 public sealed record NotificationCountDto(
     int Count);
+public sealed record TrashedNotificationDto(
+    Guid Id, string Type, Guid? ReferenceId, DateTime CreatedAt,
+    DateTime? ReadAt, DateTime DeletedAt, string? Text = null);
+public sealed record TrashedNotificationPageDto(
+    IReadOnlyList<TrashedNotificationDto> Items, DateTime? NextCursor,
+    bool HasMore, Guid? NextCursorId = null);
 public sealed record ConversationSettingsDto(
     DateTime? MutedUntil);
 ```

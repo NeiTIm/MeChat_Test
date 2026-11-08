@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,8 @@ import { queryClient } from '@/lib/query-client';
 import { errorMessage } from '@/lib/errors';
 import { formatDate } from '@/i18n/format';
 import { friendsApi } from './api';
+import { useFriendUnread } from './use-friend-unread';
+import { useRequestSeen } from './use-request-seen';
 import { ReportDialog } from '@/features/moderation/ReportsPage';
 export function FriendsPage() {
   const {
@@ -26,13 +28,16 @@ export function FriendsPage() {
     section = 'list'
   } = useParams();
   const navigate = useNavigate();
+  const userId = useAuthStore(state => state.access?.userId);
+  const unread = useFriendUnread();
+  const seen = useRequestSeen(section === 'incoming' && unread.isSuccess);
   const [notice, setNotice] = useState('');
   const friends = useQuery({
     queryKey: ['workspace', 'friends'],
     queryFn: friendsApi.list
   });
   const requests = useQuery({
-    queryKey: ['workspace', 'friendRequests'],
+    queryKey: ['workspace', 'friendRequests', userId],
     queryFn: friendsApi.requests
   });
   const blocks = useQuery({
@@ -74,6 +79,7 @@ export function FriendsPage() {
     friends: friends.data || [],
     requests: requests.data,
     blocks: blocks.data || [],
+    registerSeen: seen.register,
     run,
     pending: action.isPending || openChat.isPending,
     onMessage: id => openChat.mutate(id)
@@ -82,6 +88,7 @@ export function FriendsPage() {
   const rows = section === 'incoming' ? requests.data?.incoming : section === 'outgoing' ? requests.data?.outgoing : section === 'blocked' ? blocks.data : friends.data;
   return <ApplicationLayout area="friends" title={t('friends:title')} description={t('friends:description')}><div className="settings-layout"><nav className="settings-tabs" aria-label={t('friends:title')}>{['list', 'incoming', 'outgoing', 'search', 'blocked'].map(tab => <NavLink key={tab} to={`/friends/${tab}`} className={section === tab ? 'active' : ''}>{t(`friends:tabs.${tab}`)}{['incoming', 'outgoing'].includes(tab) && !!requests.data?.[tab]?.length && <span className="tab-count">{requests.data[tab].length}</span>}</NavLink>)}</nav><section className="settings-content">
     {notice && <p className="form-feedback feedback-success" role="status">{notice}</p>}
+    {seen.error && <div className="form-feedback feedback-error" role="alert">{errorMessage(seen.error)} <Button variant="outline" onClick={seen.retry}>{t('friends:retrySeen')}</Button></div>}
     {(action.error || openChat.error) && <p className="form-feedback feedback-error" role="alert">{errorMessage(action.error || openChat.error)}</p>}
     {section === 'search' ? <UserSearch {...shared} dependenciesError={friends.error || requests.error || blocks.error} dependenciesPending={friends.isPending || requests.isPending || blocks.isPending} onRetryDependencies={() => {
           friends.refetch();
@@ -112,7 +119,8 @@ function FriendRow({
   section,
   run,
   pending,
-  onMessage
+  onMessage,
+  registerSeen
 }) {
   const {
     t
@@ -127,8 +135,9 @@ function FriendRow({
     enabled: isRequest
   });
   const display = isRequest ? profile.data || {} : item;
+  const seenRef = useCallback(node => registerSeen?.(item.id, section === 'incoming' && item.seenAt == null ? node : null), [registerSeen, item.id, item.seenAt, section]);
   const perform = (method, success) => run(method, isRequest ? item.id : userId, success).catch(() => {});
-  return <article className="person-row"><div className="person-info"><PublicProfile id={userId} fallback={display} /><p className="person-date">{t(`friends:${isRequest ? 'requestDate' : section === 'blocked' ? 'blockedSince' : 'friendSince'}`, {
+  return <article ref={seenRef} className="person-row"><div className="person-info"><PublicProfile id={userId} fallback={display} /><p className="person-date">{t(`friends:${isRequest ? 'requestDate' : section === 'blocked' ? 'blockedSince' : 'friendSince'}`, {
           date: formatDate(item.createdAt || item.blockedAt || item.since)
         })}</p>{profile.error && <p className="field-help">{t('friends:profileUnavailable')}</p>}</div><div className="person-actions">
     {section === 'incoming' ? <><Button disabled={pending} onClick={() => perform('accept', 'accepted')}>{t('friends:accept')}</Button><Button variant="outline" disabled={pending} onClick={() => perform('reject', 'rejected')}>{t('friends:reject')}</Button></> : section === 'outgoing' ? <Button variant="outline" disabled={pending} onClick={() => perform('cancel', 'cancelled')}>{t('friends:cancel')}</Button> : section === 'blocked' ? <ConfirmAction disabled={pending} label={t('friends:unblock')} description={t('friends:unblockConfirmation')} onConfirm={() => run('unblock', userId, 'unblocked')} /> : <><Button disabled={pending} onClick={() => onMessage(userId)}><MessageSquare size={16} />{t('friends:message')}</Button><ConfirmAction disabled={pending} label={t('friends:unfriend')} description={t('friends:unfriendConfirmation')} onConfirm={() => run('unfriend', userId, 'unfriended')} /></>}

@@ -1,13 +1,16 @@
 
 using MeChat.Api.Features.Friends.Repositories.Interfaces;
 using MeChat.Api.Realtime;
+using MeChat.Api.Configurations;
+using Microsoft.Extensions.Options;
 
 namespace MeChat.Api.Features.Friends;
 
 public sealed class FriendService(
     IFriendRepository repository,
     TimeProvider clock,
-    StateEvents events)
+    StateEvents events,
+    IOptions<BcrFeatureOptions>? features = null)
 {
     private DateTime Now => clock.GetUtcNow().UtcDateTime;
 
@@ -90,6 +93,9 @@ public sealed class FriendService(
                     // Reverse friend request automatically accepts.
                     var now = Now;
 
+                    if (pending.SeenAt is null)
+                        ScheduleUnreadChanged(afterCommit, [pending.ReceiverUserId], ct);
+
                     pending.Status = "Accepted";
                     pending.RespondedAt = now;
 
@@ -136,6 +142,7 @@ public sealed class FriendService(
                 afterCommit.Add(() =>
                     ChangedAsync(actor, target, ct));
 
+                ScheduleUnreadChanged(afterCommit, [target], ct);
                 return FriendActionResult.Created;
             },
             ct,
@@ -180,6 +187,8 @@ public sealed class FriendService(
 
                 var now = Now;
 
+                if (request.SeenAt is null)
+                    ScheduleUnreadChanged(afterCommit, [request.ReceiverUserId], ct);
                 request.Status =
                     accept ? "Accepted" : "Rejected";
 
@@ -253,6 +262,8 @@ public sealed class FriendService(
                 if (request is null)
                     return false;
 
+                if (request.SeenAt is null)
+                    ScheduleUnreadChanged(afterCommit, [request.ReceiverUserId], ct);
                 request.Status = "Cancelled";
                 request.RespondedAt = Now;
 
@@ -396,6 +407,8 @@ public sealed class FriendService(
                     request.RespondedAt = now;
                 }
 
+                ScheduleUnreadChanged(afterCommit, pendingFriendRequests.Where(r => r.SeenAt is null).Select(r => r.ReceiverUserId), ct);
+
                 // =================================================
                 // REVOKE PRIVATE CHAT ACCESS
                 // =================================================
@@ -521,6 +534,28 @@ public sealed class FriendService(
         return repository.GetFriendRequestsAsync(
             actor,
             ct);
+    }
+
+    public Task<int> UnseenCountAsync(Guid actor, CancellationToken ct) => repository.GetUnseenCountAsync(actor, ct);
+
+    public Task<int> MarkSeenAsync(Guid actor, IReadOnlyList<Guid> requestIds, CancellationToken ct)
+    {
+        if (!FriendRequestSeenInput.TryNormalize(requestIds, out var ids))
+            throw new ArgumentException("Invalid request batch.", nameof(requestIds));
+        return AtomicAsync(async afterCommit =>
+        {
+            var changed = await repository.MarkSeenAsync(actor, ids, Now, ct);
+            if (changed > 0) ScheduleUnreadChanged(afterCommit, [actor], ct);
+            return changed;
+        }, ct);
+    }
+
+    private void ScheduleUnreadChanged(List<Func<Task>> afterCommit, IEnumerable<Guid> recipients, CancellationToken ct)
+    {
+        if (features?.Value.FriendRequestSeenEnabled != true) return;
+        var accounts = recipients.Distinct().ToArray();
+        if (accounts.Length == 0) return;
+        afterCommit.Add(() => events.SendAsync(accounts, "FriendRequestsUnreadChanged", new { eventId = Guid.NewGuid() }, ct));
     }
 
     // =====================================================

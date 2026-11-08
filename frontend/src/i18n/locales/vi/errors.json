@@ -1,4 +1,5 @@
 {
+  "backgroundRateLimited": "Máy chủ đang giới hạn lượt tải dữ liệu. Vui lòng chờ rồi thử lại.",
   "invalidCredentials": "Không thể đăng nhập. Vui lòng kiểm tra thông tin đăng nhập và trạng thái tài khoản.",
   "sessionEnded": "Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại.",
   "invalidToken": "Mã xác nhận không hợp lệ hoặc đã hết hạn.",
@@ -16,5 +17,9 @@
   "404": "Nội dung không khả dụng hoặc quyền truy cập của bạn đã thay đổi.",
   "409": "Dữ liệu đã thay đổi. Vui lòng làm mới rồi thử lại.",
   "429": "Bạn thao tác quá nhanh. Vui lòng chờ một lát rồi thử lại.",
-  "server": "Hệ thống gặp sự cố. Vui lòng thử lại sau."
+  "server": "Hệ thống gặp sự cố. Vui lòng thử lại sau.",
+  "invalidRequestIds": "Danh sách lời mời không hợp lệ. Vui lòng tải lại và thử lại.",
+  "invalidNotificationCursor": "Không thể tải trang thông báo này. Vui lòng tải lại danh sách.",
+  "notificationUnavailable": "Thông báo không còn khả dụng hoặc bạn không có quyền xem.",
+  "featureUnavailable": "Tính năng này hiện chưa được bật."
 }

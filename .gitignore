@@ -130,6 +130,9 @@ $RECYCLE.BIN/
 **/auth-state.json
 **/cookies.json
 
+# Local build outputs from isolated G2 checks
+.artifacts/
+
 # ----------------------------------------------------------
 # IMPORTANT — Do NOT ignore these:
 # ----------------------------------------------------------

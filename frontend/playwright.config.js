@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test'
 export default defineConfig({
   testDir: './tests/e2e',
   outputDir: './test-results/client',
-  testIgnore: ['**/*.live.spec.js', '**/*.production.spec.js'],
+  testIgnore: ['**/*.live.spec.js', '**/*.production.spec.js', '**/bcr-client.spec.js', '**/request-storm.spec.js'],
   fullyParallel: false,
   workers: 1,
   reporter: [['list'], ['json', { outputFile: 'test-results/design-results.json' }]],

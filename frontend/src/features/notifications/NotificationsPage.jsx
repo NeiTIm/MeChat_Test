@@ -9,17 +9,44 @@ import { errorMessage } from '@/lib/errors'
 import { queryClient } from '@/lib/query-client'
 import { formatDate, formatTime, formatNumber } from '@/i18n/format'
 import { notificationsApi } from './api'
-import { useNotifications, useNotificationActions } from './use-notifications'
+import { useNotifications, useNotificationActions, useNotificationLifecycle } from './use-notifications'
+import { ConfirmAction } from '@/components/ConfirmAction'
+import { bcrFeatures } from '@/lib/bcr-features'
 import { showSuccess } from '@/stores/ui-feedback-store'
 
 export function NotificationsPage() {
   const { t } = useTranslation()
-  const { feed: notifications, count, items } = useNotifications()
+  const [trash, setTrash] = useState(false)
+  const { feed: notifications, count, items } = useNotifications(true, trash)
   const { action, notice } = useNotificationActions()
-  return <ApplicationLayout area="notifications" title={t('notifications:title')} description={t('notifications:description')} actions={<Button variant="outline" disabled={action.isPending || !count.data?.count} onClick={() => action.mutate({ all: true })}><CheckCheck size={17} /><span>{t('notifications:readAll')}</span></Button>}>
+  const lifecycle = useNotificationLifecycle()
+  const pending = action.isPending || lifecycle.isPending
+  return <ApplicationLayout area="notifications" title={t('notifications:title')} description={t('notifications:description')} actions={!trash && <Button variant="outline" disabled={pending || !count.data?.count} onClick={() => action.mutate({ all: true })}><CheckCheck size={17} /><span>{t('notifications:readAll')}</span></Button>}>
+    {bcrFeatures.notifications && <div className="notification-toolbar">
+      <nav className="notification-tabs" aria-label={t('notifications:views')}>
+        {[false, true].map(value => <Button key={String(value)} variant={trash === value ? 'default' : 'outline'} aria-pressed={trash === value} onClick={() => { setTrash(value); lifecycle.reset() }}>{t(value ? 'notifications:trash' : 'notifications:active')}</Button>)}
+      </nav>
+      {!trash && <ConfirmAction destructive disabled={pending} label={t('notifications:deleteRead')} description={t('notifications:deleteReadConfirm')} onConfirm={() => lifecycle.mutateAsync({ method: 'deleteRead' })} />}
+    </div>}
     {count.data && <p className="notification-count">{t('notifications:unread', { count: formatNumber(count.data.count) })}</p>}
-    {(action.error || count.error) && <p role="alert" className="form-feedback feedback-error">{errorMessage(action.error || count.error)}</p>}{notice && <p className="form-feedback feedback-success" role="status">{t('notifications:readSuccess')}</p>}
-    {notifications.isPending ? <StatePanel loading /> : notifications.error ? <StatePanel error={notifications.error} onRetry={notifications.refetch} /> : !items.length ? <section className="people-empty"><Bell /><StatePanel title={t('notifications:empty')} description={t('notifications:emptyDescription')} /></section> : <div className="notification-list">{items.map((item) => <article key={item.id} className={`notification-card ${item.readAt ? '' : 'unread'}`}><span className="notification-icon">{item.type === 'AdminWarning' ? <ShieldCheck /> : <MessageSquare />}</span><div><h2>{t(`notifications:types.${item.type}`, { defaultValue: t('notifications:types.unknown') })}</h2><time dateTime={item.createdAt}>{formatDate(item.createdAt)} · {formatTime(item.createdAt)}</time>{item.text && <p>{item.text}</p>}<div className="notification-actions">{!item.readAt && <Button variant="ghost" disabled={action.isPending} onClick={() => action.mutate({ notification: item })}>{t('notifications:read')}</Button>}{item.referenceId && ['Message', 'GroupMessage', 'MessageRequest'].includes(item.type) && <Button variant="outline" disabled={action.isPending} onClick={() => action.mutate({ notification: item, open: true })}>{t('notifications:view')}</Button>}</div></div>{!item.readAt && <span className="notification-unread-dot"><span className="sr-only">{t('notifications:newLabel')}</span></span>}</article>)}</div>}
+    {(action.error || count.error || lifecycle.error) && <p role="alert" className="form-feedback feedback-error">{errorMessage(action.error || count.error || lifecycle.error)}</p>}
+    {notice && <p className="form-feedback feedback-success" role="status">{t('notifications:readSuccess')}</p>}
+    {lifecycle.isSuccess && <p className="form-feedback feedback-success" role="status">{t('notifications:lifecycleSuccess')}</p>}
+    {notifications.isPending ? <StatePanel loading /> : notifications.error ? <StatePanel error={notifications.error} onRetry={notifications.refetch} /> : !items.length ? <section className="people-empty"><Bell /><StatePanel title={t(notifications.hasNextPage ? 'notifications:scanEmpty' : trash ? 'notifications:trashEmpty' : 'notifications:empty')} description={t(notifications.hasNextPage ? 'notifications:scanDescription' : trash ? 'notifications:trashDescription' : 'notifications:emptyDescription')} /></section> : <div className="notification-list">{items.map(item => <article key={item.id} className={`notification-card ${item.readAt ? '' : 'unread'}`}>
+      <span className="notification-icon">{item.type === 'AdminWarning' ? <ShieldCheck /> : <MessageSquare />}</span><div>
+        <h2>{t(`notifications:types.${item.type}`, { defaultValue: t('notifications:types.unknown') })}</h2>
+        <time dateTime={item.createdAt}>{formatDate(item.createdAt)} · {formatTime(item.createdAt)}</time>
+        {item.text && <p>{item.text}</p>}
+        {trash && <p className="field-help">{t('notifications:deletedAt', { date: `${formatDate(item.deletedAt)} · ${formatTime(item.deletedAt)}` })}</p>}
+        <div className="notification-actions">
+          {trash ? <Button variant="outline" disabled={pending} onClick={() => lifecycle.mutate({ method: 'restore', id: item.id })}>{t('notifications:restore')}</Button> : <>
+            {!item.readAt && <Button variant="ghost" disabled={pending} onClick={() => action.mutate({ notification: item })}>{t('notifications:read')}</Button>}
+            {item.referenceId && ['Message', 'GroupMessage', 'MessageRequest'].includes(item.type) && <Button variant="outline" disabled={pending} onClick={() => action.mutate({ notification: item, open: true })}>{t('notifications:view')}</Button>}
+            {bcrFeatures.notifications && <Button variant="outline" disabled={pending} onClick={() => lifecycle.mutate({ method: 'remove', id: item.id })}>{t('notifications:delete')}</Button>}
+          </>}
+        </div>
+      </div>{!item.readAt && <span className="notification-unread-dot"><span className="sr-only">{t('notifications:newLabel')}</span></span>}
+    </article>)}</div>}
     {notifications.hasNextPage && <Button className="load-more-people" variant="outline" disabled={notifications.isFetchingNextPage} onClick={() => notifications.fetchNextPage()}>{notifications.isFetchingNextPage ? t('common:saving') : t('common:loadMore')}</Button>}
   </ApplicationLayout>
 }
