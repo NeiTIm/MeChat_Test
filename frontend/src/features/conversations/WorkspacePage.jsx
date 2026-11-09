@@ -49,8 +49,11 @@ export function WorkspacePage({
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const anchor = Number(searchParams.get('at'));
-  const historyBefore = Number.isSafeInteger(anchor) && anchor > 0 && anchor < Number.MAX_SAFE_INTEGER ? anchor + 1 : undefined;
-  const focusMessageId = historyBefore ? searchParams.get('message') : undefined;
+  const anchoredBefore = Number.isSafeInteger(anchor) && anchor > 0 && anchor < Number.MAX_SAFE_INTEGER ? anchor + 1 : undefined;
+  const focusMessageId = anchoredBefore ? searchParams.get('message') : undefined;
+  // Reuse an already-loaded page; after reload, go directly to the bounded cursor.
+  const cachedTarget = useMemo(() => !!focusMessageId && (queryClient.getQueryData(['workspace', area, id, 'messages'])?.pages || []).some(page => page.items.some(message => message.id === focusMessageId)), [area, id, focusMessageId]);
+  const historyBefore = cachedTarget ? undefined : anchoredBefore;
   function jumpToMessage(message) {
     if (message.conversationId === id && Number.isSafeInteger(message.sequence) && message.sequence > 0 && message.sequence < Number.MAX_SAFE_INTEGER) {
       setSearchParams({ at: String(message.sequence), message: message.id });
@@ -120,6 +123,7 @@ export function WorkspacePage({
       signal
     }) => api.history(id, pageParam, signal),
     initialPageParam: historyBefore,
+    refetchOnMount: !cachedTarget,
     getNextPageParam: last => last.hasMore ? last.nextCursor : undefined,
     enabled: !!id
   });
@@ -175,8 +179,8 @@ export function WorkspacePage({
     history.refetch();
   }} onRetryMembers={members.refetch} onSend={send.mutateAsync} hasMore={history.hasNextPage} loadingMore={history.isFetchingNextPage} onLoadMore={() => history.fetchNextPage()} status={status} onLogout={() => logout.mutate()} logoutPending={logout.isPending} logoutError={logout.error}
   listActions={area === 'private' ? <Link className="text-link" to={requestMode ? '/chat' : '/message-requests'}>{t(requestMode ? 'common:messages' : 'messages:requestsTitle')}{!requestMode && requestCount.data?.count > 0 && <span className="tab-count">{requestCount.data.count}</span>}</Link> : <>{[['/groups/new', 'groups:create'], ['/groups/invitations', 'groups:invitationsTitle'], ['/groups/join', 'groups:joinTitle']].map(([to, label]) => <Link className="text-link" key={to} to={to}>{t(label)}</Link>)}</>}
-  detailsExtra={<>{area === 'group' && activeGroupMember && selected?.status === 'Active' && <GroupInviteCallout id={id} />}{detailsExtra}</>} headerSubtitle={subtitle} presenceStatus={requestMode ? undefined : presence.data?.online} headerTools={<NotificationPreview />} focusMessageId={focusMessageId} onRead={receipts.onRead} onTyping={onTyping} composerDisabled={requestMode || !activeGroupMember} composerContext={context} onCancelCompose={() => setContext(null)}
-  threadNotice={<>{historyBefore && <div className="context-history-notice" role="status"><p>{history.data && focusMessageId && !messageItems.some((message) => message.id === focusMessageId) ? t('messages:contextUnavailable') : t('messages:contextHistory')}</p><Button variant="link" onClick={() => setSearchParams({})}>{t('messages:backToLatest')}</Button></div>}{area === 'group' && location.state?.createdGroupId === id && <div className="group-created-notice"><p>{t('groups:createdHint')}</p><Link className="text-link" to={`/groups/${id}/manage#invite-links`}>{t('groups:inviteCta')}</Link></div>}{requestMode && <div className="request-notice"><p>{t('messages:requestReadOnly')}</p>{requestActions}</div>}{receipts.error && <div className="connection-notice" role="status">{t('messages:receiptError')}<Button variant="link" onClick={receipts.retry}>{t('messages:retryReceipts')}</Button></div>}</>}
+  detailsExtra={<>{area === 'group' && activeGroupMember && selected?.status === 'Active' && <GroupInviteCallout id={id} />}{detailsExtra}</>} headerSubtitle={subtitle} presenceStatus={requestMode ? undefined : presence.data?.online} headerTools={<NotificationPreview />} focusMessageId={focusMessageId} focusRequestKey={location.key} onRead={receipts.onRead} onTyping={onTyping} composerDisabled={requestMode || !activeGroupMember} composerContext={context} onCancelCompose={() => setContext(null)}
+  threadNotice={<>{anchoredBefore && <div className="context-history-notice" role="status"><p>{history.data && focusMessageId && !messageItems.some((message) => message.id === focusMessageId) ? t('messages:contextUnavailable') : t('messages:contextHistory')}</p><Button variant="link" onClick={() => setSearchParams({})}>{t('messages:backToLatest')}</Button></div>}{area === 'group' && location.state?.createdGroupId === id && <div className="group-created-notice"><p>{t('groups:createdHint')}</p><Link className="text-link" to={`/groups/${id}/manage#invite-links`}>{t('groups:inviteCta')}</Link></div>}{requestMode && <div className="request-notice"><p>{t('messages:requestReadOnly')}</p>{requestActions}</div>}{receipts.error && <div className="connection-notice" role="status">{t('messages:receiptError')}<Button variant="link" onClick={receipts.retry}>{t('messages:retryReceipts')}</Button></div>}</>}
   typingActorIds={typingActorIds} renderMessageActions={renderActions} renderAttachment={renderLiveAttachment}
   renderMessageContext={renderLiveContext} renderMessageReactions={renderLiveReactions} renderMessageMeta={renderLiveReceipt} />;
 }

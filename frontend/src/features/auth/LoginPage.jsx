@@ -1,7 +1,7 @@
 import { translate } from "@/i18n";
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -25,6 +25,7 @@ export function LoginPage({
     t
   } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const {
@@ -52,7 +53,8 @@ export function LoginPage({
     }
     try {
       await authApi.login(values);
-      navigate('/chat', {
+      const returnTo = searchParams.get('returnTo');
+      navigate(returnTo && /^\/(?:chat|groups|message-requests)(?:\/|\?|$)/.test(returnTo) && !returnTo.includes('\\') ? returnTo : '/chat', {
         replace: true
       });
     } catch (error) {

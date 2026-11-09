@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { queryClient } from '@/lib/query-client'
 import { messagesApi } from '@/features/messages/api'
 import { notificationsApi } from './api'
 import { useAuthStore } from '@/stores/auth-store'
 import { bcrFeatures } from '@/lib/bcr-features'
+import { notificationMessageTarget } from './message-target'
 
 export function notificationNextPage(page) {
   // An empty visible page can still carry a raw scan cursor. Preserve exact timestamp precision.
@@ -20,17 +21,31 @@ export function useNotifications(enabled = true, trash = false) {
 }
 export function useNotificationActions(onNavigate) {
   const navigate = useNavigate()
+  const location = useLocation()
+  const userId = useAuthStore(state => state.access?.userId)
+  const active = useRef(null)
+  useEffect(() => () => active.current?.abort(), [location.key])
+  useEffect(() => {
+    const unsubscribe = useAuthStore.subscribe((state, old) => { if (state.access?.userId !== old.access?.userId) active.current?.abort() })
+    return () => { unsubscribe(); active.current?.abort() }
+  }, [])
   const [notice, setNotice] = useState(false)
   const action = useMutation({ mutationFn: async ({ notification, all, open }) => {
     setNotice(false)
+    active.current?.abort()
+    const controller = new AbortController()
+    active.current = controller
     let target
     if (open && ['Message', 'GroupMessage', 'MessageRequest'].includes(notification.type) && notification.referenceId) {
-      const message = await messagesApi.get(notification.referenceId)
-      target = `${notification.type === 'GroupMessage' ? '/groups' : notification.type === 'MessageRequest' ? '/message-requests' : '/chat'}/${message.conversationId}`
+      const message = await messagesApi.get(notification.referenceId, controller.signal)
+      if (controller.signal.aborted || useAuthStore.getState().access?.userId !== userId) return
+      target = notificationMessageTarget(notification, message)
     }
     if (all) await notificationsApi.readAll()
     else await notificationsApi.read(notification.id)
-    await queryClient.invalidateQueries({ queryKey: ['workspace'] })
+    if (controller.signal.aborted || useAuthStore.getState().access?.userId !== userId) return
+    await queryClient.invalidateQueries({ queryKey: ['workspace'], predicate: q => ['notifications', 'notificationCount', 'unreadSummary'].includes(q.queryKey[1]) }, { cancelRefetch: false })
+    if (controller.signal.aborted || useAuthStore.getState().access?.userId !== userId) return
     if (target) { onNavigate?.(); navigate(target) }
     else setNotice(true)
   } })

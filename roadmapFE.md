@@ -2,6 +2,18 @@
 
 Cập nhật: **2026-11-09**, Asia/Bangkok. Đây là trạng thái đã đối chiếu source và bằng chứng; [roadmap/checkpoints trước đó](docs/frontend/history/roadmapFE-before-final-recovery.md) được giữ lại.
 
+## Notification → Exact Message — 09/11/2026
+
+**SOURCE_IMPLEMENTED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION.** Đã nối “Xem nội dung” ở Notifications/quick preview tới URL reload được `/chat/{id}?at={sequence}&message={messageId}` và `/groups/{id}?at={sequence}&message={messageId}` (MessageRequest giữ route riêng). API get-message xác minh referenceId/quyền và cung cấp conversationId/sequence; history dùng `beforeSequence=sequence+1`, limit30 hoặc tái sử dụng cache có target. Không tải tuần tự mọi trang hoặc dùng context/reactions API để dò tin.
+
+Jump cuộn riêng message container, focus accessible và highlight ring2,5s; chờ panel/filter đóng, không bị auto-bottom/ResizeObserver/realtime ghi đè. Giữ prepend anchor và “Trở về tin mới nhất”. Read observer chỉ chạy sau khi jump đặt đúng vị trí và vẫn theo viewport/foreground/dwell hiện có. Lookup/target pending hủy khi đổi route/account; click lại cùng target vẫn focus/highlight lại. Login giữ URL target qua `returnTo` có kiểm tra internal path. Recall placeholder, unavailable/permission error tiếng Việt; không inject nội dung GET nếu history không trả target.
+
+Files: `frontend/src/features/notifications/{use-notifications.js,message-target.js}`, `features/conversations/WorkspacePage.jsx`, `components/chat/{ChatWorkspace.jsx,use-thread-scroll.js}`, `app/guards.jsx`, `features/auth/LoginPage.jsx`; tests `notification-target.test.js`, `e2e/notification-jump.spec.js`; [báo cáo contract/file list/giới hạn](docs/frontend/notification-jump-report.md). Không sửa Backend/Database/provider/CSS/translation; dùng lại APIs, tokens và strings hiện có. Giữ nguyên dòng đổi tiêu đề request-storm có từ trước; không commit/push.
+
+Checks: build/ESLint PASS, unit31 PASS; expanded browser47 PASS và final focused14 PASS (11 jump +3 search/scroll/composer; không cộng các lượt trùng). Mock HTTP/WebSocket ở proxy cổng9, không ghi MeChat hoặc tuyên bố live integration. Bao phủ loaded/very old/private/group mobile-dark/reduced-motion, refresh/login/redirect security, Recall/unavailable/membership permissions, pending lookup/history cancellation, realtime và repeated target. Không có Backend blocker theo source contracts; live authorization/native screen reader vẫn NEEDS_VERIFICATION.
+
+**Next Exact Action:** PO kiểm notification Private/Group thật bằng hai tài khoản Development, tin rất cũ, reload/login return, Recall/Delete For Me/membership change và realtime trong lúc jump; theo dõi counts/status nhưng không xuất tokens/nội dung chat. BCR vẫn tạm dừng; không tự chạy live mutation hoặc apply DB.
+
 ## Typing Indicator trên Composer — 09/11/2026
 
 Đã chuyển trạng thái đang nhập khỏi Header xuống hàng cố định28px giữa Message Panel và Composer, dùng chung Private/Group. Header giữ presence/last seen/privacy và thông tin nhóm hiện có. Hiển thị tên từ profile/member cache; nhóm tối đa hai tên + số người khác, fallback “Thành viên” khi chưa có tên; không thêm API/subscription. Giữ nguyên SignalR events, TTL và Start/StopTyping. Có polite live region, ba chấm animation nhẹ, reduced-motion và ellipsis chống overflow. Không sửa scroll hooks, Backend/Database hoặc commit/push.
@@ -12,7 +24,7 @@ Checks: build/ESLint PASS; Vitest typing/realtime **9 PASS**; browser cô lập 
 
 **Next Exact Action:** PO tải lại giao diện và kiểm typing hai tài khoản Development thủ công; phần BCR vẫn tạm dừng theo yêu cầu trước. Request-storm evidence bên dưới được giữ nguyên.
 
-## Ưu tiên hiện hành — Chat request storm / HTTP 429, 09/11/2026
+## Chat request storm / HTTP 429 — checkpoint 09/11/2026
 
 **SOURCE_FIXED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION. Tạm dừng công việc BCR.** Đã xác nhận global workspace invalidation trên từng Delivered/Seen/Reaction làm tải lại lịch sử/context/receipts hàng loạt, kể cả ACK/read hints của chính actor. Sửa Frontend tối thiểu: metadata cache account/conversation/message, viewport-lazy, reply đúng điều kiện, invalidation theo mục tiêu, gom event bursts80ms, giữ in-flight request và cooldown429. HTTP reconciliation focus/online/reconnect/60s, permission reset, Delivered/Seen/Edit/Recall/Reply được giữ; không sửa limiter/JWT/Backend/DB.
 

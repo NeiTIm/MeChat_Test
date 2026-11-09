@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowDown, ArrowLeft, ArrowUpRight, Info, LoaderCircle, LogOut, MessageCircle, Pin, Search, ShieldCheck, Users, X } from 'lucide-react';
 import { navigationItems } from '@/components/layout/navigation';
@@ -68,6 +68,7 @@ export function ChatWorkspace({
   presenceStatus,
   headerTools,
   focusMessageId,
+  focusRequestKey = '',
   onRead,
   onTyping,
   typingActorIds = [],
@@ -87,7 +88,7 @@ export function ChatWorkspace({
   const detailsTrigger = useRef(null);
   const detailsHeading = useRef(null);
   const composerField = useRef(null);
-  const focusedTarget = useRef(null);
+  const [focusedTarget, setFocusedTarget] = useState(null);
   const [highlighted, setHighlighted] = useState(null);
   const wide = useWideLayout();
   const {
@@ -95,29 +96,33 @@ export function ChatWorkspace({
     onScroll,
     newMessages,
     jumpToLatest
-  } = useThreadScroll(messages, selectedId, user?.id);
+  } = useThreadScroll(messages, selectedId, user?.id, !!focusMessageId);
   const title = titleOverride || (area === 'group' ? t("chat:groups") : t("chat:messages"));
   const navigation = navigationItems(t, { preview, area });
   useEffect(() => {
     setSearchOpen(false);
     setMessageFilter('');
     setDetailsOpen(false);
-  }, [selectedId, focusMessageId]);
-  useEffect(() => {
-    if (!focusMessageId) { focusedTarget.current = null; setHighlighted(null); return }
-    const key = `${selectedId}:${focusMessageId}`;
-    if (focusedTarget.current === key) return;
+  }, [selectedId, focusMessageId, focusRequestKey]);
+  useLayoutEffect(() => {
+    if (!focusMessageId) { setFocusedTarget(null); setHighlighted(null); return }
+    const key = `${selectedId}:${focusMessageId}:${focusRequestKey}`;
+    if (focusedTarget === key) return;
+    // Let panels close and filtered rows return before measuring the final viewport.
+    if (detailsOpen || searchOpen || messageFilter) return;
     const target = [...(scrollRef.current?.querySelectorAll('[data-message-id]') || [])].find((node) => node.dataset.messageId === focusMessageId);
-    if (!target) return;
-    focusedTarget.current = key;
-    target.scrollIntoView({ block: 'center' }); target.focus({ preventScroll: true });
+    if (!target) { setFocusedTarget(null); setHighlighted(null); return }
+    setFocusedTarget(key);
+    const root = scrollRef.current;
+    root.scrollTop += target.getBoundingClientRect().top - root.getBoundingClientRect().top - (root.clientHeight - target.offsetHeight) / 2;
+    target.focus({ preventScroll: true });
     setHighlighted(focusMessageId);
-  }, [focusMessageId, selectedId, messages, scrollRef]);
+  }, [focusMessageId, focusRequestKey, focusedTarget, selectedId, messages, scrollRef, threadLoading, threadError, detailsOpen, searchOpen, messageFilter]);
   useEffect(() => {
     if (!highlighted) return;
-    const timer = setTimeout(() => setHighlighted(null), 5000);
+    const timer = setTimeout(() => setHighlighted(null), 2500);
     return () => clearTimeout(timer);
-  }, [highlighted]);
+  }, [highlighted, focusRequestKey]);
   useEffect(() => {
     const update = () => setOnline(navigator.onLine);
     window.addEventListener('online', update);
@@ -147,7 +152,8 @@ export function ChatWorkspace({
   const visibleConversations = conversations.filter(conversation => conversation.name.toLowerCase().includes(filter.toLowerCase()));
   const visibleMessages = messages.filter(message => !messageFilter || !message.recalled && message.content?.toLowerCase().includes(messageFilter.toLowerCase()));
   const people = new Map(members.map(member => [member.userId, member.displayName || member.username || roleLabel('Member')]));
-  useVisibleRead({ scrollRef, messages: visibleMessages, selectedId, onRead });
+  const jumpReady = !focusMessageId || focusedTarget === `${selectedId}:${focusMessageId}:${focusRequestKey}`;
+  useVisibleRead({ scrollRef, messages: visibleMessages, selectedId, onRead: jumpReady ? onRead : undefined });
   people.set(user?.id, user?.name || t('common:you'));
   if (selected?.otherUserId) people.set(selected.otherUserId, selected.name);
   const group = area === 'group';
