@@ -6,5 +6,12 @@ import { router } from './router'
 import { ToastViewport } from '@/components/ToastViewport'
 
 export function App() {
-  return <QueryClientProvider client={queryClient}><ThemeProvider><RouterProvider router={router} /><ToastViewport /></ThemeProvider></QueryClientProvider>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+        <ToastViewport />
+      </ThemeProvider>
+    </QueryClientProvider>
+  )
 }

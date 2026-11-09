@@ -27,7 +27,8 @@ export function useThreadScroll(messages, conversationId, userId, anchored = fal
     const old = previous.current
     if (anchored) {
       // Explicit message targets own the scroll position, including pending loads.
-      if (old.id === conversationId && old.last === last?.id && old.first !== first) element.scrollTop += element.scrollHeight - old.height
+      if (old.id === conversationId && old.last === last?.id && old.first !== first)
+        element.scrollTop += element.scrollHeight - old.height
       else if (old.id === conversationId && old.last && old.last !== last?.id) setNewMessages(true)
     } else if (old.id !== conversationId || !old.last || old.anchored) jumpToLatest()
     else if (old.first !== first && old.last === last?.id) {
@@ -37,13 +38,21 @@ export function useThreadScroll(messages, conversationId, userId, anchored = fal
       if (atBottom.current || last?.senderUserId === userId) jumpToLatest()
       else setNewMessages(true)
     } else if (atBottom.current) element.scrollTop = element.scrollHeight
-    previous.current = { id: conversationId, first, last: last?.id, height: element.scrollHeight, anchored }
+    previous.current = {
+      id: conversationId,
+      first,
+      last: last?.id,
+      height: element.scrollHeight,
+      anchored,
+    }
   }, [messages, conversationId, userId, jumpToLatest, anchored])
 
   useLayoutEffect(() => {
     const element = scrollRef.current
     if (!element || anchored || typeof ResizeObserver === 'undefined') return
-    const observer = new ResizeObserver(() => { if (atBottom.current) element.scrollTop = element.scrollHeight })
+    const observer = new ResizeObserver(() => {
+      if (atBottom.current) element.scrollTop = element.scrollHeight
+    })
     observer.observe(element)
     return () => observer.disconnect()
   }, [conversationId, hasMessages, anchored])

@@ -6,15 +6,36 @@ import { queryClient } from '@/lib/query-client'
 import { handleMessageHint } from '@/features/messages/message-events'
 
 export const REALTIME_EVENTS = [
-  'MessageCreated', 'MessageEdited', 'MessageRecalled', 'MessageDeletedForMe',
-  'MessageReactionChanged', 'MessageDelivered', 'MessageSeen', 'ConversationHidden',
-  'TypingChanged', 'PresenceChanged', 'FriendshipChanged', 'PermissionsChanged',
-  'MessageRequestChanged', 'GroupChanged', 'GroupInvitationChanged',
-  'NotificationCreated', 'NotificationRead', 'SessionRevoked',
-  'NotificationDeleted', 'NotificationRestored', 'FriendRequestsUnreadChanged',
+  'MessageCreated',
+  'MessageEdited',
+  'MessageRecalled',
+  'MessageDeletedForMe',
+  'MessageReactionChanged',
+  'MessageDelivered',
+  'MessageSeen',
+  'ConversationHidden',
+  'TypingChanged',
+  'PresenceChanged',
+  'FriendshipChanged',
+  'PermissionsChanged',
+  'MessageRequestChanged',
+  'GroupChanged',
+  'GroupInvitationChanged',
+  'NotificationCreated',
+  'NotificationRead',
+  'SessionRevoked',
+  'NotificationDeleted',
+  'NotificationRestored',
+  'FriendRequestsUnreadChanged',
 ]
-const RealtimeContext = createContext({ status: 'disconnected', typing: [], invoke: async () => false })
-export function useRealtime() { return useContext(RealtimeContext) }
+const RealtimeContext = createContext({
+  status: 'disconnected',
+  typing: [],
+  invoke: async () => false,
+})
+export function useRealtime() {
+  return useContext(RealtimeContext)
+}
 
 export function RealtimeProvider({ children }) {
   const userId = useAuthStore((state) => state.access?.userId)
@@ -22,8 +43,17 @@ export function RealtimeProvider({ children }) {
   const [typing, setTyping] = useState([])
   const connectionRef = useRef(null)
   const invoke = useCallback(async (method, id) => {
-    if (!['JoinConversation', 'LeaveConversation', 'StartTyping', 'StopTyping'].includes(method) || connectionRef.current?.state !== 'Connected') return false
-    try { await connectionRef.current.invoke(method, id); return true } catch { return false }
+    if (
+      !['JoinConversation', 'LeaveConversation', 'StartTyping', 'StopTyping'].includes(method) ||
+      connectionRef.current?.state !== 'Connected'
+    )
+      return false
+    try {
+      await connectionRef.current.invoke(method, id)
+      return true
+    } catch {
+      return false
+    }
   }, [])
   useEffect(() => {
     if (!userId) return
@@ -38,7 +68,8 @@ export function RealtimeProvider({ children }) {
       .withAutomaticReconnect([0, 2000, 5000, 10000, 30000])
       .build()
     connectionRef.current = connection
-    const sync = () => queryClient.invalidateQueries({ queryKey: ['workspace'] }, { cancelRefetch: false })
+    const sync = () =>
+      queryClient.invalidateQueries({ queryKey: ['workspace'] }, { cancelRefetch: false })
     for (const event of REALTIME_EVENTS) {
       connection.on(event, (payload) => {
         if (disposed) return
@@ -47,27 +78,60 @@ export function RealtimeProvider({ children }) {
           seen.add(payload.eventId)
           if (seen.size > 500) seen.delete(seen.values().next().value)
         }
-        if (event === 'SessionRevoked') { clearSession(); return }
+        if (event === 'SessionRevoked') {
+          clearSession()
+          return
+        }
         if (event === 'TypingChanged') {
-          setTyping((current) => [...current.filter((item) => item.conversationId !== payload.conversationId || item.actorId !== payload.actorId), ...(payload.isTyping ? [{ ...payload, recipientUserId: userId, expires: Math.min(Date.now() + 5000, new Date(payload.expiresAt).getTime()) }] : [])])
+          setTyping((current) => [
+            ...current.filter(
+              (item) =>
+                item.conversationId !== payload.conversationId || item.actorId !== payload.actorId,
+            ),
+            ...(payload.isTyping
+              ? [
+                  {
+                    ...payload,
+                    recipientUserId: userId,
+                    expires: Math.min(Date.now() + 5000, new Date(payload.expiresAt).getTime()),
+                  },
+                ]
+              : []),
+          ])
           return
         }
         if (event === 'MessageRecalled' || event === 'MessageDeletedForMe') {
           handleMessageHint(queryClient, event, payload, userId)
           return
         }
-        if (['MessageCreated', 'MessageEdited', 'MessageReactionChanged', 'MessageDelivered', 'MessageSeen'].includes(event)) {
+        if (
+          [
+            'MessageCreated',
+            'MessageEdited',
+            'MessageReactionChanged',
+            'MessageDelivered',
+            'MessageSeen',
+          ].includes(event)
+        ) {
           const key = `${event}:${payload?.conversationId || ''}:${payload?.messageId || payload?.userId || ''}`
           const previous = messageHints.get(key)
-          const merged = event === 'MessageSeen' && previous?.payload?.lastReadSequence > payload?.lastReadSequence
-            ? { ...payload, lastReadSequence: previous.payload.lastReadSequence } : payload
+          const merged =
+            event === 'MessageSeen' &&
+            previous?.payload?.lastReadSequence > payload?.lastReadSequence
+              ? { ...payload, lastReadSequence: previous.payload.lastReadSequence }
+              : payload
           messageHints.set(key, { event, payload: merged })
-          if (!hintTimer) hintTimer = setTimeout(() => {
-            hintTimer = undefined
-            if (disposed || useAuthStore.getState().access?.userId !== userId) { messageHints.clear(); return }
-            for (const hint of messageHints.values()) handleMessageHint(queryClient, hint.event, hint.payload, userId)
-            messageHints.clear()
-          }, 80)
+          if (!hintTimer)
+            hintTimer = setTimeout(() => {
+              hintTimer = undefined
+              if (disposed || useAuthStore.getState().access?.userId !== userId) {
+                messageHints.clear()
+                return
+              }
+              for (const hint of messageHints.values())
+                handleMessageHint(queryClient, hint.event, hint.payload, userId)
+              messageHints.clear()
+            }, 80)
           return
         }
         if (['PermissionsChanged', 'GroupChanged', 'ConversationHidden'].includes(event)) {
@@ -75,11 +139,27 @@ export function RealtimeProvider({ children }) {
           // Reset first: do not leave old message content visible while permissions are checked.
           queryClient.resetQueries({ queryKey: ['workspace'] })
         } else if (event.startsWith('Notification')) {
-          queryClient.invalidateQueries({ queryKey: ['workspace'], predicate: q => ['notifications', 'notificationCount', 'unreadSummary'].includes(q.queryKey[1]) }, { cancelRefetch: false })
+          queryClient.invalidateQueries(
+            {
+              queryKey: ['workspace'],
+              predicate: (q) =>
+                ['notifications', 'notificationCount', 'unreadSummary'].includes(q.queryKey[1]),
+            },
+            { cancelRefetch: false },
+          )
         } else if (event === 'FriendRequestsUnreadChanged') {
-          queryClient.invalidateQueries({ queryKey: ['workspace'], predicate: q => ['friendUnread', 'friendRequests'].includes(q.queryKey[1]) }, { cancelRefetch: false })
+          queryClient.invalidateQueries(
+            {
+              queryKey: ['workspace'],
+              predicate: (q) => ['friendUnread', 'friendRequests'].includes(q.queryKey[1]),
+            },
+            { cancelRefetch: false },
+          )
         } else if (event === 'PresenceChanged') {
-          queryClient.invalidateQueries({ queryKey: ['workspace', 'presence'] }, { cancelRefetch: false })
+          queryClient.invalidateQueries(
+            { queryKey: ['workspace', 'presence'] },
+            { cancelRefetch: false },
+          )
         } else sync()
       })
     }
@@ -88,7 +168,10 @@ export function RealtimeProvider({ children }) {
       setStatus('connecting')
       try {
         await connection.start()
-        if (disposed) { await connection.stop(); return }
+        if (disposed) {
+          await connection.stop()
+          return
+        }
         setStatus('connected')
         sync()
       } catch {
@@ -97,17 +180,33 @@ export function RealtimeProvider({ children }) {
         if (useAuthStore.getState().access?.userId === userId) startTimer = setTimeout(start, 15000)
       }
     }
-    connection.onreconnecting(() => { if (!disposed) setStatus('reconnecting') })
-    connection.onreconnected(() => { if (!disposed) { setStatus('connected'); sync() } })
-    connection.onclose(() => {
-      if (!disposed) { setStatus('disconnected'); startTimer = setTimeout(start, 15000) }
+    connection.onreconnecting(() => {
+      if (!disposed) setStatus('reconnecting')
     })
-    const foregroundSync = () => { if (document.visibilityState === 'visible' && navigator.onLine) sync() }
+    connection.onreconnected(() => {
+      if (!disposed) {
+        setStatus('connected')
+        sync()
+      }
+    })
+    connection.onclose(() => {
+      if (!disposed) {
+        setStatus('disconnected')
+        startTimer = setTimeout(start, 15000)
+      }
+    })
+    const foregroundSync = () => {
+      if (document.visibilityState === 'visible' && navigator.onLine) sync()
+    }
     const interval = setInterval(foregroundSync, 60000)
-    const typingInterval = setInterval(() => setTyping((items) => {
-      const remaining = items.filter((item) => item.expires > Date.now())
-      return remaining.length === items.length ? items : remaining
-    }), 1000)
+    const typingInterval = setInterval(
+      () =>
+        setTyping((items) => {
+          const remaining = items.filter((item) => item.expires > Date.now())
+          return remaining.length === items.length ? items : remaining
+        }),
+      1000,
+    )
     window.addEventListener('online', foregroundSync)
     window.addEventListener('focus', foregroundSync)
     document.addEventListener('visibilitychange', foregroundSync)
@@ -126,6 +225,13 @@ export function RealtimeProvider({ children }) {
       if (connectionRef.current === connection) connectionRef.current = null
     }
   }, [userId])
-  const value = useMemo(() => ({ status: userId ? status : 'disconnected', typing: typing.filter((item) => item.recipientUserId === userId), invoke }), [status, userId, typing, invoke])
+  const value = useMemo(
+    () => ({
+      status: userId ? status : 'disconnected',
+      typing: typing.filter((item) => item.recipientUserId === userId),
+      invoke,
+    }),
+    [status, userId, typing, invoke],
+  )
   return <RealtimeContext.Provider value={value}>{children}</RealtimeContext.Provider>
 }

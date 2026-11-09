@@ -6,11 +6,22 @@ let refreshPromise
 let generation = 0
 let onSessionLost = () => {}
 function validAccess(access) {
-  return access && ['accessToken', 'userId', 'username'].every((key) => typeof access[key] === 'string' && access[key].length > 0) && Number.isFinite(new Date(access.expiresAt).getTime())
+  return (
+    access &&
+    ['accessToken', 'userId', 'username'].every(
+      (key) => typeof access[key] === 'string' && access[key].length > 0,
+    ) &&
+    Number.isFinite(new Date(access.expiresAt).getTime())
+  )
 }
-export function configureSessionLoss(callback) { onSessionLost = callback }
+export function configureSessionLoss(callback) {
+  onSessionLost = callback
+}
 export function adoptSession(access) {
-  if (!validAccess(access)) { clearSession(); throw new Error('INVALID_SESSION_RESPONSE') }
+  if (!validAccess(access)) {
+    clearSession()
+    throw new Error('INVALID_SESSION_RESPONSE')
+  }
   generation += 1
   onSessionLost()
   useAuthStore.getState().setAccess(access)
@@ -32,12 +43,25 @@ export async function refreshSession() {
     const started = generation
     const rotate = async () => {
       const csrf = csrfToken()
-      if (!csrf) { clearSession(); return null }
+      if (!csrf) {
+        clearSession()
+        return null
+      }
       try {
-        const { data } = await http.post('/auth/refresh', null, { skipAuth: true, headers: { 'X-CSRF-Token': csrf } })
+        const { data } = await http.post('/auth/refresh', null, {
+          skipAuth: true,
+          headers: { 'X-CSRF-Token': csrf },
+        })
         if (generation !== started) return null
-        if (!validAccess(data)) { clearSession(); throw new Error('INVALID_SESSION_RESPONSE') }
-        if (useAuthStore.getState().access?.userId && useAuthStore.getState().access.userId !== data.userId) onSessionLost()
+        if (!validAccess(data)) {
+          clearSession()
+          throw new Error('INVALID_SESSION_RESPONSE')
+        }
+        if (
+          useAuthStore.getState().access?.userId &&
+          useAuthStore.getState().access.userId !== data.userId
+        )
+          onSessionLost()
         useAuthStore.getState().setAccess(data)
         return data
       } catch (error) {
@@ -46,16 +70,19 @@ export async function refreshSession() {
       }
     }
     // Cookies are shared across tabs. Read CSRF inside the lock after previous rotation.
-    refreshPromise = (navigator.locks?.request
-      ? navigator.locks.request('mechat-refresh', rotate)
-      : rotate()).finally(() => { refreshPromise = null })
+    refreshPromise = (
+      navigator.locks?.request ? navigator.locks.request('mechat-refresh', rotate) : rotate()
+    ).finally(() => {
+      refreshPromise = null
+    })
   }
   return refreshPromise
 }
 
 export async function accessToken() {
   let access = useAuthStore.getState().access
-  if (!access || new Date(access.expiresAt).getTime() - Date.now() < 60_000) access = await refreshSession()
+  if (!access || new Date(access.expiresAt).getTime() - Date.now() < 60_000)
+    access = await refreshSession()
   if (!access) throw new Error('SESSION_ENDED')
   return access.accessToken
 }
@@ -73,17 +100,24 @@ http.interceptors.request.use((config) => {
   }
   return config
 })
-http.interceptors.response.use((response) => response, async (error) => {
-  const config = error.config
-  if (error.response?.status !== 401 || !config || config.skipAuth || config.retried) throw error
-  config.retried = true
-  const access = await refreshSession()
-  if (!access) throw error
-  if (config.actorUserId && config.actorUserId !== access.userId) { clearSession(); throw error }
-  config.headers.Authorization = `Bearer ${access.accessToken}`
-  try { return await http(config) }
-  catch (retryError) {
-    if (retryError.response?.status === 401) clearSession()
-    throw retryError
-  }
-})
+http.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const config = error.config
+    if (error.response?.status !== 401 || !config || config.skipAuth || config.retried) throw error
+    config.retried = true
+    const access = await refreshSession()
+    if (!access) throw error
+    if (config.actorUserId && config.actorUserId !== access.userId) {
+      clearSession()
+      throw error
+    }
+    config.headers.Authorization = `Bearer ${access.accessToken}`
+    try {
+      return await http(config)
+    } catch (retryError) {
+      if (retryError.response?.status === 401) clearSession()
+      throw retryError
+    }
+  },
+)

@@ -1,5 +1,15 @@
 # MeChat Frontend — Roadmap hiện hành
 
+## Phase 4 structural refactoring — 09/11/2026
+
+**COMPLETED — SOURCE_REFACTORED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION.** Đã xử lý đủ 16 nhóm feature: 12 COMPLETED, 4 KEPT AS-IS về cấu trúc. Sau refactor: 120 module JS/JSX; thêm 35 file source, sửa 49 file (15 JSX và 34 JS chỉ format với AST giữ nguyên), không di chuyển/xóa file. Thêm 3 regression tests cho typing hook; bảo toàn thay đổi Phase 2–3.
+
+Final checks: Prettier toàn bộ src JS/JSX, ESLint, production build và Git diff check PASS; Vitest **81 PASS / 17 files**; full client browser **191 PASS**, BCR simulation **14 PASS**, request-storm/reconnect/429 **3 PASS**, production smoke **1 PASS**. Các suite browser này riêng biệt; không cộng thêm targeted runs bị trùng. Không skip/flaky trong final client/BCR/production runs. Localization 695 calls, API static mapping 128 actions PASS; import graph không thiếu import/export, không cycle hoặc module không reachable. [Báo cáo file/component/hook và bằng chứng](docs/frontend/phase4-refactoring-progress.md).
+
+Đã sửa lỗi export sampleMessage phát hiện khi tách DEV fixtures; 3 ca lỗi ban đầu được ghi nhận, chạy lại 3 PASS và full191 PASS. CSS/locale JSON giữ nguyên; 85 public module exports và AST của 37 module JS gốc được đối chiếu. Không sửa Backend/Database/contracts/flags/tooling/dependencies; không commit/push. Không còn PARTIAL/BLOCKED trong phạm vi refactor source.
+
+**Next Exact Action:** nghiệm thu thủ công bằng tài khoản Development được phép cho auth/session/account switching, hai-user chat/typing/reconnect/read receipts, jump, uploads/permissions, BCR, Admin/Appeals; kiểm native mobile/screen reader/focus. Client HTTP/WebSocket simulation không phải live Backend/SQL acceptance. Không tự chạy live mutation hoặc mở rộng sang feature mới.
+
 Cập nhật: **2026-11-09**, Asia/Bangkok. Đây là trạng thái đã đối chiếu source và bằng chứng; [roadmap/checkpoints trước đó](docs/frontend/history/roadmapFE-before-final-recovery.md) được giữ lại.
 
 ## Notification → Exact Message — 09/11/2026

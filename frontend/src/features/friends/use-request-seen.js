@@ -28,12 +28,20 @@ export function useRequestSeen(enabled) {
     const unsubscribe = useAuthStore.subscribe((state, old) => {
       if (state.access?.userId !== old.access?.userId) current.stop()
     })
-    return () => { unsubscribe(); current.stop(); if (queue.current === current) queue.current = null }
+    return () => {
+      unsubscribe()
+      current.stop()
+      if (queue.current === current) queue.current = null
+    }
   }, [enabled, userId])
   const register = useCallback((id, node) => {
     if (node) nodes.current.set(id, node)
     else nodes.current.delete(id)
     queue.current?.register(id, node)
   }, [])
-  return { register, error: enabled && failure && failure.userId === userId ? failure.error : null, retry: () => queue.current?.retry() }
+  return {
+    register,
+    error: enabled && failure && failure.userId === userId ? failure.error : null,
+    retry: () => queue.current?.retry(),
+  }
 }

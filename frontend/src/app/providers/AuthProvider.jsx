@@ -4,7 +4,9 @@ import { queryClient } from '@/lib/query-client'
 import { useAuthStore } from '@/stores/auth-store'
 
 let channel
-export function broadcastLogout() { channel?.postMessage({ type: 'logout' }) }
+export function broadcastLogout() {
+  channel?.postMessage({ type: 'logout' })
+}
 export function retryRecovery() {
   useAuthStore.setState({ status: 'loading', recoveryError: null })
   return refreshSession().catch((error) => {
@@ -13,13 +15,21 @@ export function retryRecovery() {
 }
 export function AuthProvider({ children }) {
   useEffect(() => {
-    configureSessionLoss(() => { queryClient.cancelQueries(); queryClient.clear() })
+    configureSessionLoss(() => {
+      queryClient.cancelQueries()
+      queryClient.clear()
+    })
     retryRecovery()
     if ('BroadcastChannel' in window) {
       channel = new BroadcastChannel('mechat-session')
-      channel.onmessage = (event) => { if (event.data?.type === 'logout') clearSession() }
+      channel.onmessage = (event) => {
+        if (event.data?.type === 'logout') clearSession()
+      }
     }
-    return () => { channel?.close(); channel = null }
+    return () => {
+      channel?.close()
+      channel = null
+    }
   }, [])
   return children
 }

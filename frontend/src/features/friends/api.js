@@ -4,8 +4,10 @@ export const friendsApi = {
   list: async ({ signal }) => (await http.get('/friends', { signal })).data,
   requests: async ({ signal }) => (await http.get('/friends/requests', { signal })).data,
   blocks: async ({ signal }) => (await http.get('/blocks', { signal })).data,
-  unreadCount: async ({ signal }) => (await http.get('/friends/requests/unread-count', { signal })).data,
-  markSeen: async (requestIds, signal) => (await http.post('/friends/requests/mark-seen', { requestIds }, { signal })).data,
+  unreadCount: async ({ signal }) =>
+    (await http.get('/friends/requests/unread-count', { signal })).data,
+  markSeen: async (requestIds, signal) =>
+    (await http.post('/friends/requests/mark-seen', { requestIds }, { signal })).data,
   send: async (targetUserId) => (await http.post('/friends/requests', { targetUserId })).data,
   accept: async (id) => (await http.post(`/friends/requests/${id}/accept`)).data,
   reject: async (id) => (await http.post(`/friends/requests/${id}/reject`)).data,

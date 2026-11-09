@@ -16,12 +16,51 @@ import appeals from './locales/vi/appeals.json'
 import admin from './locales/vi/admin.json'
 
 i18n.use(initReactI18next).init({
-  lng: 'vi-VN', fallbackLng: 'vi', supportedLngs: ['vi-VN', 'vi'],
-  resources: { vi: { common, auth, chat, groups, design, errors, users, friends, messages, files, notifications, reports, appeals, admin } },
-  defaultNS: 'common', ns: ['common', 'auth', 'chat', 'groups', 'design', 'errors', 'users', 'friends', 'messages', 'files', 'notifications', 'reports', 'appeals', 'admin'],
-  interpolation: { escapeValue: false }, returnNull: false, initImmediate: false,
+  lng: 'vi-VN',
+  fallbackLng: 'vi',
+  supportedLngs: ['vi-VN', 'vi'],
+  resources: {
+    vi: {
+      common,
+      auth,
+      chat,
+      groups,
+      design,
+      errors,
+      users,
+      friends,
+      messages,
+      files,
+      notifications,
+      reports,
+      appeals,
+      admin,
+    },
+  },
+  defaultNS: 'common',
+  ns: [
+    'common',
+    'auth',
+    'chat',
+    'groups',
+    'design',
+    'errors',
+    'users',
+    'friends',
+    'messages',
+    'files',
+    'notifications',
+    'reports',
+    'appeals',
+    'admin',
+  ],
+  interpolation: { escapeValue: false },
+  returnNull: false,
+  initImmediate: false,
 })
 export const translate = (key, options) => i18n.t(key, options)
-export const roleLabel = (role) => i18n.t(`common:roles.${role}`, { defaultValue: i18n.t('common:unknownRole') })
-export const statusLabel = (status) => i18n.t(`common:statuses.${status}`, { defaultValue: i18n.t('common:unknownStatus') })
+export const roleLabel = (role) =>
+  i18n.t(`common:roles.${role}`, { defaultValue: i18n.t('common:unknownRole') })
+export const statusLabel = (status) =>
+  i18n.t(`common:statuses.${status}`, { defaultValue: i18n.t('common:unknownStatus') })
 export default i18n

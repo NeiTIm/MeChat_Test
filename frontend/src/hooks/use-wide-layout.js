@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 
 export function useWideLayout() {
-  const [wide, setWide] = useState(() => window.matchMedia?.('(min-width: 1280px)').matches ?? false)
+  const [wide, setWide] = useState(
+    () => window.matchMedia?.('(min-width: 1280px)').matches ?? false,
+  )
   useEffect(() => {
     const media = window.matchMedia?.('(min-width: 1280px)')
     if (!media) return

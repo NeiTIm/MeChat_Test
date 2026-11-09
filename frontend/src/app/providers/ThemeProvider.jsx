@@ -6,7 +6,9 @@ export function ThemeProvider({ children }) {
   useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
     document.documentElement.style.colorScheme = theme
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#171621' : '#6355d8')
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'dark' ? '#171621' : '#6355d8')
   }, [theme])
   return children
 }

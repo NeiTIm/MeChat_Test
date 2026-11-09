@@ -8,6 +8,8 @@ export const reportsApi = {
 const appealHttp = axios.create({ baseURL: '/api/appeals', timeout: 20000 })
 export const appealsApi = {
   authenticate: async (input) => (await appealHttp.post('/authenticate', input)).data,
-  mine: async (token, signal) => (await appealHttp.get('/me', { signal, headers: { Authorization: `Bearer ${token}` } })).data,
-  create: async (token, reason) => (await appealHttp.post('', { reason }, { headers: { Authorization: `Bearer ${token}` } })).data,
+  mine: async (token, signal) =>
+    (await appealHttp.get('/me', { signal, headers: { Authorization: `Bearer ${token}` } })).data,
+  create: async (token, reason) =>
+    (await appealHttp.post('', { reason }, { headers: { Authorization: `Bearer ${token}` } })).data,
 }
