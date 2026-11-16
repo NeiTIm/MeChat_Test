@@ -90,6 +90,8 @@ public interface IFriendRepository
 
     void AddFriendRequest(FriendRequest request);
 
+    void AddNotification(Notification notification);
+
     Task<int> GetUnseenCountAsync(Guid actor, CancellationToken ct);
     Task<int> MarkSeenAsync(Guid actor, Guid[] ids, DateTime now, CancellationToken ct);
 

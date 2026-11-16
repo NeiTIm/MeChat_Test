@@ -59,6 +59,9 @@ export function useNotificationActions(onNavigate) {
       const controller = new AbortController()
       active.current = controller
       let target
+      if (open && notification.type === 'FriendRequest' && notification.referenceId) {
+        target = `/friends/incoming?${new URLSearchParams({ request: notification.referenceId })}`
+      }
       if (
         open &&
         ['Message', 'GroupMessage', 'MessageRequest'].includes(notification.type) &&

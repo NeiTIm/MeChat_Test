@@ -30,7 +30,7 @@ public sealed class FriendSeenTests
                 case "UserExistsAsync": return Task.FromResult(true);
                 case "SaveChangesAsync": return Task.FromResult(1);
                 case "AddFriendRequest": rows.Add((FriendRequest)args[0]!); return null;
-                case "AddFriendship": case "AddUserBlock": return null;
+                case "AddFriendship": case "AddUserBlock": case "AddNotification": return null;
                 case "GetPendingPairRequestAsync": return Task.FromResult(rows.FirstOrDefault(r => r.Status == "Pending"));
                 case "GetPendingReceivedRequestAsync": return Task.FromResult(rows.FirstOrDefault(r => r.Id == (Guid)args[0]! && r.ReceiverUserId == (Guid)args[1]! && r.Status == "Pending"));
                 case "GetPendingSentRequestAsync": return Task.FromResult(rows.FirstOrDefault(r => r.Id == (Guid)args[0]! && r.SenderUserId == (Guid)args[1]! && r.Status == "Pending"));

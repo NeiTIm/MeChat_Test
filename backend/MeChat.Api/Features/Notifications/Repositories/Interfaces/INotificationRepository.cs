@@ -10,7 +10,10 @@ public interface INotificationRepository
         DateTime? before,
         Guid? beforeId,
         int take,
-        CancellationToken ct);
+        CancellationToken ct,
+        IReadOnlyCollection<Guid>? unreadMessageRepresentatives = null);
+
+    Task<List<MessageNotificationCandidate>> GetUnreadMessageCandidatesAsync(Guid actor, CancellationToken ct);
 
     // Lấy toàn bộ thông báo chưa đọc của user.
     Task<List<Notification>> GetUnreadNotificationsAsync(
@@ -28,6 +31,8 @@ public interface INotificationRepository
         Guid auditLogId,
         Guid recipientUserId,
         CancellationToken ct);
+
+    Task<string?> GetFriendRequestSenderNameAsync(Guid requestId, Guid recipientUserId, CancellationToken ct);
 
     // Đánh dấu tất cả thông báo chưa đọc của user là đã đọc.
     Task<int> MarkAllReadAsync(

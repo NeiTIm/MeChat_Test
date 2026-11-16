@@ -1,7 +1,7 @@
 import { FriendRow } from '@/features/friends/components/FriendRow'
 import { UserSearch } from '@/features/friends/components/UserSearch'
-import { useState } from 'react'
-import { NavLink, useNavigate, useParams } from 'react-router'
+import { useRef, useState } from 'react'
+import { NavLink, useLocation, useNavigate, useParams, useSearchParams } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { UsersRound } from 'lucide-react'
@@ -15,10 +15,14 @@ import { errorMessage } from '@/lib/errors'
 import { friendsApi } from './api'
 import { useFriendUnread } from './use-friend-unread'
 import { useRequestSeen } from './use-request-seen'
+import { useFriendRequestTarget } from './hooks/use-friend-request-target'
 
 export function FriendsPage() {
   const { t } = useTranslation()
   const { section = 'list' } = useParams()
+  const [searchParams] = useSearchParams()
+  const location = useLocation()
+  const contentRef = useRef(null)
   const navigate = useNavigate()
   const userId = useAuthStore((state) => state.access?.userId)
   const unread = useFriendUnread()
@@ -31,6 +35,15 @@ export function FriendsPage() {
   const requests = useQuery({
     queryKey: ['workspace', 'friendRequests', userId],
     queryFn: friendsApi.requests,
+    ...(searchParams.get('request') ? { refetchOnMount: 'always' } : {}),
+  })
+  const requestTarget = useFriendRequestTarget({
+    requestId: searchParams.get('request'),
+    requestKey: location.key,
+    requests,
+    userId,
+    enabled: section === 'incoming',
+    containerRef: contentRef,
   })
   const blocks = useQuery({
     queryKey: ['workspace', 'blocks'],
@@ -51,6 +64,11 @@ export function FriendsPage() {
       if (method === 'block')
         await queryClient.resetQueries({
           queryKey: ['workspace'],
+        })
+      else if (method === 'send' && result?.status !== 'Accepted')
+        await queryClient.invalidateQueries({
+          queryKey: ['workspace'],
+          predicate: (query) => ['friendRequests', 'friendUnread'].includes(query.queryKey[1]),
         })
       else
         await queryClient.invalidateQueries({
@@ -115,7 +133,18 @@ export function FriendsPage() {
             </NavLink>
           ))}
         </nav>
-        <section className="settings-content">
+        <section
+          className="settings-content"
+          ref={contentRef}
+        >
+          {requestTarget.unavailable && (
+            <p
+              className="form-feedback feedback-error"
+              role="status"
+            >
+              {t('friends:targetUnavailable')}
+            </p>
+          )}
           {notice && (
             <p
               className="form-feedback feedback-success"
@@ -183,6 +212,7 @@ export function FriendsPage() {
                   key={row.id || row.userId}
                   item={row}
                   section={section}
+                  highlighted={requestTarget.highlightedId === row.id}
                   {...shared}
                 />
               ))}

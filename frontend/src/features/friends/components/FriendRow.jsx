@@ -8,7 +8,7 @@ import { usersApi } from '@/features/users/api'
 import { formatDate } from '@/i18n/format'
 import { PublicProfile } from './PublicProfile'
 
-export function FriendRow({ item, section, run, pending, onMessage, registerSeen }) {
+export function FriendRow({ item, section, run, pending, onMessage, registerSeen, highlighted }) {
   const { t } = useTranslation()
   const isRequest = section === 'incoming' || section === 'outgoing'
   const userId = isRequest
@@ -31,7 +31,10 @@ export function FriendRow({ item, section, run, pending, onMessage, registerSeen
   return (
     <article
       ref={seenRef}
-      className="person-row"
+      className={`person-row ${highlighted ? 'ring-2 ring-primary ring-offset-2 ring-offset-background' : ''}`}
+      data-friend-request-id={isRequest ? item.id : undefined}
+      tabIndex={section === 'incoming' ? -1 : undefined}
+      aria-label={highlighted ? t('friends:targetRequest') : undefined}
     >
       <div className="person-info">
         <PublicProfile

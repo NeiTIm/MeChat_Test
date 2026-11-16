@@ -78,6 +78,25 @@ it('reconciles all three BCR metadata events and HTTP fallback signals', async (
   expect(invalidate).toHaveBeenCalledTimes(6)
 })
 
+it('friend request creation refreshes only friend and notification projections with event deduplication', async () => {
+  await mount()
+  const invalidate = vi.spyOn(queryClient, 'invalidateQueries')
+  const payload = { eventId: 'new-friend-request', friendRequestId: 'request' }
+  await act(async () => {
+    connections[0].handlers.FriendshipChanged(payload)
+    connections[0].handlers.FriendshipChanged(payload)
+    connections[0].handlers.NotificationCreated({ eventId: 'friend-notice', type: 'FriendRequest' })
+  })
+  expect(connections).toHaveLength(1)
+  expect(invalidate).toHaveBeenCalledTimes(2)
+  const predicates = invalidate.mock.calls.map(([filters]) => filters.predicate)
+  expect(predicates.every(predicate => typeof predicate === 'function')).toBe(true)
+  expect(predicates[0]({ queryKey: ['workspace', 'friendRequests', 'test-actor'] })).toBe(true)
+  expect(predicates[1]({ queryKey: ['workspace', 'notifications', 'test-actor'] })).toBe(true)
+  for (const queryKey of [['workspace', 'private', 'room', 'messages'], ['workspace', 'messageContext', 'message'], ['workspace', 'messageReceipts', 'message']])
+    expect(predicates.every(predicate => !predicate({ queryKey }))).toBe(true)
+})
+
 it('coalesces receipt bursts without invalidating history and drops queued hints after cleanup', async () => {
   const rendered = await mount()
   const history = ['workspace', 'private', 'room', 'messages']

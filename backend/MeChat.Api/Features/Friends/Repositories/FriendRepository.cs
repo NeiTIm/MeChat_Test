@@ -307,6 +307,8 @@ public sealed class FriendRepository(
         db.FriendRequests.Add(request);
     }
 
+    public void AddNotification(Notification notification) => db.Notifications.Add(notification);
+
     public Task<int> GetUnseenCountAsync(Guid actor, CancellationToken ct) =>
         db.FriendRequests.CountAsync(r => r.ReceiverUserId == actor && r.Status == "Pending" && r.SeenAt == null, ct);
 

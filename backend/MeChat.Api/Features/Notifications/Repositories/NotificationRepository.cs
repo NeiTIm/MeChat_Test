@@ -12,10 +12,17 @@ public sealed class NotificationRepository(
         DateTime? before,
         Guid? beforeId,
         int take,
-        CancellationToken ct)
+        CancellationToken ct,
+        IReadOnlyCollection<Guid>? unreadMessageRepresentatives = null)
     {
         // Phân trang theo cursor: ưu tiên CreatedAt, cùng thời điểm thì so Id.
-        return db.Notifications
+        var rows = db.Notifications.AsNoTracking();
+        if (unreadMessageRepresentatives is not null)
+            rows = rows.Where(notification => notification.ReadAt != null ||
+                (notification.Type != "Message" && notification.Type != "GroupMessage") ||
+                unreadMessageRepresentatives.Contains(notification.Id));
+
+        return rows
             .AsNoTracking()
             .Where(notification =>
                 notification.RecipientUserId == userId && notification.DeletedAt == null &&
@@ -33,6 +40,14 @@ public sealed class NotificationRepository(
             .Take(take)
             .ToListAsync(ct);
     }
+
+    public Task<List<MessageNotificationCandidate>> GetUnreadMessageCandidatesAsync(Guid actor, CancellationToken ct) =>
+        (from notification in db.Notifications.AsNoTracking()
+         join message in db.Messages on notification.ReferenceId equals (Guid?)message.Id
+         where notification.RecipientUserId == actor && notification.ReadAt == null && notification.DeletedAt == null &&
+             (notification.Type == "Message" || notification.Type == "GroupMessage")
+         select new MessageNotificationCandidate(notification, message.ConversationId, message.Sequence))
+        .ToListAsync(ct);
 
     public Task<List<Notification>> GetUnreadNotificationsAsync(
         Guid userId,
@@ -78,6 +93,17 @@ public sealed class NotificationRepository(
             .SingleOrDefaultAsync(ct);
     }
 
+    public Task<string?> GetFriendRequestSenderNameAsync(Guid requestId, Guid recipientUserId, CancellationToken ct) =>
+        (from request in db.FriendRequests.AsNoTracking()
+         join sender in db.Users on request.SenderUserId equals sender.Id
+         where request.Id == requestId && request.ReceiverUserId == recipientUserId &&
+             sender.DeactivatedAt == null &&
+             !db.UserBlocks.Any(block => block.UnblockedAt == null &&
+                 ((block.BlockerUserId == recipientUserId && block.BlockedUserId == sender.Id) ||
+                  (block.BlockerUserId == sender.Id && block.BlockedUserId == recipientUserId)))
+         select string.IsNullOrEmpty(sender.DisplayName) ? sender.Username : sender.DisplayName)
+        .SingleOrDefaultAsync(ct);
+
     public Task<int> MarkAllReadAsync(
         Guid userId,
         DateTime now,
@@ -115,7 +141,9 @@ public sealed class NotificationRepository(
 
     public Task<int> SetDeletedAsync(Guid id, Guid actor, DateTime? deletedAt, CancellationToken ct)
     {
-        var rows = db.Notifications.Where(n => n.Id == id && n.RecipientUserId == actor);
+        var rows = deletedAt == null
+            ? db.Notifications.Where(n => n.Id == id && n.RecipientUserId == actor)
+            : MessageNotificationGrouping.ActionRows(db.Notifications, db.Messages, id, actor);
         rows = deletedAt == null ? rows.Where(n => n.DeletedAt != null) : rows.Where(n => n.DeletedAt == null);
         return rows.ExecuteUpdateAsync(s => s.SetProperty(n => n.DeletedAt, deletedAt), ct);
     }
@@ -125,7 +153,8 @@ public sealed class NotificationRepository(
             .ExecuteUpdateAsync(s => s.SetProperty(n => n.DeletedAt, (DateTime?)now), ct);
 
     public Task<int> MarkReadAsync(Guid id, Guid actor, DateTime now, CancellationToken ct) =>
-        db.Notifications.Where(n => n.Id == id && n.RecipientUserId == actor && n.DeletedAt == null && n.ReadAt == null)
+        MessageNotificationGrouping.ActionRows(db.Notifications, db.Messages, id, actor)
+            .Where(n => n.DeletedAt == null && n.ReadAt == null)
             .ExecuteUpdateAsync(s => s.SetProperty(n => n.ReadAt, (DateTime?)now), ct);
 
     public Task<string?> GetConversationTypeAsync(

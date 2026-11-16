@@ -108,7 +108,13 @@ export function NotificationPreview() {
                     })}
                   </strong>
                   <time dateTime={item.createdAt}>{formatRelative(item.createdAt)}</time>
-                  {item.text && <p>{item.text}</p>}
+                  {item.text ? (
+                    <p>{item.text}</p>
+                  ) : (
+                    item.type === 'FriendRequest' && (
+                      <p>{t('notifications:friendRequestFallback')}</p>
+                    )
+                  )}
                   <div>
                     {!item.readAt && (
                       <Button
@@ -120,13 +126,19 @@ export function NotificationPreview() {
                       </Button>
                     )}
                     {item.referenceId &&
-                      ['Message', 'GroupMessage', 'MessageRequest'].includes(item.type) && (
+                      ['Message', 'GroupMessage', 'MessageRequest', 'FriendRequest'].includes(
+                        item.type,
+                      ) && (
                         <Button
                           variant="link"
                           disabled={action.isPending}
                           onClick={() => action.mutate({ notification: item, open: true })}
                         >
-                          {t('notifications:view')}
+                          {t(
+                            item.type === 'FriendRequest'
+                              ? 'notifications:viewFriendRequest'
+                              : 'notifications:view',
+                          )}
                         </Button>
                       )}
                   </div>

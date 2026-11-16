@@ -34,7 +34,7 @@ async function fixture(context, page, role = 'Admin', auditAction = 'WarnUser') 
       else if (path === '/api/appeals/me') data = mine
       if (data !== undefined) { await route.fulfill({ json: data }); return true }
     } else {
-      if (path === '/api/appeals/authenticate') { await route.fulfill({ json: { accessToken: 'appeal-only-test-token', expiresAt: '2099-01-01T00:00:00Z' } }); return true }
+      if (path === '/api/appeals/authenticate') { await route.fulfill({ json: { accessToken: 'appeal-only-test-token', expiresAt: new Date(Date.now() + 30 * 60_000).toISOString() } }); return true }
       if (path === '/api/reports') mine = [{ ...report, ...req.postDataJSON() }]
       if (path === '/api/appeals') mine = [{ ...appeal, ...req.postDataJSON() }]
       if (path.endsWith('/claim')) report.reviewedByAdminId = 'actor'

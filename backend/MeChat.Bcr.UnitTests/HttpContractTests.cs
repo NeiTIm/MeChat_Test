@@ -37,6 +37,7 @@ public sealed class HttpContractTests
             services.Configure<BcrFeatureOptions>(o => { o.NotificationLifecycleEnabled = enabled; o.FriendRequestSeenEnabled = enabled; });
             var notices = StubProxy.Create<INotificationRepository>((method, _) => method.Name switch
             {
+                "GetUnreadMessageCandidatesAsync" => Task.FromResult(new List<MessageNotificationCandidate>()),
                 "GetNotificationPageAsync" or "GetTrashPageAsync" or "GetUnreadNotificationsAsync" => Task.FromResult(new List<Notification>()),
                 "GetLifecycleNotificationAsync" or "GetNotificationAsync" => Task.FromResult<Notification?>(null),
                 _ => Task.FromResult(0)
@@ -115,6 +116,15 @@ public sealed class HttpContractTests
         using var host = await Start(false); using var client = host.GetTestClient();
         client.DefaultRequestHeaders.Add("X-Test-Unauthenticated", "true");
         Assert.Equal(HttpStatusCode.Unauthorized, (await client.GetAsync("/api/notifications/trash")).StatusCode);
+    }
+
+    [Fact]
+    public async Task Missing_auth_cannot_send_friend_request_or_reach_persistence()
+    {
+        using var host = await Start(true); using var client = host.GetTestClient();
+        client.DefaultRequestHeaders.Add("X-Test-Unauthenticated", "true");
+        var response = await client.PostAsJsonAsync("/api/friends/requests", new { targetUserId = Guid.NewGuid() });
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 
     [Fact]

@@ -1,5 +1,23 @@
 # MeChat Frontend — Roadmap hiện hành
 
+## Message notifications grouped by conversation — 16/11/2026
+
+**SOURCE_IMPLEMENTED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION.** Backend nhóm active-unread `Message`/`GroupMessage` theo recipient + conversation + type trước pagination/count; giữ target Sequence đầu tiên còn xem được. Read/Delete nhóm dùng conditional SQL với seed active-unread; replay không xử lý chu kỳ mới. Giữ raw records cho history/Trash, Restore riêng ID giữ ReadAt và rejoin unread projection. FriendRequest/MessageRequest/type khác, Chat unread/Delivered/Seen và SignalR contracts không đổi. Không cần schema/migration hoặc thay Frontend runtime vì Center/Preview/badge đã dùng HTTP projection.
+
+Checks: Backend build và targeted **65 PASS**; Frontend build/lint/Prettier, Vitest **23 PASS**; browser grouped UI **8 PASS**, jump **11 PASS**, BCR **14 PASS**, storm/reconnect/429 **3 PASS**. Browser simulation không chứng minh live SQL; concurrency/locking và backlog performance NEEDS_VERIFICATION. Bảo toàn thay đổi Friend Request Notifications chưa commit. [Strategy/files/contracts/evidence/giới hạn](docs/frontend/message-notification-grouping-report.md).
+
+**Next Exact Action:** PO restart Backend và nghiệm thu thủ công multi-account/group, chu kỳ read/delete/restore và first-message deep link; SQL write/concurrency tests cần môi trường test được duyệt riêng. Không tự mutation MeChat, migration, đổi flags hoặc commit/push.
+
+## Friend Request Notification — 16/11/2026
+
+**SOURCE_IMPLEMENTED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION.** Đã tạo notification cho receiver trong cùng transaction/lần SaveChanges với FriendRequest Pending mới; duplicate/reverse/failure không tạo thêm. Dùng NotificationCreated hiện có sau commit, Type=FriendRequest, ReferenceId=request.Id. Không đổi schema/DTO/API routes/SeenAt hoặc thực hiện DB mutation khi kiểm thử.
+
+Notification Center/preview hiển thị tiếng Việt và Xem lời mời → `/friends/incoming?request={id}`; tải/revalidate danh sách hiện có rồi focus/highlight đúng hàng. Cache mới cũng xác nhận lại server để không focus lời mời đã xử lý trên thiết bị khác. ReadAt độc lập visible-seen 25%/500ms; stale/unavailable/403/404 xử lý an toàn. Nhánh gửi/tạo Pending mới chỉ invalidation friend projections, notification events dùng cache hiện có; giữ message jump và cơ chế reconcile/reconnect.
+
+Checks: Backend build PASS; pure unit/in-process HTTP **58 PASS**; Frontend build/lint và focused unit/component **58 PASS**; browser mới **9 PASS**, regression **25 PASS**, BCR **14 PASS**, request-storm/reconnect/429 **3 PASS**. Không cộng targeted reruns trùng; không chạy full191 hoặc live SQL write tests. Đã sửa riêng fixture Appeals có expiry2099 gây tràn timer, không sửa Appeals source. [Báo cáo file/API/event/evidence và giới hạn](docs/frontend/friend-request-notification-report.md).
+
+**Next Exact Action:** PO khởi động lại Backend/Vite và nghiệm thu bằng hai tài khoản Development được phép: notification đúng receiver/reference, duplicate/reverse, ReadAt/SeenAt độc lập, target đã xử lý và Trash/Restore. SQL/live realtime vẫn NEEDS_VERIFICATION; không tự mutation MeChat, migration hoặc commit/push.
+
 ## Phase 4 structural refactoring — 09/11/2026
 
 **COMPLETED — SOURCE_REFACTORED / CLIENT_VERIFIED / LIVE_NEEDS_VERIFICATION.** Đã xử lý đủ 16 nhóm feature: 12 COMPLETED, 4 KEPT AS-IS về cấu trúc. Sau refactor: 120 module JS/JSX; thêm 35 file source, sửa 49 file (15 JSX và 34 JS chỉ format với AST giữ nguyên), không di chuyển/xóa file. Thêm 3 regression tests cho typing hook; bảo toàn thay đổi Phase 2–3.

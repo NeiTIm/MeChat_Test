@@ -29,12 +29,15 @@ public sealed class NotificationService(
 
         const int batchSize = 200;
 
+        var representatives = await UnreadMessageRepresentativesAsync(actor, ct);
+
         var rows = await repository.GetNotificationPageAsync(
             actor,
             before,
             beforeId,
             batchSize,
-            ct);
+            ct,
+            representatives);
 
         var visible = new List<NotificationDto>();
 
@@ -44,13 +47,7 @@ public sealed class NotificationService(
             if (!canView)
                 continue;
 
-            string? text = null;
-
-            // Cảnh báo admin: chỉ lấy nội dung gửi cho chính người nhận này.
-            if (row.Type == "AdminWarning" && row.ReferenceId is { } auditLogId)
-            {
-                text = await repository.GetAdminWarningTextAsync(auditLogId, actor, ct);
-            }
+            var text = await TextAsync(actor, row, ct);
 
             visible.Add(new NotificationDto(
                 row.Id,
@@ -92,12 +89,15 @@ public sealed class NotificationService(
     public async Task<NotificationCountDto> UnreadAsync(Guid actor, CancellationToken ct)
     {
         var rows = await repository.GetUnreadNotificationsAsync(actor, ct);
+        var representatives = await UnreadMessageRepresentativesAsync(actor, ct);
 
         var count = 0;
 
         foreach (var row in rows)
         {
-            if (await VisibleAsync(actor, row, ct))
+            if (MessageNotificationGrouping.IsGrouped(row.Type)
+                ? representatives.Contains(row.Id)
+                : await VisibleAsync(actor, row, ct))
                 count++;
         }
 
@@ -143,8 +143,7 @@ public sealed class NotificationService(
         foreach (var row in rows)
         {
             if (!await VisibleAsync(actor, row, ct)) continue;
-            var text = row.Type == "AdminWarning" && row.ReferenceId is { } auditId
-                ? await repository.GetAdminWarningTextAsync(auditId, actor, ct) : null;
+            var text = await TextAsync(actor, row, ct);
             visible.Add(new(row.Id, row.Type, row.ReferenceId, row.CreatedAt, row.ReadAt, row.DeletedAt!.Value, text));
             if (visible.Count > count) break;
         }
@@ -239,6 +238,36 @@ public sealed class NotificationService(
             "Private" => await privateChats.CanReadAsync(actor, conversationId, ct),
             _ => false
         };
+    }
+
+    // Chỉ lấy nội dung từ tham chiếu thuộc người nhận.
+    private async Task<string?> TextAsync(Guid actor, Notification notification, CancellationToken ct)
+    {
+        if (notification.ReferenceId is not { } referenceId) return null;
+        if (notification.Type == "AdminWarning")
+            return await repository.GetAdminWarningTextAsync(referenceId, actor, ct);
+        if (notification.Type == "FriendRequest")
+        {
+            var name = await repository.GetFriendRequestSenderNameAsync(referenceId, actor, ct);
+            return name is null ? null : $"{name} đã gửi cho bạn một lời mời kết bạn.";
+        }
+        return null;
+    }
+
+    private async Task<HashSet<Guid>> UnreadMessageRepresentativesAsync(Guid actor, CancellationToken ct)
+    {
+        var rows = await repository.GetUnreadMessageCandidatesAsync(actor, ct);
+        var representatives = new HashSet<Guid>();
+        foreach (var candidates in MessageNotificationGrouping.Candidates(rows))
+        {
+            foreach (var candidate in candidates)
+            {
+                if (!await VisibleAsync(actor, candidate.Notification, ct)) continue;
+                representatives.Add(candidate.Notification.Id);
+                break;
+            }
+        }
+        return representatives;
     }
 
     // Kiểm tra thông báo còn hiển thị được với actor hay không.

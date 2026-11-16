@@ -50,5 +50,7 @@
   "yourAccount": "Tài khoản của bạn",
   "resultCount": "{{count}} người đã tải",
   "more": "Tải thêm kết quả",
-  "retrySeen": "Thử đánh dấu đã xem lại"
+  "retrySeen": "Thử đánh dấu đã xem lại",
+  "targetUnavailable": "Lời mời này không còn khả dụng. Lời mời có thể đã được chấp nhận, từ chối, hủy hoặc bạn không còn quyền xem.",
+  "targetRequest": "Lời mời kết bạn được chọn"
 }

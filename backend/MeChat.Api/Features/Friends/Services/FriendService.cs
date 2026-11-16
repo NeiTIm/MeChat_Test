@@ -125,24 +125,44 @@ public sealed class FriendService(
                 // CREATE NEW REQUEST
                 // =================================================
 
-                repository.AddFriendRequest(
-                    new FriendRequest
-                    {
-                        Id = Guid.NewGuid(),
-                        SenderUserId = actor,
-                        ReceiverUserId = target,
-                        PairUserId1 = first,
-                        PairUserId2 = second,
-                        Status = "Pending",
-                        CreatedAt = Now
-                    });
+                var request = new FriendRequest
+                {
+                    Id = Guid.NewGuid(),
+                    SenderUserId = actor,
+                    ReceiverUserId = target,
+                    PairUserId1 = first,
+                    PairUserId2 = second,
+                    Status = "Pending",
+                    CreatedAt = Now
+                };
+                repository.AddFriendRequest(request);
+                var notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    RecipientUserId = target,
+                    ActorUserId = actor,
+                    Type = "FriendRequest",
+                    ReferenceId = request.Id,
+                    CreatedAt = request.CreatedAt
+                };
+                repository.AddNotification(notification);
 
                 await repository.SaveChangesAsync(ct);
 
-                afterCommit.Add(() =>
-                    ChangedAsync(actor, target, ct));
+                afterCommit.Add(() => events.SendAsync([actor, target], "FriendshipChanged", new
+                {
+                    eventId = Guid.NewGuid(),
+                    friendRequestId = request.Id
+                }, ct));
 
                 ScheduleUnreadChanged(afterCommit, [target], ct);
+                afterCommit.Add(() => events.SendAsync([target], "NotificationCreated", new
+                {
+                    eventId = Guid.NewGuid(),
+                    notificationId = notification.Id,
+                    type = notification.Type,
+                    referenceId = request.Id
+                }, ct));
                 return FriendActionResult.Created;
             },
             ct,

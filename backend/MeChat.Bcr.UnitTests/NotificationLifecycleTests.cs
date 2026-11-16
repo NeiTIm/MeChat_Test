@@ -24,6 +24,7 @@ public sealed class NotificationLifecycleTests
         var own = rows.Where(n => n.RecipientUserId == actor);
         switch (method.Name)
         {
+            case "GetUnreadMessageCandidatesAsync": return Task.FromResult(new List<MessageNotificationCandidate>());
             case "GetLifecycleNotificationAsync": return Task.FromResult(rows.SingleOrDefault(n => n.Id == Id() && n.RecipientUserId == Owner()));
             case "GetNotificationAsync": return Task.FromResult(rows.SingleOrDefault(n => n.Id == Id() && n.RecipientUserId == Owner() && n.DeletedAt == null));
             case "SetDeletedAsync":

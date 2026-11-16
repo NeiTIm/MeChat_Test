@@ -147,7 +147,10 @@ export function RealtimeProvider({ children }) {
             },
             { cancelRefetch: false },
           )
-        } else if (event === 'FriendRequestsUnreadChanged') {
+        } else if (
+          event === 'FriendRequestsUnreadChanged' ||
+          (event === 'FriendshipChanged' && payload?.friendRequestId)
+        ) {
           queryClient.invalidateQueries(
             {
               queryKey: ['workspace'],

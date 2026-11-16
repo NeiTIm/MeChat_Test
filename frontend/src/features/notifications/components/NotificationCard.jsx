@@ -1,4 +1,4 @@
-import { MessageSquare, ShieldCheck } from 'lucide-react'
+import { MessageSquare, ShieldCheck, UserPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatDate, formatTime } from '@/i18n/format'
 import { bcrFeatures } from '@/lib/bcr-features'
@@ -10,7 +10,13 @@ export function NotificationCard({ t, item, trash, pending, lifecycle, action })
       className={`notification-card ${item.readAt ? '' : 'unread'}`}
     >
       <span className="notification-icon">
-        {item.type === 'AdminWarning' ? <ShieldCheck /> : <MessageSquare />}
+        {item.type === 'FriendRequest' ? (
+          <UserPlus />
+        ) : item.type === 'AdminWarning' ? (
+          <ShieldCheck />
+        ) : (
+          <MessageSquare />
+        )}
       </span>
       <div>
         <h2>
@@ -21,7 +27,11 @@ export function NotificationCard({ t, item, trash, pending, lifecycle, action })
         <time dateTime={item.createdAt}>
           {formatDate(item.createdAt)} · {formatTime(item.createdAt)}
         </time>
-        {item.text && <p>{item.text}</p>}
+        {item.text ? (
+          <p>{item.text}</p>
+        ) : (
+          item.type === 'FriendRequest' && <p>{t('notifications:friendRequestFallback')}</p>
+        )}
         {trash && (
           <p className="field-help">
             {t('notifications:deletedAt', {
@@ -50,13 +60,19 @@ export function NotificationCard({ t, item, trash, pending, lifecycle, action })
                 </Button>
               )}
               {item.referenceId &&
-                ['Message', 'GroupMessage', 'MessageRequest'].includes(item.type) && (
+                ['Message', 'GroupMessage', 'MessageRequest', 'FriendRequest'].includes(
+                  item.type,
+                ) && (
                   <Button
                     variant="outline"
                     disabled={pending}
                     onClick={() => action.mutate({ notification: item, open: true })}
                   >
-                    {t('notifications:view')}
+                    {t(
+                      item.type === 'FriendRequest'
+                        ? 'notifications:viewFriendRequest'
+                        : 'notifications:view',
+                    )}
                   </Button>
                 )}
               {bcrFeatures.notifications && (
